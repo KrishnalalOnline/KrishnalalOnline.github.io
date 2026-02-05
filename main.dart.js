@@ -49,10 +49,10 @@
   function mixinPropertiesEasy(from, to) {
     Object.assign(to, from);
   }
-  var supportsDirectProtoAccess = function() {
-    var cls = function() {
+  var supportsDirectProtoAccess = function () {
+    var cls = function () {
     };
-    cls.prototype = {p: {}};
+    cls.prototype = { p: {} };
     var object = new cls();
     if (!(Object.getPrototypeOf(object) && Object.getPrototypeOf(object).p === cls.prototype.p))
       return false;
@@ -97,11 +97,11 @@
   function lazy(holder, name, getterName, initializer) {
     var uninitializedSentinel = holder;
     holder[name] = uninitializedSentinel;
-    holder[getterName] = function() {
+    holder[getterName] = function () {
       if (holder[name] === uninitializedSentinel) {
         holder[name] = initializer();
       }
-      holder[getterName] = function() {
+      holder[getterName] = function () {
         return this[name];
       };
       return holder[name];
@@ -110,7 +110,7 @@
   function lazyFinal(holder, name, getterName, initializer) {
     var uninitializedSentinel = holder;
     holder[name] = uninitializedSentinel;
-    holder[getterName] = function() {
+    holder[getterName] = function () {
       if (holder[name] === uninitializedSentinel) {
         var value = initializer();
         if (holder[name] !== uninitializedSentinel) {
@@ -119,7 +119,7 @@
         holder[name] = value;
       }
       var finalValue = holder[name];
-      holder[getterName] = function() {
+      holder[getterName] = function () {
         return finalValue;
       };
       return finalValue;
@@ -146,11 +146,11 @@
   var functionCounter = 0;
   function instanceTearOffGetter(isIntercepted, parameters) {
     var cache = null;
-    return isIntercepted ? function(receiver) {
+    return isIntercepted ? function (receiver) {
       if (cache === null)
         cache = A.closureFromTearOff(parameters);
       return new cache(receiver, this);
-    } : function() {
+    } : function () {
       if (cache === null)
         cache = A.closureFromTearOff(parameters);
       return new cache(this, null);
@@ -158,7 +158,7 @@
   }
   function staticTearOffGetter(parameters) {
     var cache = null;
-    return function() {
+    return function () {
       if (cache === null)
         cache = A.closureFromTearOff(parameters).prototype;
       return cache;
@@ -169,7 +169,7 @@
     if (typeof funType == "number") {
       funType += typesOffset;
     }
-    return {co: container, iS: isStatic, iI: isIntercepted, rC: requiredParameterCount, dV: optionalParameterDefaultValues, cs: callNames, fs: funsOrNames, fT: funType, aI: applyIndex || 0, nDA: needsDirectAccess};
+    return { co: container, iS: isStatic, iI: isIntercepted, rC: requiredParameterCount, dV: optionalParameterDefaultValues, cs: callNames, fs: funsOrNames, fT: funType, aI: applyIndex || 0, nDA: needsDirectAccess };
   }
   function installStaticTearOff(holder, getterName, requiredParameterCount, optionalParameterDefaultValues, callNames, funsOrNames, funType, applyIndex) {
     var parameters = tearOffParameters(holder, true, false, requiredParameterCount, optionalParameterDefaultValues, callNames, funsOrNames, funType, applyIndex, false);
@@ -208,18 +208,18 @@
     copyProperties(newHolder, holder);
     return holder;
   }
-  var hunkHelpers = function() {
-    var mkInstance = function(isIntercepted, requiredParameterCount, optionalParameterDefaultValues, callNames, applyIndex) {
-        return function(container, getterName, name, funType) {
-          return installInstanceTearOff(container, getterName, isIntercepted, requiredParameterCount, optionalParameterDefaultValues, callNames, [name], funType, applyIndex, false);
-        };
-      },
-      mkStatic = function(requiredParameterCount, optionalParameterDefaultValues, callNames, applyIndex) {
-        return function(container, getterName, name, funType) {
+  var hunkHelpers = function () {
+    var mkInstance = function (isIntercepted, requiredParameterCount, optionalParameterDefaultValues, callNames, applyIndex) {
+      return function (container, getterName, name, funType) {
+        return installInstanceTearOff(container, getterName, isIntercepted, requiredParameterCount, optionalParameterDefaultValues, callNames, [name], funType, applyIndex, false);
+      };
+    },
+      mkStatic = function (requiredParameterCount, optionalParameterDefaultValues, callNames, applyIndex) {
+        return function (container, getterName, name, funType) {
           return installStaticTearOff(container, getterName, requiredParameterCount, optionalParameterDefaultValues, callNames, [name], funType, applyIndex);
         };
       };
-    return {inherit: inherit, inheritMany: inheritMany, mixin: mixinEasy, mixinHard: mixinHard, installStaticTearOff: installStaticTearOff, installInstanceTearOff: installInstanceTearOff, _instance_0u: mkInstance(0, 0, null, ["call$0"], 0), _instance_1u: mkInstance(0, 1, null, ["call$1"], 0), _instance_2u: mkInstance(0, 2, null, ["call$2"], 0), _instance_0i: mkInstance(1, 0, null, ["call$0"], 0), _instance_1i: mkInstance(1, 1, null, ["call$1"], 0), _instance_2i: mkInstance(1, 2, null, ["call$2"], 0), _static_0: mkStatic(0, null, ["call$0"], 0), _static_1: mkStatic(1, null, ["call$1"], 0), _static_2: mkStatic(2, null, ["call$2"], 0), makeConstList: makeConstList, lazy: lazy, lazyFinal: lazyFinal, updateHolder: updateHolder, convertToFastObject: convertToFastObject, updateTypes: updateTypes, setOrUpdateInterceptorsByTag: setOrUpdateInterceptorsByTag, setOrUpdateLeafTags: setOrUpdateLeafTags};
+    return { inherit: inherit, inheritMany: inheritMany, mixin: mixinEasy, mixinHard: mixinHard, installStaticTearOff: installStaticTearOff, installInstanceTearOff: installInstanceTearOff, _instance_0u: mkInstance(0, 0, null, ["call$0"], 0), _instance_1u: mkInstance(0, 1, null, ["call$1"], 0), _instance_2u: mkInstance(0, 2, null, ["call$2"], 0), _instance_0i: mkInstance(1, 0, null, ["call$0"], 0), _instance_1i: mkInstance(1, 1, null, ["call$1"], 0), _instance_2i: mkInstance(1, 2, null, ["call$2"], 0), _static_0: mkStatic(0, null, ["call$0"], 0), _static_1: mkStatic(1, null, ["call$1"], 0), _static_2: mkStatic(2, null, ["call$2"], 0), makeConstList: makeConstList, lazy: lazy, lazyFinal: lazyFinal, updateHolder: updateHolder, convertToFastObject: convertToFastObject, updateTypes: updateTypes, setOrUpdateInterceptorsByTag: setOrUpdateInterceptorsByTag, setOrUpdateLeafTags: setOrUpdateLeafTags };
   }();
   function initializeDeferredHunk(hunk) {
     typesOffset = init.types.length;
@@ -227,7 +227,7 @@
   }
   var J = {
     makeDispatchRecord(interceptor, proto, extension, indexability) {
-      return {i: interceptor, p: proto, e: extension, x: indexability};
+      return { i: interceptor, p: proto, e: extension, x: indexability };
     },
     getNativeInterceptor(object) {
       var proto, objectProto, $constructor, interceptor, t1,
@@ -274,7 +274,7 @@
         t1 = $._JS_INTEROP_INTERCEPTOR_TAG;
         if (t1 == null)
           t1 = $._JS_INTEROP_INTERCEPTOR_TAG = init.getIsolateTag("_$dart_js");
-        Object.defineProperty($constructor, t1, {value: B.UnknownJavaScriptObject_methods, enumerable: false, writable: true, configurable: true});
+        Object.defineProperty($constructor, t1, { value: B.UnknownJavaScriptObject_methods, enumerable: false, writable: true, configurable: true });
         return B.UnknownJavaScriptObject_methods;
       }
       return B.UnknownJavaScriptObject_methods;
@@ -293,6 +293,10 @@
       var t1 = A._setArrayType(allocation, $E._eval$1("JSArray<0>"));
       t1.$flags = 1;
       return t1;
+    },
+    JSArray__compareAny(a, b) {
+      var t1 = type$.Comparable_dynamic;
+      return J.compareTo$1$ns(t1._as(a), t1._as(b));
     },
     getInterceptor$(receiver) {
       if (typeof receiver == "number") {
@@ -359,6 +363,17 @@
         return receiver;
       return J.getNativeInterceptor(receiver);
     },
+    getInterceptor$ns(receiver) {
+      if (typeof receiver == "number")
+        return J.JSNumber.prototype;
+      if (typeof receiver == "string")
+        return J.JSString.prototype;
+      if (receiver == null)
+        return receiver;
+      if (!(receiver instanceof A.Object))
+        return J.UnknownJavaScriptObject.prototype;
+      return receiver;
+    },
     get$hashCode$(receiver) {
       return J.getInterceptor$(receiver).get$hashCode(receiver);
     },
@@ -387,6 +402,9 @@
     },
     $indexSet$ax(receiver, a0, a1) {
       return J.getInterceptor$ax(receiver).$indexSet(receiver, a0, a1);
+    },
+    compareTo$1$ns(receiver, a0) {
+      return J.getInterceptor$ns(receiver).compareTo$1(receiver, a0);
     },
     elementAt$1$ax(receiver, a0) {
       return J.getInterceptor$ax(receiver).elementAt$1(receiver, a0);
@@ -439,3952 +457,4134 @@
     JSString: function JSString() {
     }
   },
-  A = {JS_CONST: function JS_CONST() {
-    },
-    LateError$fieldNI(fieldName) {
-      return new A.LateError("Field '" + fieldName + "' has not been initialized.");
-    },
-    LateError$fieldAI(fieldName) {
-      return new A.LateError("Field '" + fieldName + "' has already been initialized.");
-    },
-    SystemHash_combine(hash, value) {
-      hash = hash + value & 536870911;
-      hash = hash + ((hash & 524287) << 10) & 536870911;
-      return hash ^ hash >>> 6;
-    },
-    SystemHash_finish(hash) {
-      hash = hash + ((hash & 67108863) << 3) & 536870911;
-      hash ^= hash >>> 11;
-      return hash + ((hash & 16383) << 15) & 536870911;
-    },
-    checkNotNullable(value, $name, $T) {
-      return value;
-    },
-    isToStringVisiting(object) {
-      var t1, i;
-      for (t1 = $.toStringVisiting.length, i = 0; i < t1; ++i)
-        if (object === $.toStringVisiting[i])
-          return true;
-      return false;
-    },
-    MappedIterable_MappedIterable(iterable, $function, $S, $T) {
-      if (type$.EfficientLengthIterable_dynamic._is(iterable))
-        return new A.EfficientLengthMappedIterable(iterable, $function, $S._eval$1("@<0>")._bind$1($T)._eval$1("EfficientLengthMappedIterable<1,2>"));
-      return new A.MappedIterable(iterable, $function, $S._eval$1("@<0>")._bind$1($T)._eval$1("MappedIterable<1,2>"));
-    },
-    _CastIterableBase: function _CastIterableBase() {
-    },
-    CastIterator: function CastIterator(t0, t1) {
-      this._source = t0;
-      this.$ti = t1;
-    },
-    _CastListBase: function _CastListBase() {
-    },
-    CastList: function CastList(t0, t1) {
-      this._source = t0;
-      this.$ti = t1;
-    },
-    LateError: function LateError(t0) {
-      this._message = t0;
-    },
-    SentinelValue: function SentinelValue() {
-    },
-    EfficientLengthIterable: function EfficientLengthIterable() {
-    },
-    ListIterable: function ListIterable() {
-    },
-    ListIterator: function ListIterator(t0, t1, t2) {
-      var _ = this;
-      _.__internal$_iterable = t0;
-      _.__internal$_length = t1;
-      _.__internal$_index = 0;
-      _.__internal$_current = null;
-      _.$ti = t2;
-    },
-    MappedIterable: function MappedIterable(t0, t1, t2) {
-      this.__internal$_iterable = t0;
-      this._f = t1;
-      this.$ti = t2;
-    },
-    EfficientLengthMappedIterable: function EfficientLengthMappedIterable(t0, t1, t2) {
-      this.__internal$_iterable = t0;
-      this._f = t1;
-      this.$ti = t2;
-    },
-    MappedIterator: function MappedIterator(t0, t1, t2) {
-      var _ = this;
-      _.__internal$_current = null;
-      _._iterator = t0;
-      _._f = t1;
-      _.$ti = t2;
-    },
-    MappedListIterable: function MappedListIterable(t0, t1, t2) {
-      this._source = t0;
-      this._f = t1;
-      this.$ti = t2;
-    },
-    FixedLengthListMixin: function FixedLengthListMixin() {
-    },
-    __CastListBase__CastIterableBase_ListMixin: function __CastListBase__CastIterableBase_ListMixin() {
-    },
-    unminifyOrTag(rawClassName) {
-      var preserved = init.mangledGlobalNames[rawClassName];
-      if (preserved != null)
-        return preserved;
-      return rawClassName;
-    },
-    isJsIndexable(object, record) {
-      var result;
-      if (record != null) {
-        result = record.x;
-        if (result != null)
-          return result;
-      }
-      return type$.JavaScriptIndexingBehavior_dynamic._is(object);
-    },
-    S(value) {
-      var result;
-      if (typeof value == "string")
+    A = {
+      JS_CONST: function JS_CONST() {
+      },
+      LateError$fieldNI(fieldName) {
+        return new A.LateError("Field '" + fieldName + "' has not been initialized.");
+      },
+      LateError$fieldAI(fieldName) {
+        return new A.LateError("Field '" + fieldName + "' has already been initialized.");
+      },
+      SystemHash_combine(hash, value) {
+        hash = hash + value & 536870911;
+        hash = hash + ((hash & 524287) << 10) & 536870911;
+        return hash ^ hash >>> 6;
+      },
+      SystemHash_finish(hash) {
+        hash = hash + ((hash & 67108863) << 3) & 536870911;
+        hash ^= hash >>> 11;
+        return hash + ((hash & 16383) << 15) & 536870911;
+      },
+      checkNotNullable(value, $name, $T) {
         return value;
-      if (typeof value == "number") {
-        if (value !== 0)
-          return "" + value;
-      } else if (true === value)
-        return "true";
-      else if (false === value)
-        return "false";
-      else if (value == null)
-        return "null";
-      result = J.toString$0$(value);
-      return result;
-    },
-    Primitives_objectHashCode(object) {
-      var hash,
-        property = $.Primitives__identityHashCodeProperty;
-      if (property == null)
-        property = $.Primitives__identityHashCodeProperty = Symbol("identityHashCode");
-      hash = object[property];
-      if (hash == null) {
-        hash = Math.random() * 0x3fffffff | 0;
-        object[property] = hash;
-      }
-      return hash;
-    },
-    Primitives_objectTypeName(object) {
-      var interceptor, dispatchName, $constructor, constructorName;
-      if (object instanceof A.Object)
+      },
+      isToStringVisiting(object) {
+        var t1, i;
+        for (t1 = $.toStringVisiting.length, i = 0; i < t1; ++i)
+          if (object === $.toStringVisiting[i])
+            return true;
+        return false;
+      },
+      SubListIterable$(_iterable, _start, _endOrLength, $E) {
+        A.RangeError_checkNotNegative(_start, "start");
+        A.RangeError_checkNotNegative(_endOrLength, "end");
+        if (_start > _endOrLength)
+          A.throwExpression(A.RangeError$range(_start, 0, _endOrLength, "start", null));
+        return new A.SubListIterable(_iterable, _start, _endOrLength, $E._eval$1("SubListIterable<0>"));
+      },
+      MappedIterable_MappedIterable(iterable, $function, $S, $T) {
+        if (type$.EfficientLengthIterable_dynamic._is(iterable))
+          return new A.EfficientLengthMappedIterable(iterable, $function, $S._eval$1("@<0>")._bind$1($T)._eval$1("EfficientLengthMappedIterable<1,2>"));
+        return new A.MappedIterable(iterable, $function, $S._eval$1("@<0>")._bind$1($T)._eval$1("MappedIterable<1,2>"));
+      },
+      _CastIterableBase: function _CastIterableBase() {
+      },
+      CastIterator: function CastIterator(t0, t1) {
+        this._source = t0;
+        this.$ti = t1;
+      },
+      _CastListBase: function _CastListBase() {
+      },
+      CastList: function CastList(t0, t1) {
+        this._source = t0;
+        this.$ti = t1;
+      },
+      LateError: function LateError(t0) {
+        this._message = t0;
+      },
+      SentinelValue: function SentinelValue() {
+      },
+      EfficientLengthIterable: function EfficientLengthIterable() {
+      },
+      ListIterable: function ListIterable() {
+      },
+      SubListIterable: function SubListIterable(t0, t1, t2, t3) {
+        var _ = this;
+        _.__internal$_iterable = t0;
+        _._start = t1;
+        _._endOrLength = t2;
+        _.$ti = t3;
+      },
+      ListIterator: function ListIterator(t0, t1, t2) {
+        var _ = this;
+        _.__internal$_iterable = t0;
+        _.__internal$_length = t1;
+        _.__internal$_index = 0;
+        _.__internal$_current = null;
+        _.$ti = t2;
+      },
+      MappedIterable: function MappedIterable(t0, t1, t2) {
+        this.__internal$_iterable = t0;
+        this._f = t1;
+        this.$ti = t2;
+      },
+      EfficientLengthMappedIterable: function EfficientLengthMappedIterable(t0, t1, t2) {
+        this.__internal$_iterable = t0;
+        this._f = t1;
+        this.$ti = t2;
+      },
+      MappedIterator: function MappedIterator(t0, t1, t2) {
+        var _ = this;
+        _.__internal$_current = null;
+        _._iterator = t0;
+        _._f = t1;
+        _.$ti = t2;
+      },
+      MappedListIterable: function MappedListIterable(t0, t1, t2) {
+        this._source = t0;
+        this._f = t1;
+        this.$ti = t2;
+      },
+      FixedLengthListMixin: function FixedLengthListMixin() {
+      },
+      ReversedListIterable: function ReversedListIterable(t0, t1) {
+        this._source = t0;
+        this.$ti = t1;
+      },
+      __CastListBase__CastIterableBase_ListMixin: function __CastListBase__CastIterableBase_ListMixin() {
+      },
+      unminifyOrTag(rawClassName) {
+        var preserved = init.mangledGlobalNames[rawClassName];
+        if (preserved != null)
+          return preserved;
+        return rawClassName;
+      },
+      isJsIndexable(object, record) {
+        var result;
+        if (record != null) {
+          result = record.x;
+          if (result != null)
+            return result;
+        }
+        return type$.JavaScriptIndexingBehavior_dynamic._is(object);
+      },
+      S(value) {
+        var result;
+        if (typeof value == "string")
+          return value;
+        if (typeof value == "number") {
+          if (value !== 0)
+            return "" + value;
+        } else if (true === value)
+          return "true";
+        else if (false === value)
+          return "false";
+        else if (value == null)
+          return "null";
+        result = J.toString$0$(value);
+        return result;
+      },
+      Primitives_objectHashCode(object) {
+        var hash,
+          property = $.Primitives__identityHashCodeProperty;
+        if (property == null)
+          property = $.Primitives__identityHashCodeProperty = Symbol("identityHashCode");
+        hash = object[property];
+        if (hash == null) {
+          hash = Math.random() * 0x3fffffff | 0;
+          object[property] = hash;
+        }
+        return hash;
+      },
+      Primitives_objectTypeName(object) {
+        var interceptor, dispatchName, $constructor, constructorName;
+        if (object instanceof A.Object)
+          return A._rtiToString(A.instanceType(object), null);
+        interceptor = J.getInterceptor$(object);
+        if (interceptor === B.Interceptor_methods || interceptor === B.JavaScriptObject_methods || type$.UnknownJavaScriptObject._is(object)) {
+          dispatchName = B.C_JS_CONST(object);
+          if (dispatchName !== "Object" && dispatchName !== "")
+            return dispatchName;
+          $constructor = object.constructor;
+          if (typeof $constructor == "function") {
+            constructorName = $constructor.name;
+            if (typeof constructorName == "string" && constructorName !== "Object" && constructorName !== "")
+              return constructorName;
+          }
+        }
         return A._rtiToString(A.instanceType(object), null);
-      interceptor = J.getInterceptor$(object);
-      if (interceptor === B.Interceptor_methods || interceptor === B.JavaScriptObject_methods || type$.UnknownJavaScriptObject._is(object)) {
-        dispatchName = B.C_JS_CONST(object);
-        if (dispatchName !== "Object" && dispatchName !== "")
-          return dispatchName;
-        $constructor = object.constructor;
-        if (typeof $constructor == "function") {
-          constructorName = $constructor.name;
-          if (typeof constructorName == "string" && constructorName !== "Object" && constructorName !== "")
-            return constructorName;
+      },
+      Primitives_safeToString(object) {
+        var hooks, i, hookResult;
+        if (typeof object == "number" || A._isBool(object))
+          return J.toString$0$(object);
+        if (typeof object == "string")
+          return JSON.stringify(object);
+        if (object instanceof A.Closure)
+          return object.toString$0(0);
+        hooks = $.$get$_safeToStringHooks();
+        for (i = 0; i < 1; ++i) {
+          hookResult = hooks[i].tryFormat$1(object);
+          if (hookResult != null)
+            return hookResult;
         }
-      }
-      return A._rtiToString(A.instanceType(object), null);
-    },
-    Primitives_safeToString(object) {
-      var hooks, i, hookResult;
-      if (typeof object == "number" || A._isBool(object))
-        return J.toString$0$(object);
-      if (typeof object == "string")
-        return JSON.stringify(object);
-      if (object instanceof A.Closure)
-        return object.toString$0(0);
-      hooks = $.$get$_safeToStringHooks();
-      for (i = 0; i < 1; ++i) {
-        hookResult = hooks[i].tryFormat$1(object);
-        if (hookResult != null)
-          return hookResult;
-      }
-      return "Instance of '" + A.Primitives_objectTypeName(object) + "'";
-    },
-    Primitives_extractStackTrace(error) {
-      var jsError = error.$thrownJsError;
-      if (jsError == null)
-        return null;
-      return A.getTraceFromException(jsError);
-    },
-    ioore(receiver, index) {
-      if (receiver == null)
-        J.get$length$asx(receiver);
-      throw A.wrapException(A.diagnoseIndexError(receiver, index));
-    },
-    diagnoseIndexError(indexable, index) {
-      var $length, _s5_ = "index";
-      if (!A._isInt(index))
-        return new A.ArgumentError(true, index, _s5_, null);
-      $length = A._asInt(J.get$length$asx(indexable));
-      if (index < 0 || index >= $length)
-        return A.IndexError$withLength(index, $length, indexable, _s5_);
-      return new A.RangeError(null, null, true, index, _s5_, "Value not in range");
-    },
-    wrapException(ex) {
-      return A.initializeExceptionWrapper(ex, new Error());
-    },
-    initializeExceptionWrapper(ex, wrapper) {
-      var t1;
-      if (ex == null)
-        ex = new A.TypeError();
-      wrapper.dartException = ex;
-      t1 = A.toStringWrapper;
-      if ("defineProperty" in Object) {
-        Object.defineProperty(wrapper, "message", {get: t1});
-        wrapper.name = "";
-      } else
-        wrapper.toString = t1;
-      return wrapper;
-    },
-    toStringWrapper() {
-      return J.toString$0$(this.dartException);
-    },
-    throwExpression(ex, wrapper) {
-      throw A.initializeExceptionWrapper(ex, wrapper == null ? new Error() : wrapper);
-    },
-    throwUnsupportedOperation(o, operation, verb) {
-      var wrapper;
-      if (operation == null)
-        operation = 0;
-      if (verb == null)
-        verb = 0;
-      wrapper = Error();
-      A.throwExpression(A._diagnoseUnsupportedOperation(o, operation, verb), wrapper);
-    },
-    _diagnoseUnsupportedOperation(o, encodedOperation, encodedVerb) {
-      var operation, table, tableLength, index, verb, object, flags, article, adjective;
-      if (typeof encodedOperation == "string")
-        operation = encodedOperation;
-      else {
-        table = "[]=;add;removeWhere;retainWhere;removeRange;setRange;setInt8;setInt16;setInt32;setUint8;setUint16;setUint32;setFloat32;setFloat64".split(";");
-        tableLength = table.length;
-        index = encodedOperation;
-        if (index > tableLength) {
-          encodedVerb = index / tableLength | 0;
-          index %= tableLength;
-        }
-        operation = table[index];
-      }
-      verb = typeof encodedVerb == "string" ? encodedVerb : "modify;remove from;add to".split(";")[encodedVerb];
-      object = type$.List_dynamic._is(o) ? "list" : "ByteData";
-      flags = o.$flags | 0;
-      article = "a ";
-      if ((flags & 4) !== 0)
-        adjective = "constant ";
-      else if ((flags & 2) !== 0) {
-        adjective = "unmodifiable ";
-        article = "an ";
-      } else
-        adjective = (flags & 1) !== 0 ? "fixed-length " : "";
-      return new A.UnsupportedError("'" + operation + "': Cannot " + verb + " " + article + adjective + object);
-    },
-    throwConcurrentModificationError(collection) {
-      throw A.wrapException(A.ConcurrentModificationError$(collection));
-    },
-    TypeErrorDecoder_extractPattern(message) {
-      var match, $arguments, argumentsExpr, expr, method, receiver;
-      message = A.quoteStringForRegExp(message.replace(String({}), "$receiver$"));
-      match = message.match(/\\\$[a-zA-Z]+\\\$/g);
-      if (match == null)
-        match = A._setArrayType([], type$.JSArray_String);
-      $arguments = match.indexOf("\\$arguments\\$");
-      argumentsExpr = match.indexOf("\\$argumentsExpr\\$");
-      expr = match.indexOf("\\$expr\\$");
-      method = match.indexOf("\\$method\\$");
-      receiver = match.indexOf("\\$receiver\\$");
-      return new A.TypeErrorDecoder(message.replace(new RegExp("\\\\\\$arguments\\\\\\$", "g"), "((?:x|[^x])*)").replace(new RegExp("\\\\\\$argumentsExpr\\\\\\$", "g"), "((?:x|[^x])*)").replace(new RegExp("\\\\\\$expr\\\\\\$", "g"), "((?:x|[^x])*)").replace(new RegExp("\\\\\\$method\\\\\\$", "g"), "((?:x|[^x])*)").replace(new RegExp("\\\\\\$receiver\\\\\\$", "g"), "((?:x|[^x])*)"), $arguments, argumentsExpr, expr, method, receiver);
-    },
-    TypeErrorDecoder_provokeCallErrorOn(expression) {
-      return function($expr$) {
-        var $argumentsExpr$ = "$arguments$";
-        try {
-          $expr$.$method$($argumentsExpr$);
-        } catch (e) {
-          return e.message;
-        }
-      }(expression);
-    },
-    TypeErrorDecoder_provokePropertyErrorOn(expression) {
-      return function($expr$) {
-        try {
-          $expr$.$method$;
-        } catch (e) {
-          return e.message;
-        }
-      }(expression);
-    },
-    JsNoSuchMethodError$(_message, match) {
-      var t1 = match == null,
-        t2 = t1 ? null : match.method;
-      return new A.JsNoSuchMethodError(_message, t2, t1 ? null : match.receiver);
-    },
-    unwrapException(ex) {
-      var t1;
-      if (ex == null)
-        return new A.NullThrownFromJavaScriptException(ex);
-      if (ex instanceof A.ExceptionAndStackTrace) {
-        t1 = ex.dartException;
-        return A.saveStackTrace(ex, t1 == null ? A._asObject(t1) : t1);
-      }
-      if (typeof ex !== "object")
-        return ex;
-      if ("dartException" in ex)
-        return A.saveStackTrace(ex, ex.dartException);
-      return A._unwrapNonDartException(ex);
-    },
-    saveStackTrace(ex, error) {
-      if (type$.Error._is(error))
-        if (error.$thrownJsError == null)
-          error.$thrownJsError = ex;
-      return error;
-    },
-    _unwrapNonDartException(ex) {
-      var message, number, ieErrorCode, nsme, notClosure, nullCall, nullLiteralCall, undefCall, undefLiteralCall, nullProperty, undefProperty, undefLiteralProperty, match;
-      if (!("message" in ex))
-        return ex;
-      message = ex.message;
-      if ("number" in ex && typeof ex.number == "number") {
-        number = ex.number;
-        ieErrorCode = number & 65535;
-        if ((B.JSInt_methods._shrOtherPositive$1(number, 16) & 8191) === 10)
-          switch (ieErrorCode) {
-            case 438:
-              return A.saveStackTrace(ex, A.JsNoSuchMethodError$(A.S(message) + " (Error " + ieErrorCode + ")", null));
-            case 445:
-            case 5007:
-              A.S(message);
-              return A.saveStackTrace(ex, new A.NullError());
-          }
-      }
-      if (ex instanceof TypeError) {
-        nsme = $.$get$TypeErrorDecoder_noSuchMethodPattern();
-        notClosure = $.$get$TypeErrorDecoder_notClosurePattern();
-        nullCall = $.$get$TypeErrorDecoder_nullCallPattern();
-        nullLiteralCall = $.$get$TypeErrorDecoder_nullLiteralCallPattern();
-        undefCall = $.$get$TypeErrorDecoder_undefinedCallPattern();
-        undefLiteralCall = $.$get$TypeErrorDecoder_undefinedLiteralCallPattern();
-        nullProperty = $.$get$TypeErrorDecoder_nullPropertyPattern();
-        $.$get$TypeErrorDecoder_nullLiteralPropertyPattern();
-        undefProperty = $.$get$TypeErrorDecoder_undefinedPropertyPattern();
-        undefLiteralProperty = $.$get$TypeErrorDecoder_undefinedLiteralPropertyPattern();
-        match = nsme.matchTypeError$1(message);
-        if (match != null)
-          return A.saveStackTrace(ex, A.JsNoSuchMethodError$(A._asString(message), match));
-        else {
-          match = notClosure.matchTypeError$1(message);
-          if (match != null) {
-            match.method = "call";
-            return A.saveStackTrace(ex, A.JsNoSuchMethodError$(A._asString(message), match));
-          } else if (nullCall.matchTypeError$1(message) != null || nullLiteralCall.matchTypeError$1(message) != null || undefCall.matchTypeError$1(message) != null || undefLiteralCall.matchTypeError$1(message) != null || nullProperty.matchTypeError$1(message) != null || nullLiteralCall.matchTypeError$1(message) != null || undefProperty.matchTypeError$1(message) != null || undefLiteralProperty.matchTypeError$1(message) != null) {
-            A._asString(message);
-            return A.saveStackTrace(ex, new A.NullError());
-          }
-        }
-        return A.saveStackTrace(ex, new A.UnknownJsTypeError(typeof message == "string" ? message : ""));
-      }
-      if (ex instanceof RangeError) {
-        if (typeof message == "string" && message.indexOf("call stack") !== -1)
-          return new A.StackOverflowError();
-        message = function(ex) {
-          try {
-            return String(ex);
-          } catch (e) {
-          }
+        return "Instance of '" + A.Primitives_objectTypeName(object) + "'";
+      },
+      Primitives_extractStackTrace(error) {
+        var jsError = error.$thrownJsError;
+        if (jsError == null)
           return null;
-        }(ex);
-        return A.saveStackTrace(ex, new A.ArgumentError(false, null, null, typeof message == "string" ? message.replace(/^RangeError:\s*/, "") : message));
-      }
-      if (typeof InternalError == "function" && ex instanceof InternalError)
-        if (typeof message == "string" && message === "too much recursion")
-          return new A.StackOverflowError();
-      return ex;
-    },
-    getTraceFromException(exception) {
-      var trace;
-      if (exception instanceof A.ExceptionAndStackTrace)
-        return exception.stackTrace;
-      if (exception == null)
-        return new A._StackTrace(exception);
-      trace = exception.$cachedTrace;
-      if (trace != null)
-        return trace;
-      trace = new A._StackTrace(exception);
-      if (typeof exception === "object")
-        exception.$cachedTrace = trace;
-      return trace;
-    },
-    objectHashCode(object) {
-      if (object == null)
-        return J.get$hashCode$(object);
-      if (typeof object == "object")
-        return A.Primitives_objectHashCode(object);
-      return J.get$hashCode$(object);
-    },
-    fillLiteralMap(keyValuePairs, result) {
-      var index, index0, index1,
-        $length = keyValuePairs.length;
-      for (index = 0; index < $length; index = index1) {
-        index0 = index + 1;
-        index1 = index0 + 1;
-        result.$indexSet(0, keyValuePairs[index], keyValuePairs[index0]);
-      }
-      return result;
-    },
-    fillLiteralSet(values, result) {
-      var index,
-        $length = values.length;
-      for (index = 0; index < $length; ++index)
-        result.add$1(0, values[index]);
-      return result;
-    },
-    _invokeClosure(closure, numberOfArguments, arg1, arg2, arg3, arg4) {
-      type$.Function._as(closure);
-      switch (A._asInt(numberOfArguments)) {
-        case 0:
-          return closure.call$0();
-        case 1:
-          return closure.call$1(arg1);
-        case 2:
-          return closure.call$2(arg1, arg2);
-        case 3:
-          return closure.call$3(arg1, arg2, arg3);
-        case 4:
-          return closure.call$4(arg1, arg2, arg3, arg4);
-      }
-      throw A.wrapException(new A._Exception("Unsupported number of arguments for wrapped closure"));
-    },
-    convertDartClosureToJS(closure, arity) {
-      var $function = closure.$identity;
-      if (!!$function)
-        return $function;
-      $function = A.convertDartClosureToJSUncached(closure, arity);
-      closure.$identity = $function;
-      return $function;
-    },
-    convertDartClosureToJSUncached(closure, arity) {
-      var entry;
-      switch (arity) {
-        case 0:
-          entry = closure.call$0;
-          break;
-        case 1:
-          entry = closure.call$1;
-          break;
-        case 2:
-          entry = closure.call$2;
-          break;
-        case 3:
-          entry = closure.call$3;
-          break;
-        case 4:
-          entry = closure.call$4;
-          break;
-        default:
-          entry = null;
-      }
-      if (entry != null)
-        return entry.bind(closure);
-      return function(closure, arity, invoke) {
-        return function(a1, a2, a3, a4) {
-          return invoke(closure, arity, a1, a2, a3, a4);
-        };
-      }(closure, arity, A._invokeClosure);
-    },
-    Closure_fromTearOff(parameters) {
-      var $prototype, $constructor, t2, trampoline, applyTrampoline, i, stub, stub0, stubName, stubCallName,
-        container = parameters.co,
-        isStatic = parameters.iS,
-        isIntercepted = parameters.iI,
-        needsDirectAccess = parameters.nDA,
-        applyTrampolineIndex = parameters.aI,
-        funsOrNames = parameters.fs,
-        callNames = parameters.cs,
-        $name = funsOrNames[0],
-        callName = callNames[0],
-        $function = container[$name],
-        t1 = parameters.fT;
-      t1.toString;
-      $prototype = isStatic ? Object.create(new A.StaticClosure().constructor.prototype) : Object.create(new A.BoundClosure(null, null).constructor.prototype);
-      $prototype.$initialize = $prototype.constructor;
-      $constructor = isStatic ? function static_tear_off() {
-        this.$initialize();
-      } : function tear_off(a, b) {
-        this.$initialize(a, b);
-      };
-      $prototype.constructor = $constructor;
-      $constructor.prototype = $prototype;
-      $prototype.$_name = $name;
-      $prototype.$_target = $function;
-      t2 = !isStatic;
-      if (t2)
-        trampoline = A.Closure_forwardCallTo($name, $function, isIntercepted, needsDirectAccess);
-      else {
-        $prototype.$static_name = $name;
-        trampoline = $function;
-      }
-      $prototype.$signature = A.Closure__computeSignatureFunction(t1, isStatic, isIntercepted);
-      $prototype[callName] = trampoline;
-      for (applyTrampoline = trampoline, i = 1; i < funsOrNames.length; ++i) {
-        stub = funsOrNames[i];
-        if (typeof stub == "string") {
-          stub0 = container[stub];
-          stubName = stub;
-          stub = stub0;
+        return A.getTraceFromException(jsError);
+      },
+      iae(argument) {
+        throw A.wrapException(A.argumentErrorValue(argument));
+      },
+      ioore(receiver, index) {
+        if (receiver == null)
+          J.get$length$asx(receiver);
+        throw A.wrapException(A.diagnoseIndexError(receiver, index));
+      },
+      diagnoseIndexError(indexable, index) {
+        var $length, _s5_ = "index";
+        if (!A._isInt(index))
+          return new A.ArgumentError(true, index, _s5_, null);
+        $length = A._asInt(J.get$length$asx(indexable));
+        if (index < 0 || index >= $length)
+          return A.IndexError$withLength(index, $length, indexable, _s5_);
+        return new A.RangeError(null, null, true, index, _s5_, "Value not in range");
+      },
+      argumentErrorValue(object) {
+        return new A.ArgumentError(true, object, null, null);
+      },
+      wrapException(ex) {
+        return A.initializeExceptionWrapper(ex, new Error());
+      },
+      initializeExceptionWrapper(ex, wrapper) {
+        var t1;
+        if (ex == null)
+          ex = new A.TypeError();
+        wrapper.dartException = ex;
+        t1 = A.toStringWrapper;
+        if ("defineProperty" in Object) {
+          Object.defineProperty(wrapper, "message", { get: t1 });
+          wrapper.name = "";
         } else
-          stubName = "";
-        stubCallName = callNames[i];
-        if (stubCallName != null) {
-          if (t2)
-            stub = A.Closure_forwardCallTo(stubName, stub, isIntercepted, needsDirectAccess);
-          $prototype[stubCallName] = stub;
-        }
-        if (i === applyTrampolineIndex)
-          applyTrampoline = stub;
-      }
-      $prototype["call*"] = applyTrampoline;
-      $prototype.$requiredArgCount = parameters.rC;
-      $prototype.$defaultValues = parameters.dV;
-      return $constructor;
-    },
-    Closure__computeSignatureFunction(functionType, isStatic, isIntercepted) {
-      if (typeof functionType == "number")
-        return functionType;
-      if (typeof functionType == "string") {
-        if (isStatic)
-          throw A.wrapException("Cannot compute signature for static tearoff.");
-        return function(recipe, evalOnReceiver) {
-          return function() {
-            return evalOnReceiver(this, recipe);
-          };
-        }(functionType, A.BoundClosure_evalRecipe);
-      }
-      throw A.wrapException("Error in functionType of tearoff");
-    },
-    Closure_cspForwardCall(arity, needsDirectAccess, stubName, $function) {
-      var getReceiver = A.BoundClosure_receiverOf;
-      switch (needsDirectAccess ? -1 : arity) {
-        case 0:
-          return function(entry, receiverOf) {
-            return function() {
-              return receiverOf(this)[entry]();
-            };
-          }(stubName, getReceiver);
-        case 1:
-          return function(entry, receiverOf) {
-            return function(a) {
-              return receiverOf(this)[entry](a);
-            };
-          }(stubName, getReceiver);
-        case 2:
-          return function(entry, receiverOf) {
-            return function(a, b) {
-              return receiverOf(this)[entry](a, b);
-            };
-          }(stubName, getReceiver);
-        case 3:
-          return function(entry, receiverOf) {
-            return function(a, b, c) {
-              return receiverOf(this)[entry](a, b, c);
-            };
-          }(stubName, getReceiver);
-        case 4:
-          return function(entry, receiverOf) {
-            return function(a, b, c, d) {
-              return receiverOf(this)[entry](a, b, c, d);
-            };
-          }(stubName, getReceiver);
-        case 5:
-          return function(entry, receiverOf) {
-            return function(a, b, c, d, e) {
-              return receiverOf(this)[entry](a, b, c, d, e);
-            };
-          }(stubName, getReceiver);
-        default:
-          return function(f, receiverOf) {
-            return function() {
-              return f.apply(receiverOf(this), arguments);
-            };
-          }($function, getReceiver);
-      }
-    },
-    Closure_forwardCallTo(stubName, $function, isIntercepted, needsDirectAccess) {
-      if (isIntercepted)
-        return A.Closure_forwardInterceptedCallTo(stubName, $function, needsDirectAccess);
-      return A.Closure_cspForwardCall($function.length, needsDirectAccess, stubName, $function);
-    },
-    Closure_cspForwardInterceptedCall(arity, needsDirectAccess, stubName, $function) {
-      var getReceiver = A.BoundClosure_receiverOf,
-        getInterceptor = A.BoundClosure_interceptorOf;
-      switch (needsDirectAccess ? -1 : arity) {
-        case 0:
-          throw A.wrapException(new A.RuntimeError("Intercepted function with no arguments."));
-        case 1:
-          return function(entry, interceptorOf, receiverOf) {
-            return function() {
-              return interceptorOf(this)[entry](receiverOf(this));
-            };
-          }(stubName, getInterceptor, getReceiver);
-        case 2:
-          return function(entry, interceptorOf, receiverOf) {
-            return function(a) {
-              return interceptorOf(this)[entry](receiverOf(this), a);
-            };
-          }(stubName, getInterceptor, getReceiver);
-        case 3:
-          return function(entry, interceptorOf, receiverOf) {
-            return function(a, b) {
-              return interceptorOf(this)[entry](receiverOf(this), a, b);
-            };
-          }(stubName, getInterceptor, getReceiver);
-        case 4:
-          return function(entry, interceptorOf, receiverOf) {
-            return function(a, b, c) {
-              return interceptorOf(this)[entry](receiverOf(this), a, b, c);
-            };
-          }(stubName, getInterceptor, getReceiver);
-        case 5:
-          return function(entry, interceptorOf, receiverOf) {
-            return function(a, b, c, d) {
-              return interceptorOf(this)[entry](receiverOf(this), a, b, c, d);
-            };
-          }(stubName, getInterceptor, getReceiver);
-        case 6:
-          return function(entry, interceptorOf, receiverOf) {
-            return function(a, b, c, d, e) {
-              return interceptorOf(this)[entry](receiverOf(this), a, b, c, d, e);
-            };
-          }(stubName, getInterceptor, getReceiver);
-        default:
-          return function(f, interceptorOf, receiverOf) {
-            return function() {
-              var a = [receiverOf(this)];
-              Array.prototype.push.apply(a, arguments);
-              return f.apply(interceptorOf(this), a);
-            };
-          }($function, getInterceptor, getReceiver);
-      }
-    },
-    Closure_forwardInterceptedCallTo(stubName, $function, needsDirectAccess) {
-      var arity, t1;
-      if ($.BoundClosure__interceptorFieldNameCache == null)
-        $.BoundClosure__interceptorFieldNameCache = A.BoundClosure__computeFieldNamed("interceptor");
-      if ($.BoundClosure__receiverFieldNameCache == null)
-        $.BoundClosure__receiverFieldNameCache = A.BoundClosure__computeFieldNamed("receiver");
-      arity = $function.length;
-      t1 = A.Closure_cspForwardInterceptedCall(arity, needsDirectAccess, stubName, $function);
-      return t1;
-    },
-    closureFromTearOff(parameters) {
-      return A.Closure_fromTearOff(parameters);
-    },
-    BoundClosure_evalRecipe(closure, recipe) {
-      return A._Universe_evalInEnvironment(init.typeUniverse, A.instanceType(closure._receiver), recipe);
-    },
-    BoundClosure_receiverOf(closure) {
-      return closure._receiver;
-    },
-    BoundClosure_interceptorOf(closure) {
-      return closure._interceptor;
-    },
-    BoundClosure__computeFieldNamed(fieldName) {
-      var names, i, $name,
-        template = new A.BoundClosure("receiver", "interceptor"),
-        t1 = Object.getOwnPropertyNames(template);
-      t1.$flags = 1;
-      names = t1;
-      for (t1 = names.length, i = 0; i < t1; ++i) {
-        $name = names[i];
-        if (template[$name] === fieldName)
-          return $name;
-      }
-      throw A.wrapException(A.ArgumentError$("Field name " + fieldName + " not found.", null));
-    },
-    getIsolateAffinityTag($name) {
-      return init.getIsolateTag($name);
-    },
-    staticInteropGlobalContext() {
-      return init.G;
-    },
-    lookupAndCacheInterceptor(obj) {
-      var interceptor, interceptorClass, altTag, mark, t1,
-        tag = A._asString($.getTagFunction.call$1(obj)),
-        record = $.dispatchRecordsForInstanceTags[tag];
-      if (record != null) {
-        Object.defineProperty(obj, init.dispatchPropertyName, {value: record, enumerable: false, writable: true, configurable: true});
-        return record.i;
-      }
-      interceptor = $.interceptorsForUncacheableTags[tag];
-      if (interceptor != null)
-        return interceptor;
-      interceptorClass = init.interceptorsByTag[tag];
-      if (interceptorClass == null) {
-        altTag = A._asStringQ($.alternateTagFunction.call$2(obj, tag));
-        if (altTag != null) {
-          record = $.dispatchRecordsForInstanceTags[altTag];
-          if (record != null) {
-            Object.defineProperty(obj, init.dispatchPropertyName, {value: record, enumerable: false, writable: true, configurable: true});
-            return record.i;
+          wrapper.toString = t1;
+        return wrapper;
+      },
+      toStringWrapper() {
+        return J.toString$0$(this.dartException);
+      },
+      throwExpression(ex, wrapper) {
+        throw A.initializeExceptionWrapper(ex, wrapper == null ? new Error() : wrapper);
+      },
+      throwUnsupportedOperation(o, operation, verb) {
+        var wrapper;
+        if (operation == null)
+          operation = 0;
+        if (verb == null)
+          verb = 0;
+        wrapper = Error();
+        A.throwExpression(A._diagnoseUnsupportedOperation(o, operation, verb), wrapper);
+      },
+      _diagnoseUnsupportedOperation(o, encodedOperation, encodedVerb) {
+        var operation, table, tableLength, index, verb, object, flags, article, adjective;
+        if (typeof encodedOperation == "string")
+          operation = encodedOperation;
+        else {
+          table = "[]=;add;removeWhere;retainWhere;removeRange;setRange;setInt8;setInt16;setInt32;setUint8;setUint16;setUint32;setFloat32;setFloat64".split(";");
+          tableLength = table.length;
+          index = encodedOperation;
+          if (index > tableLength) {
+            encodedVerb = index / tableLength | 0;
+            index %= tableLength;
           }
-          interceptor = $.interceptorsForUncacheableTags[altTag];
-          if (interceptor != null)
-            return interceptor;
-          interceptorClass = init.interceptorsByTag[altTag];
-          tag = altTag;
+          operation = table[index];
         }
-      }
-      if (interceptorClass == null)
-        return null;
-      interceptor = interceptorClass.prototype;
-      mark = tag[0];
-      if (mark === "!") {
-        record = A.makeLeafDispatchRecord(interceptor);
-        $.dispatchRecordsForInstanceTags[tag] = record;
-        Object.defineProperty(obj, init.dispatchPropertyName, {value: record, enumerable: false, writable: true, configurable: true});
-        return record.i;
-      }
-      if (mark === "~") {
-        $.interceptorsForUncacheableTags[tag] = interceptor;
-        return interceptor;
-      }
-      if (mark === "-") {
-        t1 = A.makeLeafDispatchRecord(interceptor);
-        Object.defineProperty(Object.getPrototypeOf(obj), init.dispatchPropertyName, {value: t1, enumerable: false, writable: true, configurable: true});
-        return t1.i;
-      }
-      if (mark === "+")
-        return A.patchInteriorProto(obj, interceptor);
-      if (mark === "*")
-        throw A.wrapException(A.UnimplementedError$(tag));
-      if (init.leafTags[tag] === true) {
-        t1 = A.makeLeafDispatchRecord(interceptor);
-        Object.defineProperty(Object.getPrototypeOf(obj), init.dispatchPropertyName, {value: t1, enumerable: false, writable: true, configurable: true});
-        return t1.i;
-      } else
-        return A.patchInteriorProto(obj, interceptor);
-    },
-    patchInteriorProto(obj, interceptor) {
-      var proto = Object.getPrototypeOf(obj);
-      Object.defineProperty(proto, init.dispatchPropertyName, {value: J.makeDispatchRecord(interceptor, proto, null, null), enumerable: false, writable: true, configurable: true});
-      return interceptor;
-    },
-    makeLeafDispatchRecord(interceptor) {
-      return J.makeDispatchRecord(interceptor, false, null, !!interceptor.$isJavaScriptIndexingBehavior);
-    },
-    makeDefaultDispatchRecord(tag, interceptorClass, proto) {
-      var interceptor = interceptorClass.prototype;
-      if (init.leafTags[tag] === true)
-        return A.makeLeafDispatchRecord(interceptor);
-      else
-        return J.makeDispatchRecord(interceptor, proto, null, null);
-    },
-    initNativeDispatch() {
-      if (true === $.initNativeDispatchFlag)
-        return;
-      $.initNativeDispatchFlag = true;
-      A.initNativeDispatchContinue();
-    },
-    initNativeDispatchContinue() {
-      var map, tags, fun, i, tag, proto, record, interceptorClass;
-      $.dispatchRecordsForInstanceTags = Object.create(null);
-      $.interceptorsForUncacheableTags = Object.create(null);
-      A.initHooks();
-      map = init.interceptorsByTag;
-      tags = Object.getOwnPropertyNames(map);
-      if (typeof window != "undefined") {
-        window;
-        fun = function() {
+        verb = typeof encodedVerb == "string" ? encodedVerb : "modify;remove from;add to".split(";")[encodedVerb];
+        object = type$.List_dynamic._is(o) ? "list" : "ByteData";
+        flags = o.$flags | 0;
+        article = "a ";
+        if ((flags & 4) !== 0)
+          adjective = "constant ";
+        else if ((flags & 2) !== 0) {
+          adjective = "unmodifiable ";
+          article = "an ";
+        } else
+          adjective = (flags & 1) !== 0 ? "fixed-length " : "";
+        return new A.UnsupportedError("'" + operation + "': Cannot " + verb + " " + article + adjective + object);
+      },
+      throwConcurrentModificationError(collection) {
+        throw A.wrapException(A.ConcurrentModificationError$(collection));
+      },
+      TypeErrorDecoder_extractPattern(message) {
+        var match, $arguments, argumentsExpr, expr, method, receiver;
+        message = A.quoteStringForRegExp(message.replace(String({}), "$receiver$"));
+        match = message.match(/\\\$[a-zA-Z]+\\\$/g);
+        if (match == null)
+          match = A._setArrayType([], type$.JSArray_String);
+        $arguments = match.indexOf("\\$arguments\\$");
+        argumentsExpr = match.indexOf("\\$argumentsExpr\\$");
+        expr = match.indexOf("\\$expr\\$");
+        method = match.indexOf("\\$method\\$");
+        receiver = match.indexOf("\\$receiver\\$");
+        return new A.TypeErrorDecoder(message.replace(new RegExp("\\\\\\$arguments\\\\\\$", "g"), "((?:x|[^x])*)").replace(new RegExp("\\\\\\$argumentsExpr\\\\\\$", "g"), "((?:x|[^x])*)").replace(new RegExp("\\\\\\$expr\\\\\\$", "g"), "((?:x|[^x])*)").replace(new RegExp("\\\\\\$method\\\\\\$", "g"), "((?:x|[^x])*)").replace(new RegExp("\\\\\\$receiver\\\\\\$", "g"), "((?:x|[^x])*)"), $arguments, argumentsExpr, expr, method, receiver);
+      },
+      TypeErrorDecoder_provokeCallErrorOn(expression) {
+        return function ($expr$) {
+          var $argumentsExpr$ = "$arguments$";
+          try {
+            $expr$.$method$($argumentsExpr$);
+          } catch (e) {
+            return e.message;
+          }
+        }(expression);
+      },
+      TypeErrorDecoder_provokePropertyErrorOn(expression) {
+        return function ($expr$) {
+          try {
+            $expr$.$method$;
+          } catch (e) {
+            return e.message;
+          }
+        }(expression);
+      },
+      JsNoSuchMethodError$(_message, match) {
+        var t1 = match == null,
+          t2 = t1 ? null : match.method;
+        return new A.JsNoSuchMethodError(_message, t2, t1 ? null : match.receiver);
+      },
+      unwrapException(ex) {
+        var t1;
+        if (ex == null)
+          return new A.NullThrownFromJavaScriptException(ex);
+        if (ex instanceof A.ExceptionAndStackTrace) {
+          t1 = ex.dartException;
+          return A.saveStackTrace(ex, t1 == null ? A._asObject(t1) : t1);
+        }
+        if (typeof ex !== "object")
+          return ex;
+        if ("dartException" in ex)
+          return A.saveStackTrace(ex, ex.dartException);
+        return A._unwrapNonDartException(ex);
+      },
+      saveStackTrace(ex, error) {
+        if (type$.Error._is(error))
+          if (error.$thrownJsError == null)
+            error.$thrownJsError = ex;
+        return error;
+      },
+      _unwrapNonDartException(ex) {
+        var message, number, ieErrorCode, nsme, notClosure, nullCall, nullLiteralCall, undefCall, undefLiteralCall, nullProperty, undefProperty, undefLiteralProperty, match;
+        if (!("message" in ex))
+          return ex;
+        message = ex.message;
+        if ("number" in ex && typeof ex.number == "number") {
+          number = ex.number;
+          ieErrorCode = number & 65535;
+          if ((B.JSInt_methods._shrOtherPositive$1(number, 16) & 8191) === 10)
+            switch (ieErrorCode) {
+              case 438:
+                return A.saveStackTrace(ex, A.JsNoSuchMethodError$(A.S(message) + " (Error " + ieErrorCode + ")", null));
+              case 445:
+              case 5007:
+                A.S(message);
+                return A.saveStackTrace(ex, new A.NullError());
+            }
+        }
+        if (ex instanceof TypeError) {
+          nsme = $.$get$TypeErrorDecoder_noSuchMethodPattern();
+          notClosure = $.$get$TypeErrorDecoder_notClosurePattern();
+          nullCall = $.$get$TypeErrorDecoder_nullCallPattern();
+          nullLiteralCall = $.$get$TypeErrorDecoder_nullLiteralCallPattern();
+          undefCall = $.$get$TypeErrorDecoder_undefinedCallPattern();
+          undefLiteralCall = $.$get$TypeErrorDecoder_undefinedLiteralCallPattern();
+          nullProperty = $.$get$TypeErrorDecoder_nullPropertyPattern();
+          $.$get$TypeErrorDecoder_nullLiteralPropertyPattern();
+          undefProperty = $.$get$TypeErrorDecoder_undefinedPropertyPattern();
+          undefLiteralProperty = $.$get$TypeErrorDecoder_undefinedLiteralPropertyPattern();
+          match = nsme.matchTypeError$1(message);
+          if (match != null)
+            return A.saveStackTrace(ex, A.JsNoSuchMethodError$(A._asString(message), match));
+          else {
+            match = notClosure.matchTypeError$1(message);
+            if (match != null) {
+              match.method = "call";
+              return A.saveStackTrace(ex, A.JsNoSuchMethodError$(A._asString(message), match));
+            } else if (nullCall.matchTypeError$1(message) != null || nullLiteralCall.matchTypeError$1(message) != null || undefCall.matchTypeError$1(message) != null || undefLiteralCall.matchTypeError$1(message) != null || nullProperty.matchTypeError$1(message) != null || nullLiteralCall.matchTypeError$1(message) != null || undefProperty.matchTypeError$1(message) != null || undefLiteralProperty.matchTypeError$1(message) != null) {
+              A._asString(message);
+              return A.saveStackTrace(ex, new A.NullError());
+            }
+          }
+          return A.saveStackTrace(ex, new A.UnknownJsTypeError(typeof message == "string" ? message : ""));
+        }
+        if (ex instanceof RangeError) {
+          if (typeof message == "string" && message.indexOf("call stack") !== -1)
+            return new A.StackOverflowError();
+          message = function (ex) {
+            try {
+              return String(ex);
+            } catch (e) {
+            }
+            return null;
+          }(ex);
+          return A.saveStackTrace(ex, new A.ArgumentError(false, null, null, typeof message == "string" ? message.replace(/^RangeError:\s*/, "") : message));
+        }
+        if (typeof InternalError == "function" && ex instanceof InternalError)
+          if (typeof message == "string" && message === "too much recursion")
+            return new A.StackOverflowError();
+        return ex;
+      },
+      getTraceFromException(exception) {
+        var trace;
+        if (exception instanceof A.ExceptionAndStackTrace)
+          return exception.stackTrace;
+        if (exception == null)
+          return new A._StackTrace(exception);
+        trace = exception.$cachedTrace;
+        if (trace != null)
+          return trace;
+        trace = new A._StackTrace(exception);
+        if (typeof exception === "object")
+          exception.$cachedTrace = trace;
+        return trace;
+      },
+      objectHashCode(object) {
+        if (object == null)
+          return J.get$hashCode$(object);
+        if (typeof object == "object")
+          return A.Primitives_objectHashCode(object);
+        return J.get$hashCode$(object);
+      },
+      fillLiteralMap(keyValuePairs, result) {
+        var index, index0, index1,
+          $length = keyValuePairs.length;
+        for (index = 0; index < $length; index = index1) {
+          index0 = index + 1;
+          index1 = index0 + 1;
+          result.$indexSet(0, keyValuePairs[index], keyValuePairs[index0]);
+        }
+        return result;
+      },
+      fillLiteralSet(values, result) {
+        var index,
+          $length = values.length;
+        for (index = 0; index < $length; ++index)
+          result.add$1(0, values[index]);
+        return result;
+      },
+      _invokeClosure(closure, numberOfArguments, arg1, arg2, arg3, arg4) {
+        type$.Function._as(closure);
+        switch (A._asInt(numberOfArguments)) {
+          case 0:
+            return closure.call$0();
+          case 1:
+            return closure.call$1(arg1);
+          case 2:
+            return closure.call$2(arg1, arg2);
+          case 3:
+            return closure.call$3(arg1, arg2, arg3);
+          case 4:
+            return closure.call$4(arg1, arg2, arg3, arg4);
+        }
+        throw A.wrapException(new A._Exception("Unsupported number of arguments for wrapped closure"));
+      },
+      convertDartClosureToJS(closure, arity) {
+        var $function = closure.$identity;
+        if (!!$function)
+          return $function;
+        $function = A.convertDartClosureToJSUncached(closure, arity);
+        closure.$identity = $function;
+        return $function;
+      },
+      convertDartClosureToJSUncached(closure, arity) {
+        var entry;
+        switch (arity) {
+          case 0:
+            entry = closure.call$0;
+            break;
+          case 1:
+            entry = closure.call$1;
+            break;
+          case 2:
+            entry = closure.call$2;
+            break;
+          case 3:
+            entry = closure.call$3;
+            break;
+          case 4:
+            entry = closure.call$4;
+            break;
+          default:
+            entry = null;
+        }
+        if (entry != null)
+          return entry.bind(closure);
+        return function (closure, arity, invoke) {
+          return function (a1, a2, a3, a4) {
+            return invoke(closure, arity, a1, a2, a3, a4);
+          };
+        }(closure, arity, A._invokeClosure);
+      },
+      Closure_fromTearOff(parameters) {
+        var $prototype, $constructor, t2, trampoline, applyTrampoline, i, stub, stub0, stubName, stubCallName,
+          container = parameters.co,
+          isStatic = parameters.iS,
+          isIntercepted = parameters.iI,
+          needsDirectAccess = parameters.nDA,
+          applyTrampolineIndex = parameters.aI,
+          funsOrNames = parameters.fs,
+          callNames = parameters.cs,
+          $name = funsOrNames[0],
+          callName = callNames[0],
+          $function = container[$name],
+          t1 = parameters.fT;
+        t1.toString;
+        $prototype = isStatic ? Object.create(new A.StaticClosure().constructor.prototype) : Object.create(new A.BoundClosure(null, null).constructor.prototype);
+        $prototype.$initialize = $prototype.constructor;
+        $constructor = isStatic ? function static_tear_off() {
+          this.$initialize();
+        } : function tear_off(a, b) {
+          this.$initialize(a, b);
         };
+        $prototype.constructor = $constructor;
+        $constructor.prototype = $prototype;
+        $prototype.$_name = $name;
+        $prototype.$_target = $function;
+        t2 = !isStatic;
+        if (t2)
+          trampoline = A.Closure_forwardCallTo($name, $function, isIntercepted, needsDirectAccess);
+        else {
+          $prototype.$static_name = $name;
+          trampoline = $function;
+        }
+        $prototype.$signature = A.Closure__computeSignatureFunction(t1, isStatic, isIntercepted);
+        $prototype[callName] = trampoline;
+        for (applyTrampoline = trampoline, i = 1; i < funsOrNames.length; ++i) {
+          stub = funsOrNames[i];
+          if (typeof stub == "string") {
+            stub0 = container[stub];
+            stubName = stub;
+            stub = stub0;
+          } else
+            stubName = "";
+          stubCallName = callNames[i];
+          if (stubCallName != null) {
+            if (t2)
+              stub = A.Closure_forwardCallTo(stubName, stub, isIntercepted, needsDirectAccess);
+            $prototype[stubCallName] = stub;
+          }
+          if (i === applyTrampolineIndex)
+            applyTrampoline = stub;
+        }
+        $prototype["call*"] = applyTrampoline;
+        $prototype.$requiredArgCount = parameters.rC;
+        $prototype.$defaultValues = parameters.dV;
+        return $constructor;
+      },
+      Closure__computeSignatureFunction(functionType, isStatic, isIntercepted) {
+        if (typeof functionType == "number")
+          return functionType;
+        if (typeof functionType == "string") {
+          if (isStatic)
+            throw A.wrapException("Cannot compute signature for static tearoff.");
+          return function (recipe, evalOnReceiver) {
+            return function () {
+              return evalOnReceiver(this, recipe);
+            };
+          }(functionType, A.BoundClosure_evalRecipe);
+        }
+        throw A.wrapException("Error in functionType of tearoff");
+      },
+      Closure_cspForwardCall(arity, needsDirectAccess, stubName, $function) {
+        var getReceiver = A.BoundClosure_receiverOf;
+        switch (needsDirectAccess ? -1 : arity) {
+          case 0:
+            return function (entry, receiverOf) {
+              return function () {
+                return receiverOf(this)[entry]();
+              };
+            }(stubName, getReceiver);
+          case 1:
+            return function (entry, receiverOf) {
+              return function (a) {
+                return receiverOf(this)[entry](a);
+              };
+            }(stubName, getReceiver);
+          case 2:
+            return function (entry, receiverOf) {
+              return function (a, b) {
+                return receiverOf(this)[entry](a, b);
+              };
+            }(stubName, getReceiver);
+          case 3:
+            return function (entry, receiverOf) {
+              return function (a, b, c) {
+                return receiverOf(this)[entry](a, b, c);
+              };
+            }(stubName, getReceiver);
+          case 4:
+            return function (entry, receiverOf) {
+              return function (a, b, c, d) {
+                return receiverOf(this)[entry](a, b, c, d);
+              };
+            }(stubName, getReceiver);
+          case 5:
+            return function (entry, receiverOf) {
+              return function (a, b, c, d, e) {
+                return receiverOf(this)[entry](a, b, c, d, e);
+              };
+            }(stubName, getReceiver);
+          default:
+            return function (f, receiverOf) {
+              return function () {
+                return f.apply(receiverOf(this), arguments);
+              };
+            }($function, getReceiver);
+        }
+      },
+      Closure_forwardCallTo(stubName, $function, isIntercepted, needsDirectAccess) {
+        if (isIntercepted)
+          return A.Closure_forwardInterceptedCallTo(stubName, $function, needsDirectAccess);
+        return A.Closure_cspForwardCall($function.length, needsDirectAccess, stubName, $function);
+      },
+      Closure_cspForwardInterceptedCall(arity, needsDirectAccess, stubName, $function) {
+        var getReceiver = A.BoundClosure_receiverOf,
+          getInterceptor = A.BoundClosure_interceptorOf;
+        switch (needsDirectAccess ? -1 : arity) {
+          case 0:
+            throw A.wrapException(new A.RuntimeError("Intercepted function with no arguments."));
+          case 1:
+            return function (entry, interceptorOf, receiverOf) {
+              return function () {
+                return interceptorOf(this)[entry](receiverOf(this));
+              };
+            }(stubName, getInterceptor, getReceiver);
+          case 2:
+            return function (entry, interceptorOf, receiverOf) {
+              return function (a) {
+                return interceptorOf(this)[entry](receiverOf(this), a);
+              };
+            }(stubName, getInterceptor, getReceiver);
+          case 3:
+            return function (entry, interceptorOf, receiverOf) {
+              return function (a, b) {
+                return interceptorOf(this)[entry](receiverOf(this), a, b);
+              };
+            }(stubName, getInterceptor, getReceiver);
+          case 4:
+            return function (entry, interceptorOf, receiverOf) {
+              return function (a, b, c) {
+                return interceptorOf(this)[entry](receiverOf(this), a, b, c);
+              };
+            }(stubName, getInterceptor, getReceiver);
+          case 5:
+            return function (entry, interceptorOf, receiverOf) {
+              return function (a, b, c, d) {
+                return interceptorOf(this)[entry](receiverOf(this), a, b, c, d);
+              };
+            }(stubName, getInterceptor, getReceiver);
+          case 6:
+            return function (entry, interceptorOf, receiverOf) {
+              return function (a, b, c, d, e) {
+                return interceptorOf(this)[entry](receiverOf(this), a, b, c, d, e);
+              };
+            }(stubName, getInterceptor, getReceiver);
+          default:
+            return function (f, interceptorOf, receiverOf) {
+              return function () {
+                var a = [receiverOf(this)];
+                Array.prototype.push.apply(a, arguments);
+                return f.apply(interceptorOf(this), a);
+              };
+            }($function, getInterceptor, getReceiver);
+        }
+      },
+      Closure_forwardInterceptedCallTo(stubName, $function, needsDirectAccess) {
+        var arity, t1;
+        if ($.BoundClosure__interceptorFieldNameCache == null)
+          $.BoundClosure__interceptorFieldNameCache = A.BoundClosure__computeFieldNamed("interceptor");
+        if ($.BoundClosure__receiverFieldNameCache == null)
+          $.BoundClosure__receiverFieldNameCache = A.BoundClosure__computeFieldNamed("receiver");
+        arity = $function.length;
+        t1 = A.Closure_cspForwardInterceptedCall(arity, needsDirectAccess, stubName, $function);
+        return t1;
+      },
+      closureFromTearOff(parameters) {
+        return A.Closure_fromTearOff(parameters);
+      },
+      BoundClosure_evalRecipe(closure, recipe) {
+        return A._Universe_evalInEnvironment(init.typeUniverse, A.instanceType(closure._receiver), recipe);
+      },
+      BoundClosure_receiverOf(closure) {
+        return closure._receiver;
+      },
+      BoundClosure_interceptorOf(closure) {
+        return closure._interceptor;
+      },
+      BoundClosure__computeFieldNamed(fieldName) {
+        var names, i, $name,
+          template = new A.BoundClosure("receiver", "interceptor"),
+          t1 = Object.getOwnPropertyNames(template);
+        t1.$flags = 1;
+        names = t1;
+        for (t1 = names.length, i = 0; i < t1; ++i) {
+          $name = names[i];
+          if (template[$name] === fieldName)
+            return $name;
+        }
+        throw A.wrapException(A.ArgumentError$("Field name " + fieldName + " not found.", null));
+      },
+      getIsolateAffinityTag($name) {
+        return init.getIsolateTag($name);
+      },
+      staticInteropGlobalContext() {
+        return init.G;
+      },
+      lookupAndCacheInterceptor(obj) {
+        var interceptor, interceptorClass, altTag, mark, t1,
+          tag = A._asString($.getTagFunction.call$1(obj)),
+          record = $.dispatchRecordsForInstanceTags[tag];
+        if (record != null) {
+          Object.defineProperty(obj, init.dispatchPropertyName, { value: record, enumerable: false, writable: true, configurable: true });
+          return record.i;
+        }
+        interceptor = $.interceptorsForUncacheableTags[tag];
+        if (interceptor != null)
+          return interceptor;
+        interceptorClass = init.interceptorsByTag[tag];
+        if (interceptorClass == null) {
+          altTag = A._asStringQ($.alternateTagFunction.call$2(obj, tag));
+          if (altTag != null) {
+            record = $.dispatchRecordsForInstanceTags[altTag];
+            if (record != null) {
+              Object.defineProperty(obj, init.dispatchPropertyName, { value: record, enumerable: false, writable: true, configurable: true });
+              return record.i;
+            }
+            interceptor = $.interceptorsForUncacheableTags[altTag];
+            if (interceptor != null)
+              return interceptor;
+            interceptorClass = init.interceptorsByTag[altTag];
+            tag = altTag;
+          }
+        }
+        if (interceptorClass == null)
+          return null;
+        interceptor = interceptorClass.prototype;
+        mark = tag[0];
+        if (mark === "!") {
+          record = A.makeLeafDispatchRecord(interceptor);
+          $.dispatchRecordsForInstanceTags[tag] = record;
+          Object.defineProperty(obj, init.dispatchPropertyName, { value: record, enumerable: false, writable: true, configurable: true });
+          return record.i;
+        }
+        if (mark === "~") {
+          $.interceptorsForUncacheableTags[tag] = interceptor;
+          return interceptor;
+        }
+        if (mark === "-") {
+          t1 = A.makeLeafDispatchRecord(interceptor);
+          Object.defineProperty(Object.getPrototypeOf(obj), init.dispatchPropertyName, { value: t1, enumerable: false, writable: true, configurable: true });
+          return t1.i;
+        }
+        if (mark === "+")
+          return A.patchInteriorProto(obj, interceptor);
+        if (mark === "*")
+          throw A.wrapException(A.UnimplementedError$(tag));
+        if (init.leafTags[tag] === true) {
+          t1 = A.makeLeafDispatchRecord(interceptor);
+          Object.defineProperty(Object.getPrototypeOf(obj), init.dispatchPropertyName, { value: t1, enumerable: false, writable: true, configurable: true });
+          return t1.i;
+        } else
+          return A.patchInteriorProto(obj, interceptor);
+      },
+      patchInteriorProto(obj, interceptor) {
+        var proto = Object.getPrototypeOf(obj);
+        Object.defineProperty(proto, init.dispatchPropertyName, { value: J.makeDispatchRecord(interceptor, proto, null, null), enumerable: false, writable: true, configurable: true });
+        return interceptor;
+      },
+      makeLeafDispatchRecord(interceptor) {
+        return J.makeDispatchRecord(interceptor, false, null, !!interceptor.$isJavaScriptIndexingBehavior);
+      },
+      makeDefaultDispatchRecord(tag, interceptorClass, proto) {
+        var interceptor = interceptorClass.prototype;
+        if (init.leafTags[tag] === true)
+          return A.makeLeafDispatchRecord(interceptor);
+        else
+          return J.makeDispatchRecord(interceptor, proto, null, null);
+      },
+      initNativeDispatch() {
+        if (true === $.initNativeDispatchFlag)
+          return;
+        $.initNativeDispatchFlag = true;
+        A.initNativeDispatchContinue();
+      },
+      initNativeDispatchContinue() {
+        var map, tags, fun, i, tag, proto, record, interceptorClass;
+        $.dispatchRecordsForInstanceTags = Object.create(null);
+        $.interceptorsForUncacheableTags = Object.create(null);
+        A.initHooks();
+        map = init.interceptorsByTag;
+        tags = Object.getOwnPropertyNames(map);
+        if (typeof window != "undefined") {
+          window;
+          fun = function () {
+          };
+          for (i = 0; i < tags.length; ++i) {
+            tag = tags[i];
+            proto = $.prototypeForTagFunction.call$1(tag);
+            if (proto != null) {
+              record = A.makeDefaultDispatchRecord(tag, map[tag], proto);
+              if (record != null) {
+                Object.defineProperty(proto, init.dispatchPropertyName, { value: record, enumerable: false, writable: true, configurable: true });
+                fun.prototype = proto;
+              }
+            }
+          }
+        }
         for (i = 0; i < tags.length; ++i) {
           tag = tags[i];
-          proto = $.prototypeForTagFunction.call$1(tag);
-          if (proto != null) {
-            record = A.makeDefaultDispatchRecord(tag, map[tag], proto);
-            if (record != null) {
-              Object.defineProperty(proto, init.dispatchPropertyName, {value: record, enumerable: false, writable: true, configurable: true});
-              fun.prototype = proto;
+          if (/^[A-Za-z_]/.test(tag)) {
+            interceptorClass = map[tag];
+            map["!" + tag] = interceptorClass;
+            map["~" + tag] = interceptorClass;
+            map["-" + tag] = interceptorClass;
+            map["+" + tag] = interceptorClass;
+            map["*" + tag] = interceptorClass;
+          }
+        }
+      },
+      initHooks() {
+        var transformers, i, transformer, getTag, getUnknownTag, prototypeForTag,
+          hooks = B.C_JS_CONST0();
+        hooks = A.applyHooksTransformer(B.C_JS_CONST1, A.applyHooksTransformer(B.C_JS_CONST2, A.applyHooksTransformer(B.C_JS_CONST3, A.applyHooksTransformer(B.C_JS_CONST3, A.applyHooksTransformer(B.C_JS_CONST4, A.applyHooksTransformer(B.C_JS_CONST5, A.applyHooksTransformer(B.C_JS_CONST6(B.C_JS_CONST), hooks)))))));
+        if (typeof dartNativeDispatchHooksTransformer != "undefined") {
+          transformers = dartNativeDispatchHooksTransformer;
+          if (typeof transformers == "function")
+            transformers = [transformers];
+          if (Array.isArray(transformers))
+            for (i = 0; i < transformers.length; ++i) {
+              transformer = transformers[i];
+              if (typeof transformer == "function")
+                hooks = transformer(hooks) || hooks;
+            }
+        }
+        getTag = hooks.getTag;
+        getUnknownTag = hooks.getUnknownTag;
+        prototypeForTag = hooks.prototypeForTag;
+        $.getTagFunction = new A.initHooks_closure(getTag);
+        $.alternateTagFunction = new A.initHooks_closure0(getUnknownTag);
+        $.prototypeForTagFunction = new A.initHooks_closure1(prototypeForTag);
+      },
+      applyHooksTransformer(transformer, hooks) {
+        return transformer(hooks) || hooks;
+      },
+      createRecordTypePredicate(shape, fieldRtis) {
+        var $length = fieldRtis.length,
+          $function = init.rttc["" + $length + ";" + shape];
+        if ($function == null)
+          return null;
+        if ($length === 0)
+          return $function;
+        if ($length === $function.length)
+          return $function.apply(null, fieldRtis);
+        return $function(fieldRtis);
+      },
+      quoteStringForRegExp(string) {
+        if (/[[\]{}()*+?.\\^$|]/.test(string))
+          return string.replace(/[[\]{}()*+?.\\^$|]/g, "\\$&");
+        return string;
+      },
+      ConstantMap: function ConstantMap() {
+      },
+      ConstantStringMap: function ConstantStringMap(t0, t1, t2) {
+        this._jsIndex = t0;
+        this._values = t1;
+        this.$ti = t2;
+      },
+      SafeToStringHook: function SafeToStringHook() {
+      },
+      TypeErrorDecoder: function TypeErrorDecoder(t0, t1, t2, t3, t4, t5) {
+        var _ = this;
+        _._pattern = t0;
+        _._arguments = t1;
+        _._argumentsExpr = t2;
+        _._expr = t3;
+        _._method = t4;
+        _._receiver = t5;
+      },
+      NullError: function NullError() {
+      },
+      JsNoSuchMethodError: function JsNoSuchMethodError(t0, t1, t2) {
+        this.__js_helper$_message = t0;
+        this._method = t1;
+        this._receiver = t2;
+      },
+      UnknownJsTypeError: function UnknownJsTypeError(t0) {
+        this.__js_helper$_message = t0;
+      },
+      NullThrownFromJavaScriptException: function NullThrownFromJavaScriptException(t0) {
+        this._irritant = t0;
+      },
+      ExceptionAndStackTrace: function ExceptionAndStackTrace(t0, t1) {
+        this.dartException = t0;
+        this.stackTrace = t1;
+      },
+      _StackTrace: function _StackTrace(t0) {
+        this._exception = t0;
+        this._trace = null;
+      },
+      Closure: function Closure() {
+      },
+      Closure0Args: function Closure0Args() {
+      },
+      Closure2Args: function Closure2Args() {
+      },
+      TearOffClosure: function TearOffClosure() {
+      },
+      StaticClosure: function StaticClosure() {
+      },
+      BoundClosure: function BoundClosure(t0, t1) {
+        this._receiver = t0;
+        this._interceptor = t1;
+      },
+      RuntimeError: function RuntimeError(t0) {
+        this.message = t0;
+      },
+      JsLinkedHashMap: function JsLinkedHashMap(t0) {
+        var _ = this;
+        _.__js_helper$_length = 0;
+        _._last = _._first = _.__js_helper$_rest = _.__js_helper$_nums = _.__js_helper$_strings = null;
+        _._modifications = 0;
+        _.$ti = t0;
+      },
+      JsLinkedHashMap_addAll_closure: function JsLinkedHashMap_addAll_closure(t0) {
+        this.$this = t0;
+      },
+      LinkedHashMapCell: function LinkedHashMapCell(t0, t1) {
+        var _ = this;
+        _.hashMapCellKey = t0;
+        _.hashMapCellValue = t1;
+        _._previous = _._next = null;
+      },
+      LinkedHashMapKeysIterable: function LinkedHashMapKeysIterable(t0, t1) {
+        this._map = t0;
+        this.$ti = t1;
+      },
+      LinkedHashMapKeyIterator: function LinkedHashMapKeyIterator(t0, t1, t2, t3) {
+        var _ = this;
+        _._map = t0;
+        _._modifications = t1;
+        _._cell = t2;
+        _.__js_helper$_current = null;
+        _.$ti = t3;
+      },
+      LinkedHashMapValuesIterable: function LinkedHashMapValuesIterable(t0, t1) {
+        this._map = t0;
+        this.$ti = t1;
+      },
+      LinkedHashMapValueIterator: function LinkedHashMapValueIterator(t0, t1, t2, t3) {
+        var _ = this;
+        _._map = t0;
+        _._modifications = t1;
+        _._cell = t2;
+        _.__js_helper$_current = null;
+        _.$ti = t3;
+      },
+      LinkedHashMapEntriesIterable: function LinkedHashMapEntriesIterable(t0, t1) {
+        this._map = t0;
+        this.$ti = t1;
+      },
+      LinkedHashMapEntryIterator: function LinkedHashMapEntryIterator(t0, t1, t2, t3) {
+        var _ = this;
+        _._map = t0;
+        _._modifications = t1;
+        _._cell = t2;
+        _.__js_helper$_current = null;
+        _.$ti = t3;
+      },
+      initHooks_closure: function initHooks_closure(t0) {
+        this.getTag = t0;
+      },
+      initHooks_closure0: function initHooks_closure0(t0) {
+        this.getUnknownTag = t0;
+      },
+      initHooks_closure1: function initHooks_closure1(t0) {
+        this.prototypeForTag = t0;
+      },
+      _checkValidIndex(index, list, $length) {
+        if (index >>> 0 !== index || index >= $length)
+          throw A.wrapException(A.diagnoseIndexError(list, index));
+      },
+      NativeByteBuffer: function NativeByteBuffer() {
+      },
+      NativeTypedData: function NativeTypedData() {
+      },
+      NativeByteData: function NativeByteData() {
+      },
+      NativeTypedArray: function NativeTypedArray() {
+      },
+      NativeTypedArrayOfDouble: function NativeTypedArrayOfDouble() {
+      },
+      NativeTypedArrayOfInt: function NativeTypedArrayOfInt() {
+      },
+      NativeFloat32List: function NativeFloat32List() {
+      },
+      NativeFloat64List: function NativeFloat64List() {
+      },
+      NativeInt16List: function NativeInt16List() {
+      },
+      NativeInt32List: function NativeInt32List() {
+      },
+      NativeInt8List: function NativeInt8List() {
+      },
+      NativeUint16List: function NativeUint16List() {
+      },
+      NativeUint32List: function NativeUint32List() {
+      },
+      NativeUint8ClampedList: function NativeUint8ClampedList() {
+      },
+      NativeUint8List: function NativeUint8List() {
+      },
+      _NativeTypedArrayOfDouble_NativeTypedArray_ListMixin: function _NativeTypedArrayOfDouble_NativeTypedArray_ListMixin() {
+      },
+      _NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin: function _NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin() {
+      },
+      _NativeTypedArrayOfInt_NativeTypedArray_ListMixin: function _NativeTypedArrayOfInt_NativeTypedArray_ListMixin() {
+      },
+      _NativeTypedArrayOfInt_NativeTypedArray_ListMixin_FixedLengthListMixin: function _NativeTypedArrayOfInt_NativeTypedArray_ListMixin_FixedLengthListMixin() {
+      },
+      Rti__getFutureFromFutureOr(universe, rti) {
+        var future = rti._precomputed1;
+        return future == null ? rti._precomputed1 = A._Universe__lookupInterfaceRti(universe, "Future", [rti._primary]) : future;
+      },
+      Rti__isUnionOfFunctionType(rti) {
+        var kind = rti._kind;
+        if (kind === 6 || kind === 7)
+          return A.Rti__isUnionOfFunctionType(rti._primary);
+        return kind === 11 || kind === 12;
+      },
+      Rti__getCanonicalRecipe(rti) {
+        return rti._canonicalRecipe;
+      },
+      findType(recipe) {
+        return A._Universe_eval(init.typeUniverse, recipe, false);
+      },
+      _substitute(universe, rti, typeArguments, depth) {
+        var baseType, substitutedBaseType, interfaceTypeArguments, substitutedInterfaceTypeArguments, base, substitutedBase, $arguments, substitutedArguments, t1, fields, substitutedFields, returnType, substitutedReturnType, functionParameters, substitutedFunctionParameters, bounds, substitutedBounds, index, argument,
+          kind = rti._kind;
+        switch (kind) {
+          case 5:
+          case 1:
+          case 2:
+          case 3:
+          case 4:
+            return rti;
+          case 6:
+            baseType = rti._primary;
+            substitutedBaseType = A._substitute(universe, baseType, typeArguments, depth);
+            if (substitutedBaseType === baseType)
+              return rti;
+            return A._Universe__lookupQuestionRti(universe, substitutedBaseType, true);
+          case 7:
+            baseType = rti._primary;
+            substitutedBaseType = A._substitute(universe, baseType, typeArguments, depth);
+            if (substitutedBaseType === baseType)
+              return rti;
+            return A._Universe__lookupFutureOrRti(universe, substitutedBaseType, true);
+          case 8:
+            interfaceTypeArguments = rti._rest;
+            substitutedInterfaceTypeArguments = A._substituteArray(universe, interfaceTypeArguments, typeArguments, depth);
+            if (substitutedInterfaceTypeArguments === interfaceTypeArguments)
+              return rti;
+            return A._Universe__lookupInterfaceRti(universe, rti._primary, substitutedInterfaceTypeArguments);
+          case 9:
+            base = rti._primary;
+            substitutedBase = A._substitute(universe, base, typeArguments, depth);
+            $arguments = rti._rest;
+            substitutedArguments = A._substituteArray(universe, $arguments, typeArguments, depth);
+            if (substitutedBase === base && substitutedArguments === $arguments)
+              return rti;
+            return A._Universe__lookupBindingRti(universe, substitutedBase, substitutedArguments);
+          case 10:
+            t1 = rti._primary;
+            fields = rti._rest;
+            substitutedFields = A._substituteArray(universe, fields, typeArguments, depth);
+            if (substitutedFields === fields)
+              return rti;
+            return A._Universe__lookupRecordRti(universe, t1, substitutedFields);
+          case 11:
+            returnType = rti._primary;
+            substitutedReturnType = A._substitute(universe, returnType, typeArguments, depth);
+            functionParameters = rti._rest;
+            substitutedFunctionParameters = A._substituteFunctionParameters(universe, functionParameters, typeArguments, depth);
+            if (substitutedReturnType === returnType && substitutedFunctionParameters === functionParameters)
+              return rti;
+            return A._Universe__lookupFunctionRti(universe, substitutedReturnType, substitutedFunctionParameters);
+          case 12:
+            bounds = rti._rest;
+            depth += bounds.length;
+            substitutedBounds = A._substituteArray(universe, bounds, typeArguments, depth);
+            base = rti._primary;
+            substitutedBase = A._substitute(universe, base, typeArguments, depth);
+            if (substitutedBounds === bounds && substitutedBase === base)
+              return rti;
+            return A._Universe__lookupGenericFunctionRti(universe, substitutedBase, substitutedBounds, true);
+          case 13:
+            index = rti._primary;
+            if (index < depth)
+              return rti;
+            argument = typeArguments[index - depth];
+            if (argument == null)
+              return rti;
+            return argument;
+          default:
+            throw A.wrapException(A.AssertionError$("Attempted to substitute unexpected RTI kind " + kind));
+        }
+      },
+      _substituteArray(universe, rtiArray, typeArguments, depth) {
+        var changed, i, rti, substitutedRti,
+          $length = rtiArray.length,
+          result = A._Utils_newArrayOrEmpty($length);
+        for (changed = false, i = 0; i < $length; ++i) {
+          rti = rtiArray[i];
+          substitutedRti = A._substitute(universe, rti, typeArguments, depth);
+          if (substitutedRti !== rti)
+            changed = true;
+          result[i] = substitutedRti;
+        }
+        return changed ? result : rtiArray;
+      },
+      _substituteNamed(universe, namedArray, typeArguments, depth) {
+        var changed, i, t1, t2, rti, substitutedRti,
+          $length = namedArray.length,
+          result = A._Utils_newArrayOrEmpty($length);
+        for (changed = false, i = 0; i < $length; i += 3) {
+          t1 = namedArray[i];
+          t2 = namedArray[i + 1];
+          rti = namedArray[i + 2];
+          substitutedRti = A._substitute(universe, rti, typeArguments, depth);
+          if (substitutedRti !== rti)
+            changed = true;
+          result.splice(i, 3, t1, t2, substitutedRti);
+        }
+        return changed ? result : namedArray;
+      },
+      _substituteFunctionParameters(universe, functionParameters, typeArguments, depth) {
+        var result,
+          requiredPositional = functionParameters._requiredPositional,
+          substitutedRequiredPositional = A._substituteArray(universe, requiredPositional, typeArguments, depth),
+          optionalPositional = functionParameters._optionalPositional,
+          substitutedOptionalPositional = A._substituteArray(universe, optionalPositional, typeArguments, depth),
+          named = functionParameters._named,
+          substitutedNamed = A._substituteNamed(universe, named, typeArguments, depth);
+        if (substitutedRequiredPositional === requiredPositional && substitutedOptionalPositional === optionalPositional && substitutedNamed === named)
+          return functionParameters;
+        result = new A._FunctionParameters();
+        result._requiredPositional = substitutedRequiredPositional;
+        result._optionalPositional = substitutedOptionalPositional;
+        result._named = substitutedNamed;
+        return result;
+      },
+      _setArrayType(target, rti) {
+        target[init.arrayRti] = rti;
+        return target;
+      },
+      closureFunctionType(closure) {
+        var signature = closure.$signature;
+        if (signature != null) {
+          if (typeof signature == "number")
+            return A.getTypeFromTypesTable(signature);
+          return closure.$signature();
+        }
+        return null;
+      },
+      instanceOrFunctionType(object, testRti) {
+        var rti;
+        if (A.Rti__isUnionOfFunctionType(testRti))
+          if (object instanceof A.Closure) {
+            rti = A.closureFunctionType(object);
+            if (rti != null)
+              return rti;
+          }
+        return A.instanceType(object);
+      },
+      instanceType(object) {
+        if (object instanceof A.Object)
+          return A._instanceType(object);
+        if (Array.isArray(object))
+          return A._arrayInstanceType(object);
+        return A._instanceTypeFromConstructor(J.getInterceptor$(object));
+      },
+      _arrayInstanceType(object) {
+        var rti = object[init.arrayRti],
+          defaultRti = type$.JSArray_dynamic;
+        if (rti == null)
+          return defaultRti;
+        if (rti.constructor !== defaultRti.constructor)
+          return defaultRti;
+        return rti;
+      },
+      _instanceType(object) {
+        var rti = object.$ti;
+        return rti != null ? rti : A._instanceTypeFromConstructor(object);
+      },
+      _instanceTypeFromConstructor(instance) {
+        var $constructor = instance.constructor,
+          probe = $constructor.$ccache;
+        if (probe != null)
+          return probe;
+        return A._instanceTypeFromConstructorMiss(instance, $constructor);
+      },
+      _instanceTypeFromConstructorMiss(instance, $constructor) {
+        var effectiveConstructor = instance instanceof A.Closure ? Object.getPrototypeOf(Object.getPrototypeOf(instance)).constructor : $constructor,
+          rti = A._Universe_findErasedType(init.typeUniverse, effectiveConstructor.name);
+        $constructor.$ccache = rti;
+        return rti;
+      },
+      getTypeFromTypesTable(index) {
+        var rti,
+          table = init.types,
+          type = table[index];
+        if (typeof type == "string") {
+          rti = A._Universe_eval(init.typeUniverse, type, false);
+          table[index] = rti;
+          return rti;
+        }
+        return type;
+      },
+      getRuntimeTypeOfDartObject(object) {
+        return A.createRuntimeType(A._instanceType(object));
+      },
+      _structuralTypeOf(object) {
+        var functionRti = object instanceof A.Closure ? A.closureFunctionType(object) : null;
+        if (functionRti != null)
+          return functionRti;
+        if (type$.TrustedGetRuntimeType._is(object))
+          return J.get$runtimeType$(object)._rti;
+        if (Array.isArray(object))
+          return A._arrayInstanceType(object);
+        return A.instanceType(object);
+      },
+      createRuntimeType(rti) {
+        var t1 = rti._cachedRuntimeType;
+        return t1 == null ? rti._cachedRuntimeType = new A._Type(rti) : t1;
+      },
+      typeLiteral(recipe) {
+        return A.createRuntimeType(A._Universe_eval(init.typeUniverse, recipe, false));
+      },
+      _installSpecializedIsTest(object) {
+        var testRti = this;
+        testRti._is = A._specializedIsTest(testRti);
+        return testRti._is(object);
+      },
+      _specializedIsTest(testRti) {
+        var kind, simpleIsFn, $name, predicate, t1;
+        if (testRti === type$.Object)
+          return A._isObject;
+        if (A.isTopType(testRti))
+          return A._isTop;
+        kind = testRti._kind;
+        if (kind === 6)
+          return A._generalNullableIsTestImplementation;
+        if (kind === 1)
+          return A._isNever;
+        if (kind === 7)
+          return A._isFutureOr;
+        simpleIsFn = A._simpleSpecializedIsTest(testRti);
+        if (simpleIsFn != null)
+          return simpleIsFn;
+        if (kind === 8) {
+          $name = testRti._primary;
+          if (testRti._rest.every(A.isTopType)) {
+            testRti._specializedTestResource = "$is" + $name;
+            if ($name === "List")
+              return A._isListTestViaProperty;
+            if (testRti === type$.JSObject)
+              return A._isJSObject;
+            return A._isTestViaProperty;
+          }
+        } else if (kind === 10) {
+          predicate = A.createRecordTypePredicate(testRti._primary, testRti._rest);
+          t1 = predicate == null ? A._isNever : predicate;
+          return t1 == null ? A._asObject(t1) : t1;
+        }
+        return A._generalIsTestImplementation;
+      },
+      _simpleSpecializedIsTest(testRti) {
+        if (testRti._kind === 8) {
+          if (testRti === type$.int)
+            return A._isInt;
+          if (testRti === type$.double || testRti === type$.num)
+            return A._isNum;
+          if (testRti === type$.String)
+            return A._isString;
+          if (testRti === type$.bool)
+            return A._isBool;
+        }
+        return null;
+      },
+      _installSpecializedAsCheck(object) {
+        var testRti = this,
+          asFn = A._generalAsCheckImplementation;
+        if (A.isTopType(testRti))
+          asFn = A._asTop;
+        else if (testRti === type$.Object)
+          asFn = A._asObject;
+        else if (A.isNullable(testRti)) {
+          asFn = A._generalNullableAsCheckImplementation;
+          if (testRti === type$.nullable_int)
+            asFn = A._asIntQ;
+          else if (testRti === type$.nullable_String)
+            asFn = A._asStringQ;
+          else if (testRti === type$.nullable_bool)
+            asFn = A._asBoolQ;
+          else if (testRti === type$.nullable_num)
+            asFn = A._asNumQ;
+          else if (testRti === type$.nullable_double)
+            asFn = A._asDoubleQ;
+          else if (testRti === type$.nullable_JSObject)
+            asFn = A._asJSObjectQ;
+        } else if (testRti === type$.int)
+          asFn = A._asInt;
+        else if (testRti === type$.String)
+          asFn = A._asString;
+        else if (testRti === type$.bool)
+          asFn = A._asBool;
+        else if (testRti === type$.num)
+          asFn = A._asNum;
+        else if (testRti === type$.double)
+          asFn = A._asDouble;
+        else if (testRti === type$.JSObject)
+          asFn = A._asJSObject;
+        testRti._as = asFn;
+        return testRti._as(object);
+      },
+      _generalIsTestImplementation(object) {
+        var testRti = this;
+        if (object == null)
+          return A.isNullable(testRti);
+        return A.isSubtype(init.typeUniverse, A.instanceOrFunctionType(object, testRti), testRti);
+      },
+      _generalNullableIsTestImplementation(object) {
+        if (object == null)
+          return true;
+        return this._primary._is(object);
+      },
+      _isTestViaProperty(object) {
+        var tag, testRti = this;
+        if (object == null)
+          return A.isNullable(testRti);
+        tag = testRti._specializedTestResource;
+        if (object instanceof A.Object)
+          return !!object[tag];
+        return !!J.getInterceptor$(object)[tag];
+      },
+      _isListTestViaProperty(object) {
+        var tag, testRti = this;
+        if (object == null)
+          return A.isNullable(testRti);
+        if (typeof object != "object")
+          return false;
+        if (Array.isArray(object))
+          return true;
+        tag = testRti._specializedTestResource;
+        if (object instanceof A.Object)
+          return !!object[tag];
+        return !!J.getInterceptor$(object)[tag];
+      },
+      _isJSObject(object) {
+        var t1 = this;
+        if (object == null)
+          return false;
+        if (typeof object == "object") {
+          if (object instanceof A.Object)
+            return !!object[t1._specializedTestResource];
+          return true;
+        }
+        if (typeof object == "function")
+          return true;
+        return false;
+      },
+      _isJSObjectStandalone(object) {
+        if (typeof object == "object") {
+          if (object instanceof A.Object)
+            return type$.JSObject._is(object);
+          return true;
+        }
+        if (typeof object == "function")
+          return true;
+        return false;
+      },
+      _generalAsCheckImplementation(object) {
+        var testRti = this;
+        if (object == null) {
+          if (A.isNullable(testRti))
+            return object;
+        } else if (testRti._is(object))
+          return object;
+        throw A.initializeExceptionWrapper(A._errorForAsCheck(object, testRti), new Error());
+      },
+      _generalNullableAsCheckImplementation(object) {
+        var testRti = this;
+        if (object == null || testRti._is(object))
+          return object;
+        throw A.initializeExceptionWrapper(A._errorForAsCheck(object, testRti), new Error());
+      },
+      _errorForAsCheck(object, testRti) {
+        return new A._TypeError("TypeError: " + A._Error_compose(object, A._rtiToString(testRti, null)));
+      },
+      _Error_compose(object, checkedTypeDescription) {
+        return A.Error_safeToString(object) + ": type '" + A._rtiToString(A._structuralTypeOf(object), null) + "' is not a subtype of type '" + checkedTypeDescription + "'";
+      },
+      _TypeError__TypeError$forType(object, type) {
+        return new A._TypeError("TypeError: " + A._Error_compose(object, type));
+      },
+      _isFutureOr(object) {
+        var testRti = this;
+        return testRti._primary._is(object) || A.Rti__getFutureFromFutureOr(init.typeUniverse, testRti)._is(object);
+      },
+      _isObject(object) {
+        return object != null;
+      },
+      _asObject(object) {
+        if (object != null)
+          return object;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "Object"), new Error());
+      },
+      _isTop(object) {
+        return true;
+      },
+      _asTop(object) {
+        return object;
+      },
+      _isNever(object) {
+        return false;
+      },
+      _isBool(object) {
+        return true === object || false === object;
+      },
+      _asBool(object) {
+        if (true === object)
+          return true;
+        if (false === object)
+          return false;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "bool"), new Error());
+      },
+      _asBoolQ(object) {
+        if (true === object)
+          return true;
+        if (false === object)
+          return false;
+        if (object == null)
+          return object;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "bool?"), new Error());
+      },
+      _asDouble(object) {
+        if (typeof object == "number")
+          return object;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "double"), new Error());
+      },
+      _asDoubleQ(object) {
+        if (typeof object == "number")
+          return object;
+        if (object == null)
+          return object;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "double?"), new Error());
+      },
+      _isInt(object) {
+        return typeof object == "number" && Math.floor(object) === object;
+      },
+      _asInt(object) {
+        if (typeof object == "number" && Math.floor(object) === object)
+          return object;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "int"), new Error());
+      },
+      _asIntQ(object) {
+        if (typeof object == "number" && Math.floor(object) === object)
+          return object;
+        if (object == null)
+          return object;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "int?"), new Error());
+      },
+      _isNum(object) {
+        return typeof object == "number";
+      },
+      _asNum(object) {
+        if (typeof object == "number")
+          return object;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "num"), new Error());
+      },
+      _asNumQ(object) {
+        if (typeof object == "number")
+          return object;
+        if (object == null)
+          return object;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "num?"), new Error());
+      },
+      _isString(object) {
+        return typeof object == "string";
+      },
+      _asString(object) {
+        if (typeof object == "string")
+          return object;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "String"), new Error());
+      },
+      _asStringQ(object) {
+        if (typeof object == "string")
+          return object;
+        if (object == null)
+          return object;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "String?"), new Error());
+      },
+      _asJSObject(object) {
+        if (A._isJSObjectStandalone(object))
+          return object;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "JSObject"), new Error());
+      },
+      _asJSObjectQ(object) {
+        if (object == null)
+          return object;
+        if (A._isJSObjectStandalone(object))
+          return object;
+        throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "JSObject?"), new Error());
+      },
+      _rtiArrayToString(array, genericContext) {
+        var s, sep, i;
+        for (s = "", sep = "", i = 0; i < array.length; ++i, sep = ", ")
+          s += sep + A._rtiToString(array[i], genericContext);
+        return s;
+      },
+      _recordRtiToString(recordType, genericContext) {
+        var fieldCount, names, namesIndex, s, comma, i,
+          partialShape = recordType._primary,
+          fields = recordType._rest;
+        if ("" === partialShape)
+          return "(" + A._rtiArrayToString(fields, genericContext) + ")";
+        fieldCount = fields.length;
+        names = partialShape.split(",");
+        namesIndex = names.length - fieldCount;
+        for (s = "(", comma = "", i = 0; i < fieldCount; ++i, comma = ", ") {
+          s += comma;
+          if (namesIndex === 0)
+            s += "{";
+          s += A._rtiToString(fields[i], genericContext);
+          if (namesIndex >= 0)
+            s += " " + names[namesIndex];
+          ++namesIndex;
+        }
+        return s + "})";
+      },
+      _functionRtiToString(functionType, genericContext, bounds) {
+        var boundsLength, offset, i, t1, typeParametersText, typeSep, t2, t3, boundRti, kind, parameters, requiredPositional, requiredPositionalLength, optionalPositional, optionalPositionalLength, named, namedLength, returnTypeText, argumentsText, sep, _s2_ = ", ", outerContextLength = null;
+        if (bounds != null) {
+          boundsLength = bounds.length;
+          if (genericContext == null)
+            genericContext = A._setArrayType([], type$.JSArray_String);
+          else
+            outerContextLength = genericContext.length;
+          offset = genericContext.length;
+          for (i = boundsLength; i > 0; --i)
+            B.JSArray_methods.add$1(genericContext, "T" + (offset + i));
+          for (t1 = type$.nullable_Object, typeParametersText = "<", typeSep = "", i = 0; i < boundsLength; ++i, typeSep = _s2_) {
+            t2 = genericContext.length;
+            t3 = t2 - 1 - i;
+            if (!(t3 >= 0))
+              return A.ioore(genericContext, t3);
+            typeParametersText = typeParametersText + typeSep + genericContext[t3];
+            boundRti = bounds[i];
+            kind = boundRti._kind;
+            if (!(kind === 2 || kind === 3 || kind === 4 || kind === 5 || boundRti === t1))
+              typeParametersText += " extends " + A._rtiToString(boundRti, genericContext);
+          }
+          typeParametersText += ">";
+        } else
+          typeParametersText = "";
+        t1 = functionType._primary;
+        parameters = functionType._rest;
+        requiredPositional = parameters._requiredPositional;
+        requiredPositionalLength = requiredPositional.length;
+        optionalPositional = parameters._optionalPositional;
+        optionalPositionalLength = optionalPositional.length;
+        named = parameters._named;
+        namedLength = named.length;
+        returnTypeText = A._rtiToString(t1, genericContext);
+        for (argumentsText = "", sep = "", i = 0; i < requiredPositionalLength; ++i, sep = _s2_)
+          argumentsText += sep + A._rtiToString(requiredPositional[i], genericContext);
+        if (optionalPositionalLength > 0) {
+          argumentsText += sep + "[";
+          for (sep = "", i = 0; i < optionalPositionalLength; ++i, sep = _s2_)
+            argumentsText += sep + A._rtiToString(optionalPositional[i], genericContext);
+          argumentsText += "]";
+        }
+        if (namedLength > 0) {
+          argumentsText += sep + "{";
+          for (sep = "", i = 0; i < namedLength; i += 3, sep = _s2_) {
+            argumentsText += sep;
+            if (named[i + 1])
+              argumentsText += "required ";
+            argumentsText += A._rtiToString(named[i + 2], genericContext) + " " + named[i];
+          }
+          argumentsText += "}";
+        }
+        if (outerContextLength != null) {
+          genericContext.toString;
+          genericContext.length = outerContextLength;
+        }
+        return typeParametersText + "(" + argumentsText + ") => " + returnTypeText;
+      },
+      _rtiToString(rti, genericContext) {
+        var questionArgument, s, argumentKind, $name, $arguments, t1, t2,
+          kind = rti._kind;
+        if (kind === 5)
+          return "erased";
+        if (kind === 2)
+          return "dynamic";
+        if (kind === 3)
+          return "void";
+        if (kind === 1)
+          return "Never";
+        if (kind === 4)
+          return "any";
+        if (kind === 6) {
+          questionArgument = rti._primary;
+          s = A._rtiToString(questionArgument, genericContext);
+          argumentKind = questionArgument._kind;
+          return (argumentKind === 11 || argumentKind === 12 ? "(" + s + ")" : s) + "?";
+        }
+        if (kind === 7)
+          return "FutureOr<" + A._rtiToString(rti._primary, genericContext) + ">";
+        if (kind === 8) {
+          $name = A._unminifyOrTag(rti._primary);
+          $arguments = rti._rest;
+          return $arguments.length > 0 ? $name + ("<" + A._rtiArrayToString($arguments, genericContext) + ">") : $name;
+        }
+        if (kind === 10)
+          return A._recordRtiToString(rti, genericContext);
+        if (kind === 11)
+          return A._functionRtiToString(rti, genericContext, null);
+        if (kind === 12)
+          return A._functionRtiToString(rti._primary, genericContext, rti._rest);
+        if (kind === 13) {
+          t1 = rti._primary;
+          t2 = genericContext.length;
+          t1 = t2 - 1 - t1;
+          if (!(t1 >= 0 && t1 < t2))
+            return A.ioore(genericContext, t1);
+          return genericContext[t1];
+        }
+        return "?";
+      },
+      _unminifyOrTag(rawClassName) {
+        var preserved = init.mangledGlobalNames[rawClassName];
+        if (preserved != null)
+          return preserved;
+        return rawClassName;
+      },
+      _Universe_findRule(universe, targetType) {
+        var rule = universe.tR[targetType];
+        while (typeof rule == "string")
+          rule = universe.tR[rule];
+        return rule;
+      },
+      _Universe_findErasedType(universe, cls) {
+        var $length, erased, $arguments, i, $interface,
+          metadata = universe.eT,
+          probe = metadata[cls];
+        if (probe == null)
+          return A._Universe_eval(universe, cls, false);
+        else if (typeof probe == "number") {
+          $length = probe;
+          erased = A._Universe__lookupTerminalRti(universe, 5, "#");
+          $arguments = A._Utils_newArrayOrEmpty($length);
+          for (i = 0; i < $length; ++i)
+            $arguments[i] = erased;
+          $interface = A._Universe__lookupInterfaceRti(universe, cls, $arguments);
+          metadata[cls] = $interface;
+          return $interface;
+        } else
+          return probe;
+      },
+      _Universe_addRules(universe, rules) {
+        return A._Utils_objectAssign(universe.tR, rules);
+      },
+      _Universe_addErasedTypes(universe, types) {
+        return A._Utils_objectAssign(universe.eT, types);
+      },
+      _Universe_eval(universe, recipe, normalize) {
+        var rti,
+          cache = universe.eC,
+          probe = cache.get(recipe);
+        if (probe != null)
+          return probe;
+        rti = A._Parser_parse(A._Parser_create(universe, null, recipe, false));
+        cache.set(recipe, rti);
+        return rti;
+      },
+      _Universe_evalInEnvironment(universe, environment, recipe) {
+        var probe, rti,
+          cache = environment._evalCache;
+        if (cache == null)
+          cache = environment._evalCache = new Map();
+        probe = cache.get(recipe);
+        if (probe != null)
+          return probe;
+        rti = A._Parser_parse(A._Parser_create(universe, environment, recipe, true));
+        cache.set(recipe, rti);
+        return rti;
+      },
+      _Universe_bind(universe, environment, argumentsRti) {
+        var argumentsRecipe, probe, rti,
+          cache = environment._bindCache;
+        if (cache == null)
+          cache = environment._bindCache = new Map();
+        argumentsRecipe = argumentsRti._canonicalRecipe;
+        probe = cache.get(argumentsRecipe);
+        if (probe != null)
+          return probe;
+        rti = A._Universe__lookupBindingRti(universe, environment, argumentsRti._kind === 9 ? argumentsRti._rest : [argumentsRti]);
+        cache.set(argumentsRecipe, rti);
+        return rti;
+      },
+      _Universe__installTypeTests(universe, rti) {
+        rti._as = A._installSpecializedAsCheck;
+        rti._is = A._installSpecializedIsTest;
+        return rti;
+      },
+      _Universe__lookupTerminalRti(universe, kind, key) {
+        var rti, t1,
+          probe = universe.eC.get(key);
+        if (probe != null)
+          return probe;
+        rti = new A.Rti(null, null);
+        rti._kind = kind;
+        rti._canonicalRecipe = key;
+        t1 = A._Universe__installTypeTests(universe, rti);
+        universe.eC.set(key, t1);
+        return t1;
+      },
+      _Universe__lookupQuestionRti(universe, baseType, normalize) {
+        var t1,
+          key = baseType._canonicalRecipe + "?",
+          probe = universe.eC.get(key);
+        if (probe != null)
+          return probe;
+        t1 = A._Universe__createQuestionRti(universe, baseType, key, normalize);
+        universe.eC.set(key, t1);
+        return t1;
+      },
+      _Universe__createQuestionRti(universe, baseType, key, normalize) {
+        var baseKind, t1, rti;
+        if (normalize) {
+          baseKind = baseType._kind;
+          t1 = true;
+          if (!A.isTopType(baseType))
+            if (!(baseType === type$.Null || baseType === type$.JSNull))
+              if (baseKind !== 6)
+                t1 = baseKind === 7 && A.isNullable(baseType._primary);
+          if (t1)
+            return baseType;
+          else if (baseKind === 1)
+            return type$.Null;
+        }
+        rti = new A.Rti(null, null);
+        rti._kind = 6;
+        rti._primary = baseType;
+        rti._canonicalRecipe = key;
+        return A._Universe__installTypeTests(universe, rti);
+      },
+      _Universe__lookupFutureOrRti(universe, baseType, normalize) {
+        var t1,
+          key = baseType._canonicalRecipe + "/",
+          probe = universe.eC.get(key);
+        if (probe != null)
+          return probe;
+        t1 = A._Universe__createFutureOrRti(universe, baseType, key, normalize);
+        universe.eC.set(key, t1);
+        return t1;
+      },
+      _Universe__createFutureOrRti(universe, baseType, key, normalize) {
+        var t1, rti;
+        if (normalize) {
+          t1 = baseType._kind;
+          if (A.isTopType(baseType) || baseType === type$.Object)
+            return baseType;
+          else if (t1 === 1)
+            return A._Universe__lookupInterfaceRti(universe, "Future", [baseType]);
+          else if (baseType === type$.Null || baseType === type$.JSNull)
+            return type$.nullable_Future_Null;
+        }
+        rti = new A.Rti(null, null);
+        rti._kind = 7;
+        rti._primary = baseType;
+        rti._canonicalRecipe = key;
+        return A._Universe__installTypeTests(universe, rti);
+      },
+      _Universe__lookupGenericFunctionParameterRti(universe, index) {
+        var rti, t1,
+          key = "" + index + "^",
+          probe = universe.eC.get(key);
+        if (probe != null)
+          return probe;
+        rti = new A.Rti(null, null);
+        rti._kind = 13;
+        rti._primary = index;
+        rti._canonicalRecipe = key;
+        t1 = A._Universe__installTypeTests(universe, rti);
+        universe.eC.set(key, t1);
+        return t1;
+      },
+      _Universe__canonicalRecipeJoin($arguments) {
+        var s, sep, i,
+          $length = $arguments.length;
+        for (s = "", sep = "", i = 0; i < $length; ++i, sep = ",")
+          s += sep + $arguments[i]._canonicalRecipe;
+        return s;
+      },
+      _Universe__canonicalRecipeJoinNamed($arguments) {
+        var s, sep, i, t1, nameSep,
+          $length = $arguments.length;
+        for (s = "", sep = "", i = 0; i < $length; i += 3, sep = ",") {
+          t1 = $arguments[i];
+          nameSep = $arguments[i + 1] ? "!" : ":";
+          s += sep + t1 + nameSep + $arguments[i + 2]._canonicalRecipe;
+        }
+        return s;
+      },
+      _Universe__lookupInterfaceRti(universe, $name, $arguments) {
+        var probe, rti, t1,
+          s = $name;
+        if ($arguments.length > 0)
+          s += "<" + A._Universe__canonicalRecipeJoin($arguments) + ">";
+        probe = universe.eC.get(s);
+        if (probe != null)
+          return probe;
+        rti = new A.Rti(null, null);
+        rti._kind = 8;
+        rti._primary = $name;
+        rti._rest = $arguments;
+        if ($arguments.length > 0)
+          rti._precomputed1 = $arguments[0];
+        rti._canonicalRecipe = s;
+        t1 = A._Universe__installTypeTests(universe, rti);
+        universe.eC.set(s, t1);
+        return t1;
+      },
+      _Universe__lookupBindingRti(universe, base, $arguments) {
+        var newBase, newArguments, key, probe, rti, t1;
+        if (base._kind === 9) {
+          newBase = base._primary;
+          newArguments = base._rest.concat($arguments);
+        } else {
+          newArguments = $arguments;
+          newBase = base;
+        }
+        key = newBase._canonicalRecipe + (";<" + A._Universe__canonicalRecipeJoin(newArguments) + ">");
+        probe = universe.eC.get(key);
+        if (probe != null)
+          return probe;
+        rti = new A.Rti(null, null);
+        rti._kind = 9;
+        rti._primary = newBase;
+        rti._rest = newArguments;
+        rti._canonicalRecipe = key;
+        t1 = A._Universe__installTypeTests(universe, rti);
+        universe.eC.set(key, t1);
+        return t1;
+      },
+      _Universe__lookupRecordRti(universe, partialShapeTag, fields) {
+        var rti, t1,
+          key = "+" + (partialShapeTag + "(" + A._Universe__canonicalRecipeJoin(fields) + ")"),
+          probe = universe.eC.get(key);
+        if (probe != null)
+          return probe;
+        rti = new A.Rti(null, null);
+        rti._kind = 10;
+        rti._primary = partialShapeTag;
+        rti._rest = fields;
+        rti._canonicalRecipe = key;
+        t1 = A._Universe__installTypeTests(universe, rti);
+        universe.eC.set(key, t1);
+        return t1;
+      },
+      _Universe__lookupFunctionRti(universe, returnType, parameters) {
+        var sep, key, probe, rti, t1,
+          s = returnType._canonicalRecipe,
+          requiredPositional = parameters._requiredPositional,
+          requiredPositionalLength = requiredPositional.length,
+          optionalPositional = parameters._optionalPositional,
+          optionalPositionalLength = optionalPositional.length,
+          named = parameters._named,
+          namedLength = named.length,
+          recipe = "(" + A._Universe__canonicalRecipeJoin(requiredPositional);
+        if (optionalPositionalLength > 0) {
+          sep = requiredPositionalLength > 0 ? "," : "";
+          recipe += sep + "[" + A._Universe__canonicalRecipeJoin(optionalPositional) + "]";
+        }
+        if (namedLength > 0) {
+          sep = requiredPositionalLength > 0 ? "," : "";
+          recipe += sep + "{" + A._Universe__canonicalRecipeJoinNamed(named) + "}";
+        }
+        key = s + (recipe + ")");
+        probe = universe.eC.get(key);
+        if (probe != null)
+          return probe;
+        rti = new A.Rti(null, null);
+        rti._kind = 11;
+        rti._primary = returnType;
+        rti._rest = parameters;
+        rti._canonicalRecipe = key;
+        t1 = A._Universe__installTypeTests(universe, rti);
+        universe.eC.set(key, t1);
+        return t1;
+      },
+      _Universe__lookupGenericFunctionRti(universe, baseFunctionType, bounds, normalize) {
+        var t1,
+          key = baseFunctionType._canonicalRecipe + ("<" + A._Universe__canonicalRecipeJoin(bounds) + ">"),
+          probe = universe.eC.get(key);
+        if (probe != null)
+          return probe;
+        t1 = A._Universe__createGenericFunctionRti(universe, baseFunctionType, bounds, key, normalize);
+        universe.eC.set(key, t1);
+        return t1;
+      },
+      _Universe__createGenericFunctionRti(universe, baseFunctionType, bounds, key, normalize) {
+        var $length, typeArguments, count, i, bound, substitutedBase, substitutedBounds, rti;
+        if (normalize) {
+          $length = bounds.length;
+          typeArguments = A._Utils_newArrayOrEmpty($length);
+          for (count = 0, i = 0; i < $length; ++i) {
+            bound = bounds[i];
+            if (bound._kind === 1) {
+              typeArguments[i] = bound;
+              ++count;
+            }
+          }
+          if (count > 0) {
+            substitutedBase = A._substitute(universe, baseFunctionType, typeArguments, 0);
+            substitutedBounds = A._substituteArray(universe, bounds, typeArguments, 0);
+            return A._Universe__lookupGenericFunctionRti(universe, substitutedBase, substitutedBounds, bounds !== substitutedBounds);
+          }
+        }
+        rti = new A.Rti(null, null);
+        rti._kind = 12;
+        rti._primary = baseFunctionType;
+        rti._rest = bounds;
+        rti._canonicalRecipe = key;
+        return A._Universe__installTypeTests(universe, rti);
+      },
+      _Parser_create(universe, environment, recipe, normalize) {
+        return { u: universe, e: environment, r: recipe, s: [], p: 0, n: normalize };
+      },
+      _Parser_parse(parser) {
+        var t1, i, ch, u, array, end, item,
+          source = parser.r,
+          stack = parser.s;
+        for (t1 = source.length, i = 0; i < t1;) {
+          ch = source.charCodeAt(i);
+          if (ch >= 48 && ch <= 57)
+            i = A._Parser_handleDigit(i + 1, ch, source, stack);
+          else if ((((ch | 32) >>> 0) - 97 & 65535) < 26 || ch === 95 || ch === 36 || ch === 124)
+            i = A._Parser_handleIdentifier(parser, i, source, stack, false);
+          else if (ch === 46)
+            i = A._Parser_handleIdentifier(parser, i, source, stack, true);
+          else {
+            ++i;
+            switch (ch) {
+              case 44:
+                break;
+              case 58:
+                stack.push(false);
+                break;
+              case 33:
+                stack.push(true);
+                break;
+              case 59:
+                stack.push(A._Parser_toType(parser.u, parser.e, stack.pop()));
+                break;
+              case 94:
+                stack.push(A._Universe__lookupGenericFunctionParameterRti(parser.u, stack.pop()));
+                break;
+              case 35:
+                stack.push(A._Universe__lookupTerminalRti(parser.u, 5, "#"));
+                break;
+              case 64:
+                stack.push(A._Universe__lookupTerminalRti(parser.u, 2, "@"));
+                break;
+              case 126:
+                stack.push(A._Universe__lookupTerminalRti(parser.u, 3, "~"));
+                break;
+              case 60:
+                stack.push(parser.p);
+                parser.p = stack.length;
+                break;
+              case 62:
+                A._Parser_handleTypeArguments(parser, stack);
+                break;
+              case 38:
+                A._Parser_handleExtendedOperations(parser, stack);
+                break;
+              case 63:
+                u = parser.u;
+                stack.push(A._Universe__lookupQuestionRti(u, A._Parser_toType(u, parser.e, stack.pop()), parser.n));
+                break;
+              case 47:
+                u = parser.u;
+                stack.push(A._Universe__lookupFutureOrRti(u, A._Parser_toType(u, parser.e, stack.pop()), parser.n));
+                break;
+              case 40:
+                stack.push(-3);
+                stack.push(parser.p);
+                parser.p = stack.length;
+                break;
+              case 41:
+                A._Parser_handleArguments(parser, stack);
+                break;
+              case 91:
+                stack.push(parser.p);
+                parser.p = stack.length;
+                break;
+              case 93:
+                array = stack.splice(parser.p);
+                A._Parser_toTypes(parser.u, parser.e, array);
+                parser.p = stack.pop();
+                stack.push(array);
+                stack.push(-1);
+                break;
+              case 123:
+                stack.push(parser.p);
+                parser.p = stack.length;
+                break;
+              case 125:
+                array = stack.splice(parser.p);
+                A._Parser_toTypesNamed(parser.u, parser.e, array);
+                parser.p = stack.pop();
+                stack.push(array);
+                stack.push(-2);
+                break;
+              case 43:
+                end = source.indexOf("(", i);
+                stack.push(source.substring(i, end));
+                stack.push(-4);
+                stack.push(parser.p);
+                parser.p = stack.length;
+                i = end + 1;
+                break;
+              default:
+                throw "Bad character " + ch;
             }
           }
         }
-      }
-      for (i = 0; i < tags.length; ++i) {
-        tag = tags[i];
-        if (/^[A-Za-z_]/.test(tag)) {
-          interceptorClass = map[tag];
-          map["!" + tag] = interceptorClass;
-          map["~" + tag] = interceptorClass;
-          map["-" + tag] = interceptorClass;
-          map["+" + tag] = interceptorClass;
-          map["*" + tag] = interceptorClass;
+        item = stack.pop();
+        return A._Parser_toType(parser.u, parser.e, item);
+      },
+      _Parser_handleDigit(i, digit, source, stack) {
+        var t1, ch,
+          value = digit - 48;
+        for (t1 = source.length; i < t1; ++i) {
+          ch = source.charCodeAt(i);
+          if (!(ch >= 48 && ch <= 57))
+            break;
+          value = value * 10 + (ch - 48);
         }
-      }
-    },
-    initHooks() {
-      var transformers, i, transformer, getTag, getUnknownTag, prototypeForTag,
-        hooks = B.C_JS_CONST0();
-      hooks = A.applyHooksTransformer(B.C_JS_CONST1, A.applyHooksTransformer(B.C_JS_CONST2, A.applyHooksTransformer(B.C_JS_CONST3, A.applyHooksTransformer(B.C_JS_CONST3, A.applyHooksTransformer(B.C_JS_CONST4, A.applyHooksTransformer(B.C_JS_CONST5, A.applyHooksTransformer(B.C_JS_CONST6(B.C_JS_CONST), hooks)))))));
-      if (typeof dartNativeDispatchHooksTransformer != "undefined") {
-        transformers = dartNativeDispatchHooksTransformer;
-        if (typeof transformers == "function")
-          transformers = [transformers];
-        if (Array.isArray(transformers))
-          for (i = 0; i < transformers.length; ++i) {
-            transformer = transformers[i];
-            if (typeof transformer == "function")
-              hooks = transformer(hooks) || hooks;
-          }
-      }
-      getTag = hooks.getTag;
-      getUnknownTag = hooks.getUnknownTag;
-      prototypeForTag = hooks.prototypeForTag;
-      $.getTagFunction = new A.initHooks_closure(getTag);
-      $.alternateTagFunction = new A.initHooks_closure0(getUnknownTag);
-      $.prototypeForTagFunction = new A.initHooks_closure1(prototypeForTag);
-    },
-    applyHooksTransformer(transformer, hooks) {
-      return transformer(hooks) || hooks;
-    },
-    createRecordTypePredicate(shape, fieldRtis) {
-      var $length = fieldRtis.length,
-        $function = init.rttc["" + $length + ";" + shape];
-      if ($function == null)
-        return null;
-      if ($length === 0)
-        return $function;
-      if ($length === $function.length)
-        return $function.apply(null, fieldRtis);
-      return $function(fieldRtis);
-    },
-    quoteStringForRegExp(string) {
-      if (/[[\]{}()*+?.\\^$|]/.test(string))
-        return string.replace(/[[\]{}()*+?.\\^$|]/g, "\\$&");
-      return string;
-    },
-    ConstantMap: function ConstantMap() {
-    },
-    ConstantStringMap: function ConstantStringMap(t0, t1, t2) {
-      this._jsIndex = t0;
-      this._values = t1;
-      this.$ti = t2;
-    },
-    SafeToStringHook: function SafeToStringHook() {
-    },
-    TypeErrorDecoder: function TypeErrorDecoder(t0, t1, t2, t3, t4, t5) {
-      var _ = this;
-      _._pattern = t0;
-      _._arguments = t1;
-      _._argumentsExpr = t2;
-      _._expr = t3;
-      _._method = t4;
-      _._receiver = t5;
-    },
-    NullError: function NullError() {
-    },
-    JsNoSuchMethodError: function JsNoSuchMethodError(t0, t1, t2) {
-      this.__js_helper$_message = t0;
-      this._method = t1;
-      this._receiver = t2;
-    },
-    UnknownJsTypeError: function UnknownJsTypeError(t0) {
-      this.__js_helper$_message = t0;
-    },
-    NullThrownFromJavaScriptException: function NullThrownFromJavaScriptException(t0) {
-      this._irritant = t0;
-    },
-    ExceptionAndStackTrace: function ExceptionAndStackTrace(t0, t1) {
-      this.dartException = t0;
-      this.stackTrace = t1;
-    },
-    _StackTrace: function _StackTrace(t0) {
-      this._exception = t0;
-      this._trace = null;
-    },
-    Closure: function Closure() {
-    },
-    Closure0Args: function Closure0Args() {
-    },
-    Closure2Args: function Closure2Args() {
-    },
-    TearOffClosure: function TearOffClosure() {
-    },
-    StaticClosure: function StaticClosure() {
-    },
-    BoundClosure: function BoundClosure(t0, t1) {
-      this._receiver = t0;
-      this._interceptor = t1;
-    },
-    RuntimeError: function RuntimeError(t0) {
-      this.message = t0;
-    },
-    JsLinkedHashMap: function JsLinkedHashMap(t0) {
-      var _ = this;
-      _.__js_helper$_length = 0;
-      _._last = _._first = _.__js_helper$_rest = _.__js_helper$_nums = _.__js_helper$_strings = null;
-      _._modifications = 0;
-      _.$ti = t0;
-    },
-    JsLinkedHashMap_addAll_closure: function JsLinkedHashMap_addAll_closure(t0) {
-      this.$this = t0;
-    },
-    LinkedHashMapCell: function LinkedHashMapCell(t0, t1) {
-      var _ = this;
-      _.hashMapCellKey = t0;
-      _.hashMapCellValue = t1;
-      _._previous = _._next = null;
-    },
-    LinkedHashMapKeysIterable: function LinkedHashMapKeysIterable(t0, t1) {
-      this._map = t0;
-      this.$ti = t1;
-    },
-    LinkedHashMapKeyIterator: function LinkedHashMapKeyIterator(t0, t1, t2, t3) {
-      var _ = this;
-      _._map = t0;
-      _._modifications = t1;
-      _._cell = t2;
-      _.__js_helper$_current = null;
-      _.$ti = t3;
-    },
-    LinkedHashMapValuesIterable: function LinkedHashMapValuesIterable(t0, t1) {
-      this._map = t0;
-      this.$ti = t1;
-    },
-    LinkedHashMapValueIterator: function LinkedHashMapValueIterator(t0, t1, t2, t3) {
-      var _ = this;
-      _._map = t0;
-      _._modifications = t1;
-      _._cell = t2;
-      _.__js_helper$_current = null;
-      _.$ti = t3;
-    },
-    LinkedHashMapEntriesIterable: function LinkedHashMapEntriesIterable(t0, t1) {
-      this._map = t0;
-      this.$ti = t1;
-    },
-    LinkedHashMapEntryIterator: function LinkedHashMapEntryIterator(t0, t1, t2, t3) {
-      var _ = this;
-      _._map = t0;
-      _._modifications = t1;
-      _._cell = t2;
-      _.__js_helper$_current = null;
-      _.$ti = t3;
-    },
-    initHooks_closure: function initHooks_closure(t0) {
-      this.getTag = t0;
-    },
-    initHooks_closure0: function initHooks_closure0(t0) {
-      this.getUnknownTag = t0;
-    },
-    initHooks_closure1: function initHooks_closure1(t0) {
-      this.prototypeForTag = t0;
-    },
-    _checkValidIndex(index, list, $length) {
-      if (index >>> 0 !== index || index >= $length)
-        throw A.wrapException(A.diagnoseIndexError(list, index));
-    },
-    NativeByteBuffer: function NativeByteBuffer() {
-    },
-    NativeTypedData: function NativeTypedData() {
-    },
-    NativeByteData: function NativeByteData() {
-    },
-    NativeTypedArray: function NativeTypedArray() {
-    },
-    NativeTypedArrayOfDouble: function NativeTypedArrayOfDouble() {
-    },
-    NativeTypedArrayOfInt: function NativeTypedArrayOfInt() {
-    },
-    NativeFloat32List: function NativeFloat32List() {
-    },
-    NativeFloat64List: function NativeFloat64List() {
-    },
-    NativeInt16List: function NativeInt16List() {
-    },
-    NativeInt32List: function NativeInt32List() {
-    },
-    NativeInt8List: function NativeInt8List() {
-    },
-    NativeUint16List: function NativeUint16List() {
-    },
-    NativeUint32List: function NativeUint32List() {
-    },
-    NativeUint8ClampedList: function NativeUint8ClampedList() {
-    },
-    NativeUint8List: function NativeUint8List() {
-    },
-    _NativeTypedArrayOfDouble_NativeTypedArray_ListMixin: function _NativeTypedArrayOfDouble_NativeTypedArray_ListMixin() {
-    },
-    _NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin: function _NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin() {
-    },
-    _NativeTypedArrayOfInt_NativeTypedArray_ListMixin: function _NativeTypedArrayOfInt_NativeTypedArray_ListMixin() {
-    },
-    _NativeTypedArrayOfInt_NativeTypedArray_ListMixin_FixedLengthListMixin: function _NativeTypedArrayOfInt_NativeTypedArray_ListMixin_FixedLengthListMixin() {
-    },
-    Rti__getFutureFromFutureOr(universe, rti) {
-      var future = rti._precomputed1;
-      return future == null ? rti._precomputed1 = A._Universe__lookupInterfaceRti(universe, "Future", [rti._primary]) : future;
-    },
-    Rti__isUnionOfFunctionType(rti) {
-      var kind = rti._kind;
-      if (kind === 6 || kind === 7)
-        return A.Rti__isUnionOfFunctionType(rti._primary);
-      return kind === 11 || kind === 12;
-    },
-    Rti__getCanonicalRecipe(rti) {
-      return rti._canonicalRecipe;
-    },
-    findType(recipe) {
-      return A._Universe_eval(init.typeUniverse, recipe, false);
-    },
-    _substitute(universe, rti, typeArguments, depth) {
-      var baseType, substitutedBaseType, interfaceTypeArguments, substitutedInterfaceTypeArguments, base, substitutedBase, $arguments, substitutedArguments, t1, fields, substitutedFields, returnType, substitutedReturnType, functionParameters, substitutedFunctionParameters, bounds, substitutedBounds, index, argument,
-        kind = rti._kind;
-      switch (kind) {
-        case 5:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-          return rti;
-        case 6:
-          baseType = rti._primary;
-          substitutedBaseType = A._substitute(universe, baseType, typeArguments, depth);
-          if (substitutedBaseType === baseType)
-            return rti;
-          return A._Universe__lookupQuestionRti(universe, substitutedBaseType, true);
-        case 7:
-          baseType = rti._primary;
-          substitutedBaseType = A._substitute(universe, baseType, typeArguments, depth);
-          if (substitutedBaseType === baseType)
-            return rti;
-          return A._Universe__lookupFutureOrRti(universe, substitutedBaseType, true);
-        case 8:
-          interfaceTypeArguments = rti._rest;
-          substitutedInterfaceTypeArguments = A._substituteArray(universe, interfaceTypeArguments, typeArguments, depth);
-          if (substitutedInterfaceTypeArguments === interfaceTypeArguments)
-            return rti;
-          return A._Universe__lookupInterfaceRti(universe, rti._primary, substitutedInterfaceTypeArguments);
-        case 9:
-          base = rti._primary;
-          substitutedBase = A._substitute(universe, base, typeArguments, depth);
-          $arguments = rti._rest;
-          substitutedArguments = A._substituteArray(universe, $arguments, typeArguments, depth);
-          if (substitutedBase === base && substitutedArguments === $arguments)
-            return rti;
-          return A._Universe__lookupBindingRti(universe, substitutedBase, substitutedArguments);
-        case 10:
-          t1 = rti._primary;
-          fields = rti._rest;
-          substitutedFields = A._substituteArray(universe, fields, typeArguments, depth);
-          if (substitutedFields === fields)
-            return rti;
-          return A._Universe__lookupRecordRti(universe, t1, substitutedFields);
-        case 11:
-          returnType = rti._primary;
-          substitutedReturnType = A._substitute(universe, returnType, typeArguments, depth);
-          functionParameters = rti._rest;
-          substitutedFunctionParameters = A._substituteFunctionParameters(universe, functionParameters, typeArguments, depth);
-          if (substitutedReturnType === returnType && substitutedFunctionParameters === functionParameters)
-            return rti;
-          return A._Universe__lookupFunctionRti(universe, substitutedReturnType, substitutedFunctionParameters);
-        case 12:
-          bounds = rti._rest;
-          depth += bounds.length;
-          substitutedBounds = A._substituteArray(universe, bounds, typeArguments, depth);
-          base = rti._primary;
-          substitutedBase = A._substitute(universe, base, typeArguments, depth);
-          if (substitutedBounds === bounds && substitutedBase === base)
-            return rti;
-          return A._Universe__lookupGenericFunctionRti(universe, substitutedBase, substitutedBounds, true);
-        case 13:
-          index = rti._primary;
-          if (index < depth)
-            return rti;
-          argument = typeArguments[index - depth];
-          if (argument == null)
-            return rti;
-          return argument;
-        default:
-          throw A.wrapException(A.AssertionError$("Attempted to substitute unexpected RTI kind " + kind));
-      }
-    },
-    _substituteArray(universe, rtiArray, typeArguments, depth) {
-      var changed, i, rti, substitutedRti,
-        $length = rtiArray.length,
-        result = A._Utils_newArrayOrEmpty($length);
-      for (changed = false, i = 0; i < $length; ++i) {
-        rti = rtiArray[i];
-        substitutedRti = A._substitute(universe, rti, typeArguments, depth);
-        if (substitutedRti !== rti)
-          changed = true;
-        result[i] = substitutedRti;
-      }
-      return changed ? result : rtiArray;
-    },
-    _substituteNamed(universe, namedArray, typeArguments, depth) {
-      var changed, i, t1, t2, rti, substitutedRti,
-        $length = namedArray.length,
-        result = A._Utils_newArrayOrEmpty($length);
-      for (changed = false, i = 0; i < $length; i += 3) {
-        t1 = namedArray[i];
-        t2 = namedArray[i + 1];
-        rti = namedArray[i + 2];
-        substitutedRti = A._substitute(universe, rti, typeArguments, depth);
-        if (substitutedRti !== rti)
-          changed = true;
-        result.splice(i, 3, t1, t2, substitutedRti);
-      }
-      return changed ? result : namedArray;
-    },
-    _substituteFunctionParameters(universe, functionParameters, typeArguments, depth) {
-      var result,
-        requiredPositional = functionParameters._requiredPositional,
-        substitutedRequiredPositional = A._substituteArray(universe, requiredPositional, typeArguments, depth),
-        optionalPositional = functionParameters._optionalPositional,
-        substitutedOptionalPositional = A._substituteArray(universe, optionalPositional, typeArguments, depth),
-        named = functionParameters._named,
-        substitutedNamed = A._substituteNamed(universe, named, typeArguments, depth);
-      if (substitutedRequiredPositional === requiredPositional && substitutedOptionalPositional === optionalPositional && substitutedNamed === named)
-        return functionParameters;
-      result = new A._FunctionParameters();
-      result._requiredPositional = substitutedRequiredPositional;
-      result._optionalPositional = substitutedOptionalPositional;
-      result._named = substitutedNamed;
-      return result;
-    },
-    _setArrayType(target, rti) {
-      target[init.arrayRti] = rti;
-      return target;
-    },
-    closureFunctionType(closure) {
-      var signature = closure.$signature;
-      if (signature != null) {
-        if (typeof signature == "number")
-          return A.getTypeFromTypesTable(signature);
-        return closure.$signature();
-      }
-      return null;
-    },
-    instanceOrFunctionType(object, testRti) {
-      var rti;
-      if (A.Rti__isUnionOfFunctionType(testRti))
-        if (object instanceof A.Closure) {
-          rti = A.closureFunctionType(object);
-          if (rti != null)
-            return rti;
-        }
-      return A.instanceType(object);
-    },
-    instanceType(object) {
-      if (object instanceof A.Object)
-        return A._instanceType(object);
-      if (Array.isArray(object))
-        return A._arrayInstanceType(object);
-      return A._instanceTypeFromConstructor(J.getInterceptor$(object));
-    },
-    _arrayInstanceType(object) {
-      var rti = object[init.arrayRti],
-        defaultRti = type$.JSArray_dynamic;
-      if (rti == null)
-        return defaultRti;
-      if (rti.constructor !== defaultRti.constructor)
-        return defaultRti;
-      return rti;
-    },
-    _instanceType(object) {
-      var rti = object.$ti;
-      return rti != null ? rti : A._instanceTypeFromConstructor(object);
-    },
-    _instanceTypeFromConstructor(instance) {
-      var $constructor = instance.constructor,
-        probe = $constructor.$ccache;
-      if (probe != null)
-        return probe;
-      return A._instanceTypeFromConstructorMiss(instance, $constructor);
-    },
-    _instanceTypeFromConstructorMiss(instance, $constructor) {
-      var effectiveConstructor = instance instanceof A.Closure ? Object.getPrototypeOf(Object.getPrototypeOf(instance)).constructor : $constructor,
-        rti = A._Universe_findErasedType(init.typeUniverse, effectiveConstructor.name);
-      $constructor.$ccache = rti;
-      return rti;
-    },
-    getTypeFromTypesTable(index) {
-      var rti,
-        table = init.types,
-        type = table[index];
-      if (typeof type == "string") {
-        rti = A._Universe_eval(init.typeUniverse, type, false);
-        table[index] = rti;
-        return rti;
-      }
-      return type;
-    },
-    getRuntimeTypeOfDartObject(object) {
-      return A.createRuntimeType(A._instanceType(object));
-    },
-    _structuralTypeOf(object) {
-      var functionRti = object instanceof A.Closure ? A.closureFunctionType(object) : null;
-      if (functionRti != null)
-        return functionRti;
-      if (type$.TrustedGetRuntimeType._is(object))
-        return J.get$runtimeType$(object)._rti;
-      if (Array.isArray(object))
-        return A._arrayInstanceType(object);
-      return A.instanceType(object);
-    },
-    createRuntimeType(rti) {
-      var t1 = rti._cachedRuntimeType;
-      return t1 == null ? rti._cachedRuntimeType = new A._Type(rti) : t1;
-    },
-    typeLiteral(recipe) {
-      return A.createRuntimeType(A._Universe_eval(init.typeUniverse, recipe, false));
-    },
-    _installSpecializedIsTest(object) {
-      var testRti = this;
-      testRti._is = A._specializedIsTest(testRti);
-      return testRti._is(object);
-    },
-    _specializedIsTest(testRti) {
-      var kind, simpleIsFn, $name, predicate, t1;
-      if (testRti === type$.Object)
-        return A._isObject;
-      if (A.isTopType(testRti))
-        return A._isTop;
-      kind = testRti._kind;
-      if (kind === 6)
-        return A._generalNullableIsTestImplementation;
-      if (kind === 1)
-        return A._isNever;
-      if (kind === 7)
-        return A._isFutureOr;
-      simpleIsFn = A._simpleSpecializedIsTest(testRti);
-      if (simpleIsFn != null)
-        return simpleIsFn;
-      if (kind === 8) {
-        $name = testRti._primary;
-        if (testRti._rest.every(A.isTopType)) {
-          testRti._specializedTestResource = "$is" + $name;
-          if ($name === "List")
-            return A._isListTestViaProperty;
-          if (testRti === type$.JSObject)
-            return A._isJSObject;
-          return A._isTestViaProperty;
-        }
-      } else if (kind === 10) {
-        predicate = A.createRecordTypePredicate(testRti._primary, testRti._rest);
-        t1 = predicate == null ? A._isNever : predicate;
-        return t1 == null ? A._asObject(t1) : t1;
-      }
-      return A._generalIsTestImplementation;
-    },
-    _simpleSpecializedIsTest(testRti) {
-      if (testRti._kind === 8) {
-        if (testRti === type$.int)
-          return A._isInt;
-        if (testRti === type$.double || testRti === type$.num)
-          return A._isNum;
-        if (testRti === type$.String)
-          return A._isString;
-        if (testRti === type$.bool)
-          return A._isBool;
-      }
-      return null;
-    },
-    _installSpecializedAsCheck(object) {
-      var testRti = this,
-        asFn = A._generalAsCheckImplementation;
-      if (A.isTopType(testRti))
-        asFn = A._asTop;
-      else if (testRti === type$.Object)
-        asFn = A._asObject;
-      else if (A.isNullable(testRti)) {
-        asFn = A._generalNullableAsCheckImplementation;
-        if (testRti === type$.nullable_int)
-          asFn = A._asIntQ;
-        else if (testRti === type$.nullable_String)
-          asFn = A._asStringQ;
-        else if (testRti === type$.nullable_bool)
-          asFn = A._asBoolQ;
-        else if (testRti === type$.nullable_num)
-          asFn = A._asNumQ;
-        else if (testRti === type$.nullable_double)
-          asFn = A._asDoubleQ;
-        else if (testRti === type$.nullable_JSObject)
-          asFn = A._asJSObjectQ;
-      } else if (testRti === type$.int)
-        asFn = A._asInt;
-      else if (testRti === type$.String)
-        asFn = A._asString;
-      else if (testRti === type$.bool)
-        asFn = A._asBool;
-      else if (testRti === type$.num)
-        asFn = A._asNum;
-      else if (testRti === type$.double)
-        asFn = A._asDouble;
-      else if (testRti === type$.JSObject)
-        asFn = A._asJSObject;
-      testRti._as = asFn;
-      return testRti._as(object);
-    },
-    _generalIsTestImplementation(object) {
-      var testRti = this;
-      if (object == null)
-        return A.isNullable(testRti);
-      return A.isSubtype(init.typeUniverse, A.instanceOrFunctionType(object, testRti), testRti);
-    },
-    _generalNullableIsTestImplementation(object) {
-      if (object == null)
-        return true;
-      return this._primary._is(object);
-    },
-    _isTestViaProperty(object) {
-      var tag, testRti = this;
-      if (object == null)
-        return A.isNullable(testRti);
-      tag = testRti._specializedTestResource;
-      if (object instanceof A.Object)
-        return !!object[tag];
-      return !!J.getInterceptor$(object)[tag];
-    },
-    _isListTestViaProperty(object) {
-      var tag, testRti = this;
-      if (object == null)
-        return A.isNullable(testRti);
-      if (typeof object != "object")
-        return false;
-      if (Array.isArray(object))
-        return true;
-      tag = testRti._specializedTestResource;
-      if (object instanceof A.Object)
-        return !!object[tag];
-      return !!J.getInterceptor$(object)[tag];
-    },
-    _isJSObject(object) {
-      var t1 = this;
-      if (object == null)
-        return false;
-      if (typeof object == "object") {
-        if (object instanceof A.Object)
-          return !!object[t1._specializedTestResource];
-        return true;
-      }
-      if (typeof object == "function")
-        return true;
-      return false;
-    },
-    _isJSObjectStandalone(object) {
-      if (typeof object == "object") {
-        if (object instanceof A.Object)
-          return type$.JSObject._is(object);
-        return true;
-      }
-      if (typeof object == "function")
-        return true;
-      return false;
-    },
-    _generalAsCheckImplementation(object) {
-      var testRti = this;
-      if (object == null) {
-        if (A.isNullable(testRti))
-          return object;
-      } else if (testRti._is(object))
-        return object;
-      throw A.initializeExceptionWrapper(A._errorForAsCheck(object, testRti), new Error());
-    },
-    _generalNullableAsCheckImplementation(object) {
-      var testRti = this;
-      if (object == null || testRti._is(object))
-        return object;
-      throw A.initializeExceptionWrapper(A._errorForAsCheck(object, testRti), new Error());
-    },
-    _errorForAsCheck(object, testRti) {
-      return new A._TypeError("TypeError: " + A._Error_compose(object, A._rtiToString(testRti, null)));
-    },
-    _Error_compose(object, checkedTypeDescription) {
-      return A.Error_safeToString(object) + ": type '" + A._rtiToString(A._structuralTypeOf(object), null) + "' is not a subtype of type '" + checkedTypeDescription + "'";
-    },
-    _TypeError__TypeError$forType(object, type) {
-      return new A._TypeError("TypeError: " + A._Error_compose(object, type));
-    },
-    _isFutureOr(object) {
-      var testRti = this;
-      return testRti._primary._is(object) || A.Rti__getFutureFromFutureOr(init.typeUniverse, testRti)._is(object);
-    },
-    _isObject(object) {
-      return object != null;
-    },
-    _asObject(object) {
-      if (object != null)
-        return object;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "Object"), new Error());
-    },
-    _isTop(object) {
-      return true;
-    },
-    _asTop(object) {
-      return object;
-    },
-    _isNever(object) {
-      return false;
-    },
-    _isBool(object) {
-      return true === object || false === object;
-    },
-    _asBool(object) {
-      if (true === object)
-        return true;
-      if (false === object)
-        return false;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "bool"), new Error());
-    },
-    _asBoolQ(object) {
-      if (true === object)
-        return true;
-      if (false === object)
-        return false;
-      if (object == null)
-        return object;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "bool?"), new Error());
-    },
-    _asDouble(object) {
-      if (typeof object == "number")
-        return object;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "double"), new Error());
-    },
-    _asDoubleQ(object) {
-      if (typeof object == "number")
-        return object;
-      if (object == null)
-        return object;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "double?"), new Error());
-    },
-    _isInt(object) {
-      return typeof object == "number" && Math.floor(object) === object;
-    },
-    _asInt(object) {
-      if (typeof object == "number" && Math.floor(object) === object)
-        return object;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "int"), new Error());
-    },
-    _asIntQ(object) {
-      if (typeof object == "number" && Math.floor(object) === object)
-        return object;
-      if (object == null)
-        return object;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "int?"), new Error());
-    },
-    _isNum(object) {
-      return typeof object == "number";
-    },
-    _asNum(object) {
-      if (typeof object == "number")
-        return object;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "num"), new Error());
-    },
-    _asNumQ(object) {
-      if (typeof object == "number")
-        return object;
-      if (object == null)
-        return object;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "num?"), new Error());
-    },
-    _isString(object) {
-      return typeof object == "string";
-    },
-    _asString(object) {
-      if (typeof object == "string")
-        return object;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "String"), new Error());
-    },
-    _asStringQ(object) {
-      if (typeof object == "string")
-        return object;
-      if (object == null)
-        return object;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "String?"), new Error());
-    },
-    _asJSObject(object) {
-      if (A._isJSObjectStandalone(object))
-        return object;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "JSObject"), new Error());
-    },
-    _asJSObjectQ(object) {
-      if (object == null)
-        return object;
-      if (A._isJSObjectStandalone(object))
-        return object;
-      throw A.initializeExceptionWrapper(A._TypeError__TypeError$forType(object, "JSObject?"), new Error());
-    },
-    _rtiArrayToString(array, genericContext) {
-      var s, sep, i;
-      for (s = "", sep = "", i = 0; i < array.length; ++i, sep = ", ")
-        s += sep + A._rtiToString(array[i], genericContext);
-      return s;
-    },
-    _recordRtiToString(recordType, genericContext) {
-      var fieldCount, names, namesIndex, s, comma, i,
-        partialShape = recordType._primary,
-        fields = recordType._rest;
-      if ("" === partialShape)
-        return "(" + A._rtiArrayToString(fields, genericContext) + ")";
-      fieldCount = fields.length;
-      names = partialShape.split(",");
-      namesIndex = names.length - fieldCount;
-      for (s = "(", comma = "", i = 0; i < fieldCount; ++i, comma = ", ") {
-        s += comma;
-        if (namesIndex === 0)
-          s += "{";
-        s += A._rtiToString(fields[i], genericContext);
-        if (namesIndex >= 0)
-          s += " " + names[namesIndex];
-        ++namesIndex;
-      }
-      return s + "})";
-    },
-    _functionRtiToString(functionType, genericContext, bounds) {
-      var boundsLength, offset, i, t1, typeParametersText, typeSep, t2, t3, boundRti, kind, parameters, requiredPositional, requiredPositionalLength, optionalPositional, optionalPositionalLength, named, namedLength, returnTypeText, argumentsText, sep, _s2_ = ", ", outerContextLength = null;
-      if (bounds != null) {
-        boundsLength = bounds.length;
-        if (genericContext == null)
-          genericContext = A._setArrayType([], type$.JSArray_String);
-        else
-          outerContextLength = genericContext.length;
-        offset = genericContext.length;
-        for (i = boundsLength; i > 0; --i)
-          B.JSArray_methods.add$1(genericContext, "T" + (offset + i));
-        for (t1 = type$.nullable_Object, typeParametersText = "<", typeSep = "", i = 0; i < boundsLength; ++i, typeSep = _s2_) {
-          t2 = genericContext.length;
-          t3 = t2 - 1 - i;
-          if (!(t3 >= 0))
-            return A.ioore(genericContext, t3);
-          typeParametersText = typeParametersText + typeSep + genericContext[t3];
-          boundRti = bounds[i];
-          kind = boundRti._kind;
-          if (!(kind === 2 || kind === 3 || kind === 4 || kind === 5 || boundRti === t1))
-            typeParametersText += " extends " + A._rtiToString(boundRti, genericContext);
-        }
-        typeParametersText += ">";
-      } else
-        typeParametersText = "";
-      t1 = functionType._primary;
-      parameters = functionType._rest;
-      requiredPositional = parameters._requiredPositional;
-      requiredPositionalLength = requiredPositional.length;
-      optionalPositional = parameters._optionalPositional;
-      optionalPositionalLength = optionalPositional.length;
-      named = parameters._named;
-      namedLength = named.length;
-      returnTypeText = A._rtiToString(t1, genericContext);
-      for (argumentsText = "", sep = "", i = 0; i < requiredPositionalLength; ++i, sep = _s2_)
-        argumentsText += sep + A._rtiToString(requiredPositional[i], genericContext);
-      if (optionalPositionalLength > 0) {
-        argumentsText += sep + "[";
-        for (sep = "", i = 0; i < optionalPositionalLength; ++i, sep = _s2_)
-          argumentsText += sep + A._rtiToString(optionalPositional[i], genericContext);
-        argumentsText += "]";
-      }
-      if (namedLength > 0) {
-        argumentsText += sep + "{";
-        for (sep = "", i = 0; i < namedLength; i += 3, sep = _s2_) {
-          argumentsText += sep;
-          if (named[i + 1])
-            argumentsText += "required ";
-          argumentsText += A._rtiToString(named[i + 2], genericContext) + " " + named[i];
-        }
-        argumentsText += "}";
-      }
-      if (outerContextLength != null) {
-        genericContext.toString;
-        genericContext.length = outerContextLength;
-      }
-      return typeParametersText + "(" + argumentsText + ") => " + returnTypeText;
-    },
-    _rtiToString(rti, genericContext) {
-      var questionArgument, s, argumentKind, $name, $arguments, t1, t2,
-        kind = rti._kind;
-      if (kind === 5)
-        return "erased";
-      if (kind === 2)
-        return "dynamic";
-      if (kind === 3)
-        return "void";
-      if (kind === 1)
-        return "Never";
-      if (kind === 4)
-        return "any";
-      if (kind === 6) {
-        questionArgument = rti._primary;
-        s = A._rtiToString(questionArgument, genericContext);
-        argumentKind = questionArgument._kind;
-        return (argumentKind === 11 || argumentKind === 12 ? "(" + s + ")" : s) + "?";
-      }
-      if (kind === 7)
-        return "FutureOr<" + A._rtiToString(rti._primary, genericContext) + ">";
-      if (kind === 8) {
-        $name = A._unminifyOrTag(rti._primary);
-        $arguments = rti._rest;
-        return $arguments.length > 0 ? $name + ("<" + A._rtiArrayToString($arguments, genericContext) + ">") : $name;
-      }
-      if (kind === 10)
-        return A._recordRtiToString(rti, genericContext);
-      if (kind === 11)
-        return A._functionRtiToString(rti, genericContext, null);
-      if (kind === 12)
-        return A._functionRtiToString(rti._primary, genericContext, rti._rest);
-      if (kind === 13) {
-        t1 = rti._primary;
-        t2 = genericContext.length;
-        t1 = t2 - 1 - t1;
-        if (!(t1 >= 0 && t1 < t2))
-          return A.ioore(genericContext, t1);
-        return genericContext[t1];
-      }
-      return "?";
-    },
-    _unminifyOrTag(rawClassName) {
-      var preserved = init.mangledGlobalNames[rawClassName];
-      if (preserved != null)
-        return preserved;
-      return rawClassName;
-    },
-    _Universe_findRule(universe, targetType) {
-      var rule = universe.tR[targetType];
-      while (typeof rule == "string")
-        rule = universe.tR[rule];
-      return rule;
-    },
-    _Universe_findErasedType(universe, cls) {
-      var $length, erased, $arguments, i, $interface,
-        metadata = universe.eT,
-        probe = metadata[cls];
-      if (probe == null)
-        return A._Universe_eval(universe, cls, false);
-      else if (typeof probe == "number") {
-        $length = probe;
-        erased = A._Universe__lookupTerminalRti(universe, 5, "#");
-        $arguments = A._Utils_newArrayOrEmpty($length);
-        for (i = 0; i < $length; ++i)
-          $arguments[i] = erased;
-        $interface = A._Universe__lookupInterfaceRti(universe, cls, $arguments);
-        metadata[cls] = $interface;
-        return $interface;
-      } else
-        return probe;
-    },
-    _Universe_addRules(universe, rules) {
-      return A._Utils_objectAssign(universe.tR, rules);
-    },
-    _Universe_addErasedTypes(universe, types) {
-      return A._Utils_objectAssign(universe.eT, types);
-    },
-    _Universe_eval(universe, recipe, normalize) {
-      var rti,
-        cache = universe.eC,
-        probe = cache.get(recipe);
-      if (probe != null)
-        return probe;
-      rti = A._Parser_parse(A._Parser_create(universe, null, recipe, false));
-      cache.set(recipe, rti);
-      return rti;
-    },
-    _Universe_evalInEnvironment(universe, environment, recipe) {
-      var probe, rti,
-        cache = environment._evalCache;
-      if (cache == null)
-        cache = environment._evalCache = new Map();
-      probe = cache.get(recipe);
-      if (probe != null)
-        return probe;
-      rti = A._Parser_parse(A._Parser_create(universe, environment, recipe, true));
-      cache.set(recipe, rti);
-      return rti;
-    },
-    _Universe_bind(universe, environment, argumentsRti) {
-      var argumentsRecipe, probe, rti,
-        cache = environment._bindCache;
-      if (cache == null)
-        cache = environment._bindCache = new Map();
-      argumentsRecipe = argumentsRti._canonicalRecipe;
-      probe = cache.get(argumentsRecipe);
-      if (probe != null)
-        return probe;
-      rti = A._Universe__lookupBindingRti(universe, environment, argumentsRti._kind === 9 ? argumentsRti._rest : [argumentsRti]);
-      cache.set(argumentsRecipe, rti);
-      return rti;
-    },
-    _Universe__installTypeTests(universe, rti) {
-      rti._as = A._installSpecializedAsCheck;
-      rti._is = A._installSpecializedIsTest;
-      return rti;
-    },
-    _Universe__lookupTerminalRti(universe, kind, key) {
-      var rti, t1,
-        probe = universe.eC.get(key);
-      if (probe != null)
-        return probe;
-      rti = new A.Rti(null, null);
-      rti._kind = kind;
-      rti._canonicalRecipe = key;
-      t1 = A._Universe__installTypeTests(universe, rti);
-      universe.eC.set(key, t1);
-      return t1;
-    },
-    _Universe__lookupQuestionRti(universe, baseType, normalize) {
-      var t1,
-        key = baseType._canonicalRecipe + "?",
-        probe = universe.eC.get(key);
-      if (probe != null)
-        return probe;
-      t1 = A._Universe__createQuestionRti(universe, baseType, key, normalize);
-      universe.eC.set(key, t1);
-      return t1;
-    },
-    _Universe__createQuestionRti(universe, baseType, key, normalize) {
-      var baseKind, t1, rti;
-      if (normalize) {
-        baseKind = baseType._kind;
-        t1 = true;
-        if (!A.isTopType(baseType))
-          if (!(baseType === type$.Null || baseType === type$.JSNull))
-            if (baseKind !== 6)
-              t1 = baseKind === 7 && A.isNullable(baseType._primary);
-        if (t1)
-          return baseType;
-        else if (baseKind === 1)
-          return type$.Null;
-      }
-      rti = new A.Rti(null, null);
-      rti._kind = 6;
-      rti._primary = baseType;
-      rti._canonicalRecipe = key;
-      return A._Universe__installTypeTests(universe, rti);
-    },
-    _Universe__lookupFutureOrRti(universe, baseType, normalize) {
-      var t1,
-        key = baseType._canonicalRecipe + "/",
-        probe = universe.eC.get(key);
-      if (probe != null)
-        return probe;
-      t1 = A._Universe__createFutureOrRti(universe, baseType, key, normalize);
-      universe.eC.set(key, t1);
-      return t1;
-    },
-    _Universe__createFutureOrRti(universe, baseType, key, normalize) {
-      var t1, rti;
-      if (normalize) {
-        t1 = baseType._kind;
-        if (A.isTopType(baseType) || baseType === type$.Object)
-          return baseType;
-        else if (t1 === 1)
-          return A._Universe__lookupInterfaceRti(universe, "Future", [baseType]);
-        else if (baseType === type$.Null || baseType === type$.JSNull)
-          return type$.nullable_Future_Null;
-      }
-      rti = new A.Rti(null, null);
-      rti._kind = 7;
-      rti._primary = baseType;
-      rti._canonicalRecipe = key;
-      return A._Universe__installTypeTests(universe, rti);
-    },
-    _Universe__lookupGenericFunctionParameterRti(universe, index) {
-      var rti, t1,
-        key = "" + index + "^",
-        probe = universe.eC.get(key);
-      if (probe != null)
-        return probe;
-      rti = new A.Rti(null, null);
-      rti._kind = 13;
-      rti._primary = index;
-      rti._canonicalRecipe = key;
-      t1 = A._Universe__installTypeTests(universe, rti);
-      universe.eC.set(key, t1);
-      return t1;
-    },
-    _Universe__canonicalRecipeJoin($arguments) {
-      var s, sep, i,
-        $length = $arguments.length;
-      for (s = "", sep = "", i = 0; i < $length; ++i, sep = ",")
-        s += sep + $arguments[i]._canonicalRecipe;
-      return s;
-    },
-    _Universe__canonicalRecipeJoinNamed($arguments) {
-      var s, sep, i, t1, nameSep,
-        $length = $arguments.length;
-      for (s = "", sep = "", i = 0; i < $length; i += 3, sep = ",") {
-        t1 = $arguments[i];
-        nameSep = $arguments[i + 1] ? "!" : ":";
-        s += sep + t1 + nameSep + $arguments[i + 2]._canonicalRecipe;
-      }
-      return s;
-    },
-    _Universe__lookupInterfaceRti(universe, $name, $arguments) {
-      var probe, rti, t1,
-        s = $name;
-      if ($arguments.length > 0)
-        s += "<" + A._Universe__canonicalRecipeJoin($arguments) + ">";
-      probe = universe.eC.get(s);
-      if (probe != null)
-        return probe;
-      rti = new A.Rti(null, null);
-      rti._kind = 8;
-      rti._primary = $name;
-      rti._rest = $arguments;
-      if ($arguments.length > 0)
-        rti._precomputed1 = $arguments[0];
-      rti._canonicalRecipe = s;
-      t1 = A._Universe__installTypeTests(universe, rti);
-      universe.eC.set(s, t1);
-      return t1;
-    },
-    _Universe__lookupBindingRti(universe, base, $arguments) {
-      var newBase, newArguments, key, probe, rti, t1;
-      if (base._kind === 9) {
-        newBase = base._primary;
-        newArguments = base._rest.concat($arguments);
-      } else {
-        newArguments = $arguments;
-        newBase = base;
-      }
-      key = newBase._canonicalRecipe + (";<" + A._Universe__canonicalRecipeJoin(newArguments) + ">");
-      probe = universe.eC.get(key);
-      if (probe != null)
-        return probe;
-      rti = new A.Rti(null, null);
-      rti._kind = 9;
-      rti._primary = newBase;
-      rti._rest = newArguments;
-      rti._canonicalRecipe = key;
-      t1 = A._Universe__installTypeTests(universe, rti);
-      universe.eC.set(key, t1);
-      return t1;
-    },
-    _Universe__lookupRecordRti(universe, partialShapeTag, fields) {
-      var rti, t1,
-        key = "+" + (partialShapeTag + "(" + A._Universe__canonicalRecipeJoin(fields) + ")"),
-        probe = universe.eC.get(key);
-      if (probe != null)
-        return probe;
-      rti = new A.Rti(null, null);
-      rti._kind = 10;
-      rti._primary = partialShapeTag;
-      rti._rest = fields;
-      rti._canonicalRecipe = key;
-      t1 = A._Universe__installTypeTests(universe, rti);
-      universe.eC.set(key, t1);
-      return t1;
-    },
-    _Universe__lookupFunctionRti(universe, returnType, parameters) {
-      var sep, key, probe, rti, t1,
-        s = returnType._canonicalRecipe,
-        requiredPositional = parameters._requiredPositional,
-        requiredPositionalLength = requiredPositional.length,
-        optionalPositional = parameters._optionalPositional,
-        optionalPositionalLength = optionalPositional.length,
-        named = parameters._named,
-        namedLength = named.length,
-        recipe = "(" + A._Universe__canonicalRecipeJoin(requiredPositional);
-      if (optionalPositionalLength > 0) {
-        sep = requiredPositionalLength > 0 ? "," : "";
-        recipe += sep + "[" + A._Universe__canonicalRecipeJoin(optionalPositional) + "]";
-      }
-      if (namedLength > 0) {
-        sep = requiredPositionalLength > 0 ? "," : "";
-        recipe += sep + "{" + A._Universe__canonicalRecipeJoinNamed(named) + "}";
-      }
-      key = s + (recipe + ")");
-      probe = universe.eC.get(key);
-      if (probe != null)
-        return probe;
-      rti = new A.Rti(null, null);
-      rti._kind = 11;
-      rti._primary = returnType;
-      rti._rest = parameters;
-      rti._canonicalRecipe = key;
-      t1 = A._Universe__installTypeTests(universe, rti);
-      universe.eC.set(key, t1);
-      return t1;
-    },
-    _Universe__lookupGenericFunctionRti(universe, baseFunctionType, bounds, normalize) {
-      var t1,
-        key = baseFunctionType._canonicalRecipe + ("<" + A._Universe__canonicalRecipeJoin(bounds) + ">"),
-        probe = universe.eC.get(key);
-      if (probe != null)
-        return probe;
-      t1 = A._Universe__createGenericFunctionRti(universe, baseFunctionType, bounds, key, normalize);
-      universe.eC.set(key, t1);
-      return t1;
-    },
-    _Universe__createGenericFunctionRti(universe, baseFunctionType, bounds, key, normalize) {
-      var $length, typeArguments, count, i, bound, substitutedBase, substitutedBounds, rti;
-      if (normalize) {
-        $length = bounds.length;
-        typeArguments = A._Utils_newArrayOrEmpty($length);
-        for (count = 0, i = 0; i < $length; ++i) {
-          bound = bounds[i];
-          if (bound._kind === 1) {
-            typeArguments[i] = bound;
-            ++count;
+        stack.push(value);
+        return i;
+      },
+      _Parser_handleIdentifier(parser, start, source, stack, hasPeriod) {
+        var t1, ch, t2, string, environment, recipe,
+          i = start + 1;
+        for (t1 = source.length; i < t1; ++i) {
+          ch = source.charCodeAt(i);
+          if (ch === 46) {
+            if (hasPeriod)
+              break;
+            hasPeriod = true;
+          } else {
+            if (!((((ch | 32) >>> 0) - 97 & 65535) < 26 || ch === 95 || ch === 36 || ch === 124))
+              t2 = ch >= 48 && ch <= 57;
+            else
+              t2 = true;
+            if (!t2)
+              break;
           }
         }
-        if (count > 0) {
-          substitutedBase = A._substitute(universe, baseFunctionType, typeArguments, 0);
-          substitutedBounds = A._substituteArray(universe, bounds, typeArguments, 0);
-          return A._Universe__lookupGenericFunctionRti(universe, substitutedBase, substitutedBounds, bounds !== substitutedBounds);
-        }
-      }
-      rti = new A.Rti(null, null);
-      rti._kind = 12;
-      rti._primary = baseFunctionType;
-      rti._rest = bounds;
-      rti._canonicalRecipe = key;
-      return A._Universe__installTypeTests(universe, rti);
-    },
-    _Parser_create(universe, environment, recipe, normalize) {
-      return {u: universe, e: environment, r: recipe, s: [], p: 0, n: normalize};
-    },
-    _Parser_parse(parser) {
-      var t1, i, ch, u, array, end, item,
-        source = parser.r,
-        stack = parser.s;
-      for (t1 = source.length, i = 0; i < t1;) {
-        ch = source.charCodeAt(i);
-        if (ch >= 48 && ch <= 57)
-          i = A._Parser_handleDigit(i + 1, ch, source, stack);
-        else if ((((ch | 32) >>> 0) - 97 & 65535) < 26 || ch === 95 || ch === 36 || ch === 124)
-          i = A._Parser_handleIdentifier(parser, i, source, stack, false);
-        else if (ch === 46)
-          i = A._Parser_handleIdentifier(parser, i, source, stack, true);
+        string = source.substring(start, i);
+        if (hasPeriod) {
+          t1 = parser.u;
+          environment = parser.e;
+          if (environment._kind === 9)
+            environment = environment._primary;
+          recipe = A._Universe_findRule(t1, environment._primary)[string];
+          if (recipe == null)
+            A.throwExpression('No "' + string + '" in "' + A.Rti__getCanonicalRecipe(environment) + '"');
+          stack.push(A._Universe_evalInEnvironment(t1, environment, recipe));
+        } else
+          stack.push(string);
+        return i;
+      },
+      _Parser_handleTypeArguments(parser, stack) {
+        var base,
+          universe = parser.u,
+          $arguments = A._Parser_collectArray(parser, stack),
+          head = stack.pop();
+        if (typeof head == "string")
+          stack.push(A._Universe__lookupInterfaceRti(universe, head, $arguments));
         else {
-          ++i;
-          switch (ch) {
-            case 44:
-              break;
-            case 58:
-              stack.push(false);
-              break;
-            case 33:
-              stack.push(true);
-              break;
-            case 59:
-              stack.push(A._Parser_toType(parser.u, parser.e, stack.pop()));
-              break;
-            case 94:
-              stack.push(A._Universe__lookupGenericFunctionParameterRti(parser.u, stack.pop()));
-              break;
-            case 35:
-              stack.push(A._Universe__lookupTerminalRti(parser.u, 5, "#"));
-              break;
-            case 64:
-              stack.push(A._Universe__lookupTerminalRti(parser.u, 2, "@"));
-              break;
-            case 126:
-              stack.push(A._Universe__lookupTerminalRti(parser.u, 3, "~"));
-              break;
-            case 60:
-              stack.push(parser.p);
-              parser.p = stack.length;
-              break;
-            case 62:
-              A._Parser_handleTypeArguments(parser, stack);
-              break;
-            case 38:
-              A._Parser_handleExtendedOperations(parser, stack);
-              break;
-            case 63:
-              u = parser.u;
-              stack.push(A._Universe__lookupQuestionRti(u, A._Parser_toType(u, parser.e, stack.pop()), parser.n));
-              break;
-            case 47:
-              u = parser.u;
-              stack.push(A._Universe__lookupFutureOrRti(u, A._Parser_toType(u, parser.e, stack.pop()), parser.n));
-              break;
-            case 40:
-              stack.push(-3);
-              stack.push(parser.p);
-              parser.p = stack.length;
-              break;
-            case 41:
-              A._Parser_handleArguments(parser, stack);
-              break;
-            case 91:
-              stack.push(parser.p);
-              parser.p = stack.length;
-              break;
-            case 93:
-              array = stack.splice(parser.p);
-              A._Parser_toTypes(parser.u, parser.e, array);
-              parser.p = stack.pop();
-              stack.push(array);
-              stack.push(-1);
-              break;
-            case 123:
-              stack.push(parser.p);
-              parser.p = stack.length;
-              break;
-            case 125:
-              array = stack.splice(parser.p);
-              A._Parser_toTypesNamed(parser.u, parser.e, array);
-              parser.p = stack.pop();
-              stack.push(array);
-              stack.push(-2);
-              break;
-            case 43:
-              end = source.indexOf("(", i);
-              stack.push(source.substring(i, end));
-              stack.push(-4);
-              stack.push(parser.p);
-              parser.p = stack.length;
-              i = end + 1;
+          base = A._Parser_toType(universe, parser.e, head);
+          switch (base._kind) {
+            case 11:
+              stack.push(A._Universe__lookupGenericFunctionRti(universe, base, $arguments, parser.n));
               break;
             default:
-              throw "Bad character " + ch;
+              stack.push(A._Universe__lookupBindingRti(universe, base, $arguments));
+              break;
           }
         }
-      }
-      item = stack.pop();
-      return A._Parser_toType(parser.u, parser.e, item);
-    },
-    _Parser_handleDigit(i, digit, source, stack) {
-      var t1, ch,
-        value = digit - 48;
-      for (t1 = source.length; i < t1; ++i) {
-        ch = source.charCodeAt(i);
-        if (!(ch >= 48 && ch <= 57))
-          break;
-        value = value * 10 + (ch - 48);
-      }
-      stack.push(value);
-      return i;
-    },
-    _Parser_handleIdentifier(parser, start, source, stack, hasPeriod) {
-      var t1, ch, t2, string, environment, recipe,
-        i = start + 1;
-      for (t1 = source.length; i < t1; ++i) {
-        ch = source.charCodeAt(i);
-        if (ch === 46) {
-          if (hasPeriod)
-            break;
-          hasPeriod = true;
-        } else {
-          if (!((((ch | 32) >>> 0) - 97 & 65535) < 26 || ch === 95 || ch === 36 || ch === 124))
-            t2 = ch >= 48 && ch <= 57;
-          else
-            t2 = true;
-          if (!t2)
-            break;
-        }
-      }
-      string = source.substring(start, i);
-      if (hasPeriod) {
-        t1 = parser.u;
-        environment = parser.e;
-        if (environment._kind === 9)
-          environment = environment._primary;
-        recipe = A._Universe_findRule(t1, environment._primary)[string];
-        if (recipe == null)
-          A.throwExpression('No "' + string + '" in "' + A.Rti__getCanonicalRecipe(environment) + '"');
-        stack.push(A._Universe_evalInEnvironment(t1, environment, recipe));
-      } else
-        stack.push(string);
-      return i;
-    },
-    _Parser_handleTypeArguments(parser, stack) {
-      var base,
-        universe = parser.u,
-        $arguments = A._Parser_collectArray(parser, stack),
+      },
+      _Parser_handleArguments(parser, stack) {
+        var requiredPositional, returnType, parameters,
+          universe = parser.u,
+          head = stack.pop(),
+          optionalPositional = null, named = null;
+        if (typeof head == "number")
+          switch (head) {
+            case -1:
+              optionalPositional = stack.pop();
+              break;
+            case -2:
+              named = stack.pop();
+              break;
+            default:
+              stack.push(head);
+              break;
+          }
+        else
+          stack.push(head);
+        requiredPositional = A._Parser_collectArray(parser, stack);
         head = stack.pop();
-      if (typeof head == "string")
-        stack.push(A._Universe__lookupInterfaceRti(universe, head, $arguments));
-      else {
-        base = A._Parser_toType(universe, parser.e, head);
-        switch (base._kind) {
-          case 11:
-            stack.push(A._Universe__lookupGenericFunctionRti(universe, base, $arguments, parser.n));
-            break;
-          default:
-            stack.push(A._Universe__lookupBindingRti(universe, base, $arguments));
-            break;
-        }
-      }
-    },
-    _Parser_handleArguments(parser, stack) {
-      var requiredPositional, returnType, parameters,
-        universe = parser.u,
-        head = stack.pop(),
-        optionalPositional = null, named = null;
-      if (typeof head == "number")
         switch (head) {
-          case -1:
-            optionalPositional = stack.pop();
-            break;
-          case -2:
-            named = stack.pop();
-            break;
+          case -3:
+            head = stack.pop();
+            if (optionalPositional == null)
+              optionalPositional = universe.sEA;
+            if (named == null)
+              named = universe.sEA;
+            returnType = A._Parser_toType(universe, parser.e, head);
+            parameters = new A._FunctionParameters();
+            parameters._requiredPositional = requiredPositional;
+            parameters._optionalPositional = optionalPositional;
+            parameters._named = named;
+            stack.push(A._Universe__lookupFunctionRti(universe, returnType, parameters));
+            return;
+          case -4:
+            stack.push(A._Universe__lookupRecordRti(universe, stack.pop(), requiredPositional));
+            return;
           default:
-            stack.push(head);
-            break;
+            throw A.wrapException(A.AssertionError$("Unexpected state under `()`: " + A.S(head)));
         }
-      else
-        stack.push(head);
-      requiredPositional = A._Parser_collectArray(parser, stack);
-      head = stack.pop();
-      switch (head) {
-        case -3:
-          head = stack.pop();
-          if (optionalPositional == null)
-            optionalPositional = universe.sEA;
-          if (named == null)
-            named = universe.sEA;
-          returnType = A._Parser_toType(universe, parser.e, head);
-          parameters = new A._FunctionParameters();
-          parameters._requiredPositional = requiredPositional;
-          parameters._optionalPositional = optionalPositional;
-          parameters._named = named;
-          stack.push(A._Universe__lookupFunctionRti(universe, returnType, parameters));
+      },
+      _Parser_handleExtendedOperations(parser, stack) {
+        var $top = stack.pop();
+        if (0 === $top) {
+          stack.push(A._Universe__lookupTerminalRti(parser.u, 1, "0&"));
           return;
-        case -4:
-          stack.push(A._Universe__lookupRecordRti(universe, stack.pop(), requiredPositional));
+        }
+        if (1 === $top) {
+          stack.push(A._Universe__lookupTerminalRti(parser.u, 4, "1&"));
           return;
-        default:
-          throw A.wrapException(A.AssertionError$("Unexpected state under `()`: " + A.S(head)));
-      }
-    },
-    _Parser_handleExtendedOperations(parser, stack) {
-      var $top = stack.pop();
-      if (0 === $top) {
-        stack.push(A._Universe__lookupTerminalRti(parser.u, 1, "0&"));
-        return;
-      }
-      if (1 === $top) {
-        stack.push(A._Universe__lookupTerminalRti(parser.u, 4, "1&"));
-        return;
-      }
-      throw A.wrapException(A.AssertionError$("Unexpected extended operation " + A.S($top)));
-    },
-    _Parser_collectArray(parser, stack) {
-      var array = stack.splice(parser.p);
-      A._Parser_toTypes(parser.u, parser.e, array);
-      parser.p = stack.pop();
-      return array;
-    },
-    _Parser_toType(universe, environment, item) {
-      if (typeof item == "string")
-        return A._Universe__lookupInterfaceRti(universe, item, universe.sEA);
-      else if (typeof item == "number") {
-        environment.toString;
-        return A._Parser_indexToType(universe, environment, item);
-      } else
-        return item;
-    },
-    _Parser_toTypes(universe, environment, items) {
-      var i,
-        $length = items.length;
-      for (i = 0; i < $length; ++i)
-        items[i] = A._Parser_toType(universe, environment, items[i]);
-    },
-    _Parser_toTypesNamed(universe, environment, items) {
-      var i,
-        $length = items.length;
-      for (i = 2; i < $length; i += 3)
-        items[i] = A._Parser_toType(universe, environment, items[i]);
-    },
-    _Parser_indexToType(universe, environment, index) {
-      var typeArguments, len,
-        kind = environment._kind;
-      if (kind === 9) {
-        if (index === 0)
-          return environment._primary;
+        }
+        throw A.wrapException(A.AssertionError$("Unexpected extended operation " + A.S($top)));
+      },
+      _Parser_collectArray(parser, stack) {
+        var array = stack.splice(parser.p);
+        A._Parser_toTypes(parser.u, parser.e, array);
+        parser.p = stack.pop();
+        return array;
+      },
+      _Parser_toType(universe, environment, item) {
+        if (typeof item == "string")
+          return A._Universe__lookupInterfaceRti(universe, item, universe.sEA);
+        else if (typeof item == "number") {
+          environment.toString;
+          return A._Parser_indexToType(universe, environment, item);
+        } else
+          return item;
+      },
+      _Parser_toTypes(universe, environment, items) {
+        var i,
+          $length = items.length;
+        for (i = 0; i < $length; ++i)
+          items[i] = A._Parser_toType(universe, environment, items[i]);
+      },
+      _Parser_toTypesNamed(universe, environment, items) {
+        var i,
+          $length = items.length;
+        for (i = 2; i < $length; i += 3)
+          items[i] = A._Parser_toType(universe, environment, items[i]);
+      },
+      _Parser_indexToType(universe, environment, index) {
+        var typeArguments, len,
+          kind = environment._kind;
+        if (kind === 9) {
+          if (index === 0)
+            return environment._primary;
+          typeArguments = environment._rest;
+          len = typeArguments.length;
+          if (index <= len)
+            return typeArguments[index - 1];
+          index -= len;
+          environment = environment._primary;
+          kind = environment._kind;
+        } else if (index === 0)
+          return environment;
+        if (kind !== 8)
+          throw A.wrapException(A.AssertionError$("Indexed base must be an interface type"));
         typeArguments = environment._rest;
-        len = typeArguments.length;
-        if (index <= len)
+        if (index <= typeArguments.length)
           return typeArguments[index - 1];
-        index -= len;
-        environment = environment._primary;
-        kind = environment._kind;
-      } else if (index === 0)
-        return environment;
-      if (kind !== 8)
-        throw A.wrapException(A.AssertionError$("Indexed base must be an interface type"));
-      typeArguments = environment._rest;
-      if (index <= typeArguments.length)
-        return typeArguments[index - 1];
-      throw A.wrapException(A.AssertionError$("Bad index " + index + " for " + environment.toString$0(0)));
-    },
-    isSubtype(universe, s, t) {
-      var result,
-        sCache = s._isSubtypeCache;
-      if (sCache == null)
-        sCache = s._isSubtypeCache = new Map();
-      result = sCache.get(t);
-      if (result == null) {
-        result = A._isSubtype(universe, s, null, t, null);
-        sCache.set(t, result);
-      }
-      return result;
-    },
-    _isSubtype(universe, s, sEnv, t, tEnv) {
-      var sKind, leftTypeVariable, tKind, t1, t2, sBounds, tBounds, sLength, i, sBound, tBound;
-      if (s === t)
-        return true;
-      if (A.isTopType(t))
-        return true;
-      sKind = s._kind;
-      if (sKind === 4)
-        return true;
-      if (A.isTopType(s))
+        throw A.wrapException(A.AssertionError$("Bad index " + index + " for " + environment.toString$0(0)));
+      },
+      isSubtype(universe, s, t) {
+        var result,
+          sCache = s._isSubtypeCache;
+        if (sCache == null)
+          sCache = s._isSubtypeCache = new Map();
+        result = sCache.get(t);
+        if (result == null) {
+          result = A._isSubtype(universe, s, null, t, null);
+          sCache.set(t, result);
+        }
+        return result;
+      },
+      _isSubtype(universe, s, sEnv, t, tEnv) {
+        var sKind, leftTypeVariable, tKind, t1, t2, sBounds, tBounds, sLength, i, sBound, tBound;
+        if (s === t)
+          return true;
+        if (A.isTopType(t))
+          return true;
+        sKind = s._kind;
+        if (sKind === 4)
+          return true;
+        if (A.isTopType(s))
+          return false;
+        if (s._kind === 1)
+          return true;
+        leftTypeVariable = sKind === 13;
+        if (leftTypeVariable)
+          if (A._isSubtype(universe, sEnv[s._primary], sEnv, t, tEnv))
+            return true;
+        tKind = t._kind;
+        t1 = type$.Null;
+        if (s === t1 || s === type$.JSNull) {
+          if (tKind === 7)
+            return A._isSubtype(universe, s, sEnv, t._primary, tEnv);
+          return t === t1 || t === type$.JSNull || tKind === 6;
+        }
+        if (t === type$.Object) {
+          if (sKind === 7)
+            return A._isSubtype(universe, s._primary, sEnv, t, tEnv);
+          return sKind !== 6;
+        }
+        if (sKind === 7) {
+          if (!A._isSubtype(universe, s._primary, sEnv, t, tEnv))
+            return false;
+          return A._isSubtype(universe, A.Rti__getFutureFromFutureOr(universe, s), sEnv, t, tEnv);
+        }
+        if (sKind === 6)
+          return A._isSubtype(universe, t1, sEnv, t, tEnv) && A._isSubtype(universe, s._primary, sEnv, t, tEnv);
+        if (tKind === 7) {
+          if (A._isSubtype(universe, s, sEnv, t._primary, tEnv))
+            return true;
+          return A._isSubtype(universe, s, sEnv, A.Rti__getFutureFromFutureOr(universe, t), tEnv);
+        }
+        if (tKind === 6)
+          return A._isSubtype(universe, s, sEnv, t1, tEnv) || A._isSubtype(universe, s, sEnv, t._primary, tEnv);
+        if (leftTypeVariable)
+          return false;
+        t1 = sKind !== 11;
+        if ((!t1 || sKind === 12) && t === type$.Function)
+          return true;
+        t2 = sKind === 10;
+        if (t2 && t === type$.Record)
+          return true;
+        if (tKind === 12) {
+          if (s === type$.JavaScriptFunction)
+            return true;
+          if (sKind !== 12)
+            return false;
+          sBounds = s._rest;
+          tBounds = t._rest;
+          sLength = sBounds.length;
+          if (sLength !== tBounds.length)
+            return false;
+          sEnv = sEnv == null ? sBounds : sBounds.concat(sEnv);
+          tEnv = tEnv == null ? tBounds : tBounds.concat(tEnv);
+          for (i = 0; i < sLength; ++i) {
+            sBound = sBounds[i];
+            tBound = tBounds[i];
+            if (!A._isSubtype(universe, sBound, sEnv, tBound, tEnv) || !A._isSubtype(universe, tBound, tEnv, sBound, sEnv))
+              return false;
+          }
+          return A._isFunctionSubtype(universe, s._primary, sEnv, t._primary, tEnv);
+        }
+        if (tKind === 11) {
+          if (s === type$.JavaScriptFunction)
+            return true;
+          if (t1)
+            return false;
+          return A._isFunctionSubtype(universe, s, sEnv, t, tEnv);
+        }
+        if (sKind === 8) {
+          if (tKind !== 8)
+            return false;
+          return A._isInterfaceSubtype(universe, s, sEnv, t, tEnv);
+        }
+        if (t2 && tKind === 10)
+          return A._isRecordSubtype(universe, s, sEnv, t, tEnv);
         return false;
-      if (s._kind === 1)
-        return true;
-      leftTypeVariable = sKind === 13;
-      if (leftTypeVariable)
-        if (A._isSubtype(universe, sEnv[s._primary], sEnv, t, tEnv))
-          return true;
-      tKind = t._kind;
-      t1 = type$.Null;
-      if (s === t1 || s === type$.JSNull) {
-        if (tKind === 7)
-          return A._isSubtype(universe, s, sEnv, t._primary, tEnv);
-        return t === t1 || t === type$.JSNull || tKind === 6;
-      }
-      if (t === type$.Object) {
-        if (sKind === 7)
-          return A._isSubtype(universe, s._primary, sEnv, t, tEnv);
-        return sKind !== 6;
-      }
-      if (sKind === 7) {
-        if (!A._isSubtype(universe, s._primary, sEnv, t, tEnv))
+      },
+      _isFunctionSubtype(universe, s, sEnv, t, tEnv) {
+        var sParameters, tParameters, sRequiredPositional, tRequiredPositional, sRequiredPositionalLength, tRequiredPositionalLength, requiredPositionalDelta, sOptionalPositional, tOptionalPositional, sOptionalPositionalLength, tOptionalPositionalLength, i, t1, sNamed, tNamed, sNamedLength, tNamedLength, sIndex, tIndex, tName, sName, sIsRequired;
+        if (!A._isSubtype(universe, s._primary, sEnv, t._primary, tEnv))
           return false;
-        return A._isSubtype(universe, A.Rti__getFutureFromFutureOr(universe, s), sEnv, t, tEnv);
-      }
-      if (sKind === 6)
-        return A._isSubtype(universe, t1, sEnv, t, tEnv) && A._isSubtype(universe, s._primary, sEnv, t, tEnv);
-      if (tKind === 7) {
-        if (A._isSubtype(universe, s, sEnv, t._primary, tEnv))
-          return true;
-        return A._isSubtype(universe, s, sEnv, A.Rti__getFutureFromFutureOr(universe, t), tEnv);
-      }
-      if (tKind === 6)
-        return A._isSubtype(universe, s, sEnv, t1, tEnv) || A._isSubtype(universe, s, sEnv, t._primary, tEnv);
-      if (leftTypeVariable)
-        return false;
-      t1 = sKind !== 11;
-      if ((!t1 || sKind === 12) && t === type$.Function)
-        return true;
-      t2 = sKind === 10;
-      if (t2 && t === type$.Record)
-        return true;
-      if (tKind === 12) {
-        if (s === type$.JavaScriptFunction)
-          return true;
-        if (sKind !== 12)
+        sParameters = s._rest;
+        tParameters = t._rest;
+        sRequiredPositional = sParameters._requiredPositional;
+        tRequiredPositional = tParameters._requiredPositional;
+        sRequiredPositionalLength = sRequiredPositional.length;
+        tRequiredPositionalLength = tRequiredPositional.length;
+        if (sRequiredPositionalLength > tRequiredPositionalLength)
           return false;
-        sBounds = s._rest;
-        tBounds = t._rest;
-        sLength = sBounds.length;
-        if (sLength !== tBounds.length)
+        requiredPositionalDelta = tRequiredPositionalLength - sRequiredPositionalLength;
+        sOptionalPositional = sParameters._optionalPositional;
+        tOptionalPositional = tParameters._optionalPositional;
+        sOptionalPositionalLength = sOptionalPositional.length;
+        tOptionalPositionalLength = tOptionalPositional.length;
+        if (sRequiredPositionalLength + sOptionalPositionalLength < tRequiredPositionalLength + tOptionalPositionalLength)
           return false;
-        sEnv = sEnv == null ? sBounds : sBounds.concat(sEnv);
-        tEnv = tEnv == null ? tBounds : tBounds.concat(tEnv);
-        for (i = 0; i < sLength; ++i) {
-          sBound = sBounds[i];
-          tBound = tBounds[i];
-          if (!A._isSubtype(universe, sBound, sEnv, tBound, tEnv) || !A._isSubtype(universe, tBound, tEnv, sBound, sEnv))
+        for (i = 0; i < sRequiredPositionalLength; ++i) {
+          t1 = sRequiredPositional[i];
+          if (!A._isSubtype(universe, tRequiredPositional[i], tEnv, t1, sEnv))
             return false;
         }
-        return A._isFunctionSubtype(universe, s._primary, sEnv, t._primary, tEnv);
-      }
-      if (tKind === 11) {
-        if (s === type$.JavaScriptFunction)
-          return true;
-        if (t1)
-          return false;
-        return A._isFunctionSubtype(universe, s, sEnv, t, tEnv);
-      }
-      if (sKind === 8) {
-        if (tKind !== 8)
-          return false;
-        return A._isInterfaceSubtype(universe, s, sEnv, t, tEnv);
-      }
-      if (t2 && tKind === 10)
-        return A._isRecordSubtype(universe, s, sEnv, t, tEnv);
-      return false;
-    },
-    _isFunctionSubtype(universe, s, sEnv, t, tEnv) {
-      var sParameters, tParameters, sRequiredPositional, tRequiredPositional, sRequiredPositionalLength, tRequiredPositionalLength, requiredPositionalDelta, sOptionalPositional, tOptionalPositional, sOptionalPositionalLength, tOptionalPositionalLength, i, t1, sNamed, tNamed, sNamedLength, tNamedLength, sIndex, tIndex, tName, sName, sIsRequired;
-      if (!A._isSubtype(universe, s._primary, sEnv, t._primary, tEnv))
-        return false;
-      sParameters = s._rest;
-      tParameters = t._rest;
-      sRequiredPositional = sParameters._requiredPositional;
-      tRequiredPositional = tParameters._requiredPositional;
-      sRequiredPositionalLength = sRequiredPositional.length;
-      tRequiredPositionalLength = tRequiredPositional.length;
-      if (sRequiredPositionalLength > tRequiredPositionalLength)
-        return false;
-      requiredPositionalDelta = tRequiredPositionalLength - sRequiredPositionalLength;
-      sOptionalPositional = sParameters._optionalPositional;
-      tOptionalPositional = tParameters._optionalPositional;
-      sOptionalPositionalLength = sOptionalPositional.length;
-      tOptionalPositionalLength = tOptionalPositional.length;
-      if (sRequiredPositionalLength + sOptionalPositionalLength < tRequiredPositionalLength + tOptionalPositionalLength)
-        return false;
-      for (i = 0; i < sRequiredPositionalLength; ++i) {
-        t1 = sRequiredPositional[i];
-        if (!A._isSubtype(universe, tRequiredPositional[i], tEnv, t1, sEnv))
-          return false;
-      }
-      for (i = 0; i < requiredPositionalDelta; ++i) {
-        t1 = sOptionalPositional[i];
-        if (!A._isSubtype(universe, tRequiredPositional[sRequiredPositionalLength + i], tEnv, t1, sEnv))
-          return false;
-      }
-      for (i = 0; i < tOptionalPositionalLength; ++i) {
-        t1 = sOptionalPositional[requiredPositionalDelta + i];
-        if (!A._isSubtype(universe, tOptionalPositional[i], tEnv, t1, sEnv))
-          return false;
-      }
-      sNamed = sParameters._named;
-      tNamed = tParameters._named;
-      sNamedLength = sNamed.length;
-      tNamedLength = tNamed.length;
-      for (sIndex = 0, tIndex = 0; tIndex < tNamedLength; tIndex += 3) {
-        tName = tNamed[tIndex];
-        for (;;) {
-          if (sIndex >= sNamedLength)
+        for (i = 0; i < requiredPositionalDelta; ++i) {
+          t1 = sOptionalPositional[i];
+          if (!A._isSubtype(universe, tRequiredPositional[sRequiredPositionalLength + i], tEnv, t1, sEnv))
             return false;
-          sName = sNamed[sIndex];
-          sIndex += 3;
-          if (tName < sName)
+        }
+        for (i = 0; i < tOptionalPositionalLength; ++i) {
+          t1 = sOptionalPositional[requiredPositionalDelta + i];
+          if (!A._isSubtype(universe, tOptionalPositional[i], tEnv, t1, sEnv))
             return false;
-          sIsRequired = sNamed[sIndex - 2];
-          if (sName < tName) {
-            if (sIsRequired)
+        }
+        sNamed = sParameters._named;
+        tNamed = tParameters._named;
+        sNamedLength = sNamed.length;
+        tNamedLength = tNamed.length;
+        for (sIndex = 0, tIndex = 0; tIndex < tNamedLength; tIndex += 3) {
+          tName = tNamed[tIndex];
+          for (; ;) {
+            if (sIndex >= sNamedLength)
               return false;
+            sName = sNamed[sIndex];
+            sIndex += 3;
+            if (tName < sName)
+              return false;
+            sIsRequired = sNamed[sIndex - 2];
+            if (sName < tName) {
+              if (sIsRequired)
+                return false;
+              continue;
+            }
+            t1 = tNamed[tIndex + 1];
+            if (sIsRequired && !t1)
+              return false;
+            t1 = sNamed[sIndex - 1];
+            if (!A._isSubtype(universe, tNamed[tIndex + 2], tEnv, t1, sEnv))
+              return false;
+            break;
+          }
+        }
+        while (sIndex < sNamedLength) {
+          if (sNamed[sIndex + 1])
+            return false;
+          sIndex += 3;
+        }
+        return true;
+      },
+      _isInterfaceSubtype(universe, s, sEnv, t, tEnv) {
+        var rule, recipes, $length, supertypeArgs, i,
+          sName = s._primary,
+          tName = t._primary;
+        while (sName !== tName) {
+          rule = universe.tR[sName];
+          if (rule == null)
+            return false;
+          if (typeof rule == "string") {
+            sName = rule;
             continue;
           }
-          t1 = tNamed[tIndex + 1];
-          if (sIsRequired && !t1)
+          recipes = rule[tName];
+          if (recipes == null)
             return false;
-          t1 = sNamed[sIndex - 1];
-          if (!A._isSubtype(universe, tNamed[tIndex + 2], tEnv, t1, sEnv))
-            return false;
-          break;
+          $length = recipes.length;
+          supertypeArgs = $length > 0 ? new Array($length) : init.typeUniverse.sEA;
+          for (i = 0; i < $length; ++i)
+            supertypeArgs[i] = A._Universe_evalInEnvironment(universe, s, recipes[i]);
+          return A._areArgumentsSubtypes(universe, supertypeArgs, null, sEnv, t._rest, tEnv);
         }
-      }
-      while (sIndex < sNamedLength) {
-        if (sNamed[sIndex + 1])
-          return false;
-        sIndex += 3;
-      }
-      return true;
-    },
-    _isInterfaceSubtype(universe, s, sEnv, t, tEnv) {
-      var rule, recipes, $length, supertypeArgs, i,
-        sName = s._primary,
-        tName = t._primary;
-      while (sName !== tName) {
-        rule = universe.tR[sName];
-        if (rule == null)
-          return false;
-        if (typeof rule == "string") {
-          sName = rule;
-          continue;
-        }
-        recipes = rule[tName];
-        if (recipes == null)
-          return false;
-        $length = recipes.length;
-        supertypeArgs = $length > 0 ? new Array($length) : init.typeUniverse.sEA;
+        return A._areArgumentsSubtypes(universe, s._rest, null, sEnv, t._rest, tEnv);
+      },
+      _areArgumentsSubtypes(universe, sArgs, sVariances, sEnv, tArgs, tEnv) {
+        var i,
+          $length = sArgs.length;
         for (i = 0; i < $length; ++i)
-          supertypeArgs[i] = A._Universe_evalInEnvironment(universe, s, recipes[i]);
-        return A._areArgumentsSubtypes(universe, supertypeArgs, null, sEnv, t._rest, tEnv);
-      }
-      return A._areArgumentsSubtypes(universe, s._rest, null, sEnv, t._rest, tEnv);
-    },
-    _areArgumentsSubtypes(universe, sArgs, sVariances, sEnv, tArgs, tEnv) {
-      var i,
-        $length = sArgs.length;
-      for (i = 0; i < $length; ++i)
-        if (!A._isSubtype(universe, sArgs[i], sEnv, tArgs[i], tEnv))
+          if (!A._isSubtype(universe, sArgs[i], sEnv, tArgs[i], tEnv))
+            return false;
+        return true;
+      },
+      _isRecordSubtype(universe, s, sEnv, t, tEnv) {
+        var i,
+          sFields = s._rest,
+          tFields = t._rest,
+          sCount = sFields.length;
+        if (sCount !== tFields.length)
           return false;
-      return true;
-    },
-    _isRecordSubtype(universe, s, sEnv, t, tEnv) {
-      var i,
-        sFields = s._rest,
-        tFields = t._rest,
-        sCount = sFields.length;
-      if (sCount !== tFields.length)
-        return false;
-      if (s._primary !== t._primary)
-        return false;
-      for (i = 0; i < sCount; ++i)
-        if (!A._isSubtype(universe, sFields[i], sEnv, tFields[i], tEnv))
+        if (s._primary !== t._primary)
           return false;
-      return true;
-    },
-    isNullable(t) {
-      var kind = t._kind,
-        t1 = true;
-      if (!(t === type$.Null || t === type$.JSNull))
-        if (!A.isTopType(t))
-          if (kind !== 6)
-            t1 = kind === 7 && A.isNullable(t._primary);
-      return t1;
-    },
-    isTopType(t) {
-      var kind = t._kind;
-      return kind === 2 || kind === 3 || kind === 4 || kind === 5 || t === type$.nullable_Object;
-    },
-    _Utils_objectAssign(o, other) {
-      var i, key,
-        keys = Object.keys(other),
-        $length = keys.length;
-      for (i = 0; i < $length; ++i) {
-        key = keys[i];
-        o[key] = other[key];
-      }
-    },
-    _Utils_newArrayOrEmpty($length) {
-      return $length > 0 ? new Array($length) : init.typeUniverse.sEA;
-    },
-    Rti: function Rti(t0, t1) {
-      var _ = this;
-      _._as = t0;
-      _._is = t1;
-      _._cachedRuntimeType = _._specializedTestResource = _._isSubtypeCache = _._precomputed1 = null;
-      _._kind = 0;
-      _._canonicalRecipe = _._bindCache = _._evalCache = _._rest = _._primary = null;
-    },
-    _FunctionParameters: function _FunctionParameters() {
-      this._named = this._optionalPositional = this._requiredPositional = null;
-    },
-    _Type: function _Type(t0) {
-      this._rti = t0;
-    },
-    _Error: function _Error() {
-    },
-    _TypeError: function _TypeError(t0) {
-      this.__rti$_message = t0;
-    },
-    _AsyncRun__initializeScheduleImmediate() {
-      var t1, div, span;
-      if (self.scheduleImmediate != null)
-        return A.async__AsyncRun__scheduleImmediateJsOverride$closure();
-      if (self.MutationObserver != null && self.document != null) {
-        t1 = {};
-        div = self.document.createElement("div");
-        span = self.document.createElement("span");
-        t1.storedCallback = null;
-        new self.MutationObserver(A.convertDartClosureToJS(new A._AsyncRun__initializeScheduleImmediate_internalCallback(t1), 1)).observe(div, {childList: true});
-        return new A._AsyncRun__initializeScheduleImmediate_closure(t1, div, span);
-      } else if (self.setImmediate != null)
-        return A.async__AsyncRun__scheduleImmediateWithSetImmediate$closure();
-      return A.async__AsyncRun__scheduleImmediateWithTimer$closure();
-    },
-    _AsyncRun__scheduleImmediateJsOverride(callback) {
-      self.scheduleImmediate(A.convertDartClosureToJS(new A._AsyncRun__scheduleImmediateJsOverride_internalCallback(type$.void_Function._as(callback)), 0));
-    },
-    _AsyncRun__scheduleImmediateWithSetImmediate(callback) {
-      self.setImmediate(A.convertDartClosureToJS(new A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback(type$.void_Function._as(callback)), 0));
-    },
-    _AsyncRun__scheduleImmediateWithTimer(callback) {
-      type$.void_Function._as(callback);
-      A._TimerImpl$(0, callback);
-    },
-    _TimerImpl$(milliseconds, callback) {
-      var t1 = new A._TimerImpl();
-      t1._TimerImpl$2(milliseconds, callback);
-      return t1;
-    },
-    _makeAsyncAwaitCompleter($T) {
-      return new A._AsyncAwaitCompleter(new A._Future($.Zone__current, $T._eval$1("_Future<0>")), $T._eval$1("_AsyncAwaitCompleter<0>"));
-    },
-    _asyncStartSync(bodyFunction, completer) {
-      bodyFunction.call$2(0, null);
-      completer.isSync = true;
-      return completer._future;
-    },
-    _asyncAwait(object, bodyFunction) {
-      A._awaitOnObject(object, bodyFunction);
-    },
-    _asyncReturn(object, completer) {
-      var value, t2,
-        t1 = completer.$ti;
-      t1._eval$1("1/?")._as(object);
-      value = object == null ? t1._precomputed1._as(object) : object;
-      if (!completer.isSync)
-        completer._future._asyncComplete$1(value);
-      else {
-        t2 = completer._future;
-        if (t1._eval$1("Future<1>")._is(value))
-          t2._chainFuture$1(value);
-        else
-          t2._completeWithValue$1(value);
-      }
-    },
-    _asyncRethrow(object, completer) {
-      var t1 = A.unwrapException(object),
-        st = A.getTraceFromException(object),
-        t2 = completer.isSync,
-        t3 = completer._future;
-      if (t2)
-        t3._completeErrorObject$1(new A.AsyncError(t1, st));
-      else
-        t3._asyncCompleteErrorObject$1(new A.AsyncError(t1, st));
-    },
-    _awaitOnObject(object, bodyFunction) {
-      var t1, future,
-        thenCallback = new A._awaitOnObject_closure(bodyFunction),
-        errorCallback = new A._awaitOnObject_closure0(bodyFunction);
-      if (object instanceof A._Future)
-        object._thenAwait$1$2(thenCallback, errorCallback, type$.dynamic);
-      else {
-        t1 = type$.dynamic;
-        if (object instanceof A._Future)
-          object.then$1$2$onError(thenCallback, errorCallback, t1);
+        for (i = 0; i < sCount; ++i)
+          if (!A._isSubtype(universe, sFields[i], sEnv, tFields[i], tEnv))
+            return false;
+        return true;
+      },
+      isNullable(t) {
+        var kind = t._kind,
+          t1 = true;
+        if (!(t === type$.Null || t === type$.JSNull))
+          if (!A.isTopType(t))
+            if (kind !== 6)
+              t1 = kind === 7 && A.isNullable(t._primary);
+        return t1;
+      },
+      isTopType(t) {
+        var kind = t._kind;
+        return kind === 2 || kind === 3 || kind === 4 || kind === 5 || t === type$.nullable_Object;
+      },
+      _Utils_objectAssign(o, other) {
+        var i, key,
+          keys = Object.keys(other),
+          $length = keys.length;
+        for (i = 0; i < $length; ++i) {
+          key = keys[i];
+          o[key] = other[key];
+        }
+      },
+      _Utils_newArrayOrEmpty($length) {
+        return $length > 0 ? new Array($length) : init.typeUniverse.sEA;
+      },
+      Rti: function Rti(t0, t1) {
+        var _ = this;
+        _._as = t0;
+        _._is = t1;
+        _._cachedRuntimeType = _._specializedTestResource = _._isSubtypeCache = _._precomputed1 = null;
+        _._kind = 0;
+        _._canonicalRecipe = _._bindCache = _._evalCache = _._rest = _._primary = null;
+      },
+      _FunctionParameters: function _FunctionParameters() {
+        this._named = this._optionalPositional = this._requiredPositional = null;
+      },
+      _Type: function _Type(t0) {
+        this._rti = t0;
+      },
+      _Error: function _Error() {
+      },
+      _TypeError: function _TypeError(t0) {
+        this.__rti$_message = t0;
+      },
+      _AsyncRun__initializeScheduleImmediate() {
+        var t1, div, span;
+        if (self.scheduleImmediate != null)
+          return A.async__AsyncRun__scheduleImmediateJsOverride$closure();
+        if (self.MutationObserver != null && self.document != null) {
+          t1 = {};
+          div = self.document.createElement("div");
+          span = self.document.createElement("span");
+          t1.storedCallback = null;
+          new self.MutationObserver(A.convertDartClosureToJS(new A._AsyncRun__initializeScheduleImmediate_internalCallback(t1), 1)).observe(div, { childList: true });
+          return new A._AsyncRun__initializeScheduleImmediate_closure(t1, div, span);
+        } else if (self.setImmediate != null)
+          return A.async__AsyncRun__scheduleImmediateWithSetImmediate$closure();
+        return A.async__AsyncRun__scheduleImmediateWithTimer$closure();
+      },
+      _AsyncRun__scheduleImmediateJsOverride(callback) {
+        self.scheduleImmediate(A.convertDartClosureToJS(new A._AsyncRun__scheduleImmediateJsOverride_internalCallback(type$.void_Function._as(callback)), 0));
+      },
+      _AsyncRun__scheduleImmediateWithSetImmediate(callback) {
+        self.setImmediate(A.convertDartClosureToJS(new A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback(type$.void_Function._as(callback)), 0));
+      },
+      _AsyncRun__scheduleImmediateWithTimer(callback) {
+        type$.void_Function._as(callback);
+        A._TimerImpl$(0, callback);
+      },
+      _TimerImpl$(milliseconds, callback) {
+        var t1 = new A._TimerImpl();
+        t1._TimerImpl$2(milliseconds, callback);
+        return t1;
+      },
+      _makeAsyncAwaitCompleter($T) {
+        return new A._AsyncAwaitCompleter(new A._Future($.Zone__current, $T._eval$1("_Future<0>")), $T._eval$1("_AsyncAwaitCompleter<0>"));
+      },
+      _asyncStartSync(bodyFunction, completer) {
+        bodyFunction.call$2(0, null);
+        completer.isSync = true;
+        return completer._future;
+      },
+      _asyncAwait(object, bodyFunction) {
+        A._awaitOnObject(object, bodyFunction);
+      },
+      _asyncReturn(object, completer) {
+        var value, t2,
+          t1 = completer.$ti;
+        t1._eval$1("1/?")._as(object);
+        value = object == null ? t1._precomputed1._as(object) : object;
+        if (!completer.isSync)
+          completer._future._asyncComplete$1(value);
         else {
-          future = new A._Future($.Zone__current, type$._Future_dynamic);
-          future._state = 8;
-          future._resultOrListeners = object;
-          future._thenAwait$1$2(thenCallback, errorCallback, t1);
-        }
-      }
-    },
-    _wrapJsFunctionForAsync($function) {
-      var $protected = function(fn, ERROR) {
-        return function(errorCode, result) {
-          while (true) {
-            try {
-              fn(errorCode, result);
-              break;
-            } catch (error) {
-              result = error;
-              errorCode = ERROR;
-            }
-          }
-        };
-      }($function, 1);
-      return $.Zone__current.registerBinaryCallback$3$1(new A._wrapJsFunctionForAsync_closure($protected), type$.void, type$.int, type$.dynamic);
-    },
-    _SyncStarIterator__terminatedBody(_1, _2, _3) {
-      return 0;
-    },
-    AsyncError_defaultStackTrace(error) {
-      var stackTrace;
-      if (type$.Error._is(error)) {
-        stackTrace = error.get$stackTrace();
-        if (stackTrace != null)
-          return stackTrace;
-      }
-      return B.C__StringStackTrace;
-    },
-    _Future__chainCoreFuture(source, target, sync) {
-      var t2, t3, ignoreError, listeners, _box_0 = {},
-        t1 = _box_0.source = source;
-      for (t2 = type$._Future_dynamic; t3 = t1._state, (t3 & 4) !== 0; t1 = source) {
-        source = t2._as(t1._resultOrListeners);
-        _box_0.source = source;
-      }
-      if (t1 === target) {
-        t2 = A.StackTrace_current();
-        target._asyncCompleteErrorObject$1(new A.AsyncError(new A.ArgumentError(true, t1, null, "Cannot complete a future with itself"), t2));
-        return;
-      }
-      ignoreError = target._state & 1;
-      t2 = t1._state = t3 | ignoreError;
-      if ((t2 & 24) === 0) {
-        listeners = type$.nullable__FutureListener_dynamic_dynamic._as(target._resultOrListeners);
-        target._state = target._state & 1 | 4;
-        target._resultOrListeners = t1;
-        t1._prependListeners$1(listeners);
-        return;
-      }
-      if (!sync)
-        if (target._resultOrListeners == null)
-          t1 = (t2 & 16) === 0 || ignoreError !== 0;
-        else
-          t1 = false;
-      else
-        t1 = true;
-      if (t1) {
-        listeners = target._removeListeners$0();
-        target._cloneResult$1(_box_0.source);
-        A._Future__propagateToListeners(target, listeners);
-        return;
-      }
-      target._state ^= 2;
-      A._rootScheduleMicrotask(null, null, target._zone, type$.void_Function._as(new A._Future__chainCoreFuture_closure(_box_0, target)));
-    },
-    _Future__propagateToListeners(source, listeners) {
-      var t2, t3, _box_0, t4, t5, hasError, asyncError, nextListener, nextListener0, sourceResult, t6, zone, oldZone, result, current, _box_1 = {},
-        t1 = _box_1.source = source;
-      for (t2 = type$.AsyncError, t3 = type$.nullable__FutureListener_dynamic_dynamic;;) {
-        _box_0 = {};
-        t4 = t1._state;
-        t5 = (t4 & 16) === 0;
-        hasError = !t5;
-        if (listeners == null) {
-          if (hasError && (t4 & 1) === 0) {
-            asyncError = t2._as(t1._resultOrListeners);
-            A._rootHandleError(asyncError.error, asyncError.stackTrace);
-          }
-          return;
-        }
-        _box_0.listener = listeners;
-        nextListener = listeners._nextListener;
-        for (t1 = listeners; nextListener != null; t1 = nextListener, nextListener = nextListener0) {
-          t1._nextListener = null;
-          A._Future__propagateToListeners(_box_1.source, t1);
-          _box_0.listener = nextListener;
-          nextListener0 = nextListener._nextListener;
-        }
-        t4 = _box_1.source;
-        sourceResult = t4._resultOrListeners;
-        _box_0.listenerHasError = hasError;
-        _box_0.listenerValueOrError = sourceResult;
-        if (t5) {
-          t6 = t1.state;
-          t6 = (t6 & 1) !== 0 || (t6 & 15) === 8;
-        } else
-          t6 = true;
-        if (t6) {
-          zone = t1.result._zone;
-          if (hasError) {
-            t4 = t4._zone === zone;
-            t4 = !(t4 || t4);
-          } else
-            t4 = false;
-          if (t4) {
-            t2._as(sourceResult);
-            A._rootHandleError(sourceResult.error, sourceResult.stackTrace);
-            return;
-          }
-          oldZone = $.Zone__current;
-          if (oldZone !== zone)
-            $.Zone__current = zone;
+          t2 = completer._future;
+          if (t1._eval$1("Future<1>")._is(value))
+            t2._chainFuture$1(value);
           else
-            oldZone = null;
-          t1 = t1.state;
-          if ((t1 & 15) === 8)
-            new A._Future__propagateToListeners_handleWhenCompleteCallback(_box_0, _box_1, hasError).call$0();
-          else if (t5) {
-            if ((t1 & 1) !== 0)
-              new A._Future__propagateToListeners_handleValueCallback(_box_0, sourceResult).call$0();
-          } else if ((t1 & 2) !== 0)
-            new A._Future__propagateToListeners_handleError(_box_1, _box_0).call$0();
-          if (oldZone != null)
-            $.Zone__current = oldZone;
-          t1 = _box_0.listenerValueOrError;
-          if (t1 instanceof A._Future) {
-            t4 = _box_0.listener.$ti;
-            t4 = t4._eval$1("Future<2>")._is(t1) || !t4._rest[1]._is(t1);
-          } else
-            t4 = false;
-          if (t4) {
-            result = _box_0.listener.result;
-            if ((t1._state & 24) !== 0) {
-              current = t3._as(result._resultOrListeners);
-              result._resultOrListeners = null;
-              listeners = result._reverseListeners$1(current);
-              result._state = t1._state & 30 | result._state & 1;
-              result._resultOrListeners = t1._resultOrListeners;
-              _box_1.source = t1;
-              continue;
-            } else
-              A._Future__chainCoreFuture(t1, result, true);
-            return;
+            t2._completeWithValue$1(value);
+        }
+      },
+      _asyncRethrow(object, completer) {
+        var t1 = A.unwrapException(object),
+          st = A.getTraceFromException(object),
+          t2 = completer.isSync,
+          t3 = completer._future;
+        if (t2)
+          t3._completeErrorObject$1(new A.AsyncError(t1, st));
+        else
+          t3._asyncCompleteErrorObject$1(new A.AsyncError(t1, st));
+      },
+      _awaitOnObject(object, bodyFunction) {
+        var t1, future,
+          thenCallback = new A._awaitOnObject_closure(bodyFunction),
+          errorCallback = new A._awaitOnObject_closure0(bodyFunction);
+        if (object instanceof A._Future)
+          object._thenAwait$1$2(thenCallback, errorCallback, type$.dynamic);
+        else {
+          t1 = type$.dynamic;
+          if (object instanceof A._Future)
+            object.then$1$2$onError(thenCallback, errorCallback, t1);
+          else {
+            future = new A._Future($.Zone__current, type$._Future_dynamic);
+            future._state = 8;
+            future._resultOrListeners = object;
+            future._thenAwait$1$2(thenCallback, errorCallback, t1);
           }
         }
-        result = _box_0.listener.result;
-        current = t3._as(result._resultOrListeners);
-        result._resultOrListeners = null;
-        listeners = result._reverseListeners$1(current);
-        t1 = _box_0.listenerHasError;
-        t4 = _box_0.listenerValueOrError;
-        if (!t1) {
-          result.$ti._precomputed1._as(t4);
-          result._state = 8;
-          result._resultOrListeners = t4;
-        } else {
-          t2._as(t4);
-          result._state = result._state & 1 | 16;
-          result._resultOrListeners = t4;
-        }
-        _box_1.source = result;
-        t1 = result;
-      }
-    },
-    _registerErrorHandler(errorHandler, zone) {
-      var t1;
-      if (type$.dynamic_Function_Object_StackTrace._is(errorHandler))
-        return zone.registerBinaryCallback$3$1(errorHandler, type$.dynamic, type$.Object, type$.StackTrace);
-      t1 = type$.dynamic_Function_Object;
-      if (t1._is(errorHandler))
-        return t1._as(errorHandler);
-      throw A.wrapException(A.ArgumentError$value(errorHandler, "onError", string$.Error_));
-    },
-    _microtaskLoop() {
-      var entry, next;
-      for (entry = $._nextCallback; entry != null; entry = $._nextCallback) {
-        $._lastPriorityCallback = null;
-        next = entry.next;
-        $._nextCallback = next;
-        if (next == null)
-          $._lastCallback = null;
-        entry.callback.call$0();
-      }
-    },
-    _startMicrotaskLoop() {
-      $._isInCallbackLoop = true;
-      try {
-        A._microtaskLoop();
-      } finally {
-        $._lastPriorityCallback = null;
-        $._isInCallbackLoop = false;
-        if ($._nextCallback != null)
-          $.$get$_AsyncRun__scheduleImmediateClosure().call$1(A.async___startMicrotaskLoop$closure());
-      }
-    },
-    _scheduleAsyncCallback(callback) {
-      var newEntry = new A._AsyncCallbackEntry(callback),
-        lastCallback = $._lastCallback;
-      if (lastCallback == null) {
-        $._nextCallback = $._lastCallback = newEntry;
-        if (!$._isInCallbackLoop)
-          $.$get$_AsyncRun__scheduleImmediateClosure().call$1(A.async___startMicrotaskLoop$closure());
-      } else
-        $._lastCallback = lastCallback.next = newEntry;
-    },
-    _schedulePriorityAsyncCallback(callback) {
-      var entry, lastPriorityCallback, next,
-        t1 = $._nextCallback;
-      if (t1 == null) {
-        A._scheduleAsyncCallback(callback);
-        $._lastPriorityCallback = $._lastCallback;
-        return;
-      }
-      entry = new A._AsyncCallbackEntry(callback);
-      lastPriorityCallback = $._lastPriorityCallback;
-      if (lastPriorityCallback == null) {
-        entry.next = t1;
-        $._nextCallback = $._lastPriorityCallback = entry;
-      } else {
-        next = lastPriorityCallback.next;
-        entry.next = next;
-        $._lastPriorityCallback = lastPriorityCallback.next = entry;
-        if (next == null)
-          $._lastCallback = entry;
-      }
-    },
-    StreamIterator_StreamIterator(stream, $T) {
-      A.checkNotNullable(stream, "stream", type$.Object);
-      return new A._StreamIterator($T._eval$1("_StreamIterator<0>"));
-    },
-    _rootHandleError(error, stackTrace) {
-      A._schedulePriorityAsyncCallback(new A._rootHandleError_closure(error, stackTrace));
-    },
-    _rootRun($self, $parent, zone, f, $R) {
-      var old,
-        t1 = $.Zone__current;
-      if (t1 === zone)
-        return f.call$0();
-      $.Zone__current = zone;
-      old = t1;
-      try {
-        t1 = f.call$0();
-        return t1;
-      } finally {
-        $.Zone__current = old;
-      }
-    },
-    _rootRunUnary($self, $parent, zone, f, arg, $R, $T) {
-      var old,
-        t1 = $.Zone__current;
-      if (t1 === zone)
-        return f.call$1(arg);
-      $.Zone__current = zone;
-      old = t1;
-      try {
-        t1 = f.call$1(arg);
-        return t1;
-      } finally {
-        $.Zone__current = old;
-      }
-    },
-    _rootRunBinary($self, $parent, zone, f, arg1, arg2, $R, $T1, $T2) {
-      var old,
-        t1 = $.Zone__current;
-      if (t1 === zone)
-        return f.call$2(arg1, arg2);
-      $.Zone__current = zone;
-      old = t1;
-      try {
-        t1 = f.call$2(arg1, arg2);
-        return t1;
-      } finally {
-        $.Zone__current = old;
-      }
-    },
-    _rootScheduleMicrotask($self, $parent, zone, f) {
-      type$.void_Function._as(f);
-      if (B.C__RootZone !== zone) {
-        f = zone.bindCallbackGuarded$1(f);
-        f = f;
-      }
-      A._scheduleAsyncCallback(f);
-    },
-    _AsyncRun__initializeScheduleImmediate_internalCallback: function _AsyncRun__initializeScheduleImmediate_internalCallback(t0) {
-      this._box_0 = t0;
-    },
-    _AsyncRun__initializeScheduleImmediate_closure: function _AsyncRun__initializeScheduleImmediate_closure(t0, t1, t2) {
-      this._box_0 = t0;
-      this.div = t1;
-      this.span = t2;
-    },
-    _AsyncRun__scheduleImmediateJsOverride_internalCallback: function _AsyncRun__scheduleImmediateJsOverride_internalCallback(t0) {
-      this.callback = t0;
-    },
-    _AsyncRun__scheduleImmediateWithSetImmediate_internalCallback: function _AsyncRun__scheduleImmediateWithSetImmediate_internalCallback(t0) {
-      this.callback = t0;
-    },
-    _TimerImpl: function _TimerImpl() {
-    },
-    _TimerImpl_internalCallback: function _TimerImpl_internalCallback(t0, t1) {
-      this.$this = t0;
-      this.callback = t1;
-    },
-    _AsyncAwaitCompleter: function _AsyncAwaitCompleter(t0, t1) {
-      this._future = t0;
-      this.isSync = false;
-      this.$ti = t1;
-    },
-    _awaitOnObject_closure: function _awaitOnObject_closure(t0) {
-      this.bodyFunction = t0;
-    },
-    _awaitOnObject_closure0: function _awaitOnObject_closure0(t0) {
-      this.bodyFunction = t0;
-    },
-    _wrapJsFunctionForAsync_closure: function _wrapJsFunctionForAsync_closure(t0) {
-      this.$protected = t0;
-    },
-    _SyncStarIterator: function _SyncStarIterator(t0, t1) {
-      var _ = this;
-      _._body = t0;
-      _._suspendedBodies = _._nestedIterator = _._datum = _._async$_current = null;
-      _.$ti = t1;
-    },
-    _SyncStarIterable: function _SyncStarIterable(t0, t1) {
-      this._outerHelper = t0;
-      this.$ti = t1;
-    },
-    AsyncError: function AsyncError(t0, t1) {
-      this.error = t0;
-      this.stackTrace = t1;
-    },
-    _FutureListener: function _FutureListener(t0, t1, t2, t3, t4) {
-      var _ = this;
-      _._nextListener = null;
-      _.result = t0;
-      _.state = t1;
-      _.callback = t2;
-      _.errorCallback = t3;
-      _.$ti = t4;
-    },
-    _Future: function _Future(t0, t1) {
-      var _ = this;
-      _._state = 0;
-      _._zone = t0;
-      _._resultOrListeners = null;
-      _.$ti = t1;
-    },
-    _Future__addListener_closure: function _Future__addListener_closure(t0, t1) {
-      this.$this = t0;
-      this.listener = t1;
-    },
-    _Future__prependListeners_closure: function _Future__prependListeners_closure(t0, t1) {
-      this._box_0 = t0;
-      this.$this = t1;
-    },
-    _Future__chainCoreFuture_closure: function _Future__chainCoreFuture_closure(t0, t1) {
-      this._box_0 = t0;
-      this.target = t1;
-    },
-    _Future__asyncCompleteWithValue_closure: function _Future__asyncCompleteWithValue_closure(t0, t1) {
-      this.$this = t0;
-      this.value = t1;
-    },
-    _Future__asyncCompleteErrorObject_closure: function _Future__asyncCompleteErrorObject_closure(t0, t1) {
-      this.$this = t0;
-      this.error = t1;
-    },
-    _Future__propagateToListeners_handleWhenCompleteCallback: function _Future__propagateToListeners_handleWhenCompleteCallback(t0, t1, t2) {
-      this._box_0 = t0;
-      this._box_1 = t1;
-      this.hasError = t2;
-    },
-    _Future__propagateToListeners_handleWhenCompleteCallback_closure: function _Future__propagateToListeners_handleWhenCompleteCallback_closure(t0, t1) {
-      this.joinedResult = t0;
-      this.originalSource = t1;
-    },
-    _Future__propagateToListeners_handleWhenCompleteCallback_closure0: function _Future__propagateToListeners_handleWhenCompleteCallback_closure0(t0) {
-      this.joinedResult = t0;
-    },
-    _Future__propagateToListeners_handleValueCallback: function _Future__propagateToListeners_handleValueCallback(t0, t1) {
-      this._box_0 = t0;
-      this.sourceResult = t1;
-    },
-    _Future__propagateToListeners_handleError: function _Future__propagateToListeners_handleError(t0, t1) {
-      this._box_1 = t0;
-      this._box_0 = t1;
-    },
-    _AsyncCallbackEntry: function _AsyncCallbackEntry(t0) {
-      this.callback = t0;
-      this.next = null;
-    },
-    Stream: function Stream() {
-    },
-    Stream_length_closure: function Stream_length_closure(t0, t1) {
-      this._box_0 = t0;
-      this.$this = t1;
-    },
-    Stream_length_closure0: function Stream_length_closure0(t0, t1) {
-      this._box_0 = t0;
-      this.future = t1;
-    },
-    _StreamIterator: function _StreamIterator(t0) {
-      this.$ti = t0;
-    },
-    _Zone: function _Zone() {
-    },
-    _rootHandleError_closure: function _rootHandleError_closure(t0, t1) {
-      this.error = t0;
-      this.stackTrace = t1;
-    },
-    _RootZone: function _RootZone() {
-    },
-    _RootZone_bindCallbackGuarded_closure: function _RootZone_bindCallbackGuarded_closure(t0, t1) {
-      this.$this = t0;
-      this.f = t1;
-    },
-    _RootZone_bindUnaryCallbackGuarded_closure: function _RootZone_bindUnaryCallbackGuarded_closure(t0, t1, t2) {
-      this.$this = t0;
-      this.f = t1;
-      this.T = t2;
-    },
-    HashMap_HashMap($K, $V) {
-      return new A._HashMap($K._eval$1("@<0>")._bind$1($V)._eval$1("_HashMap<1,2>"));
-    },
-    _HashMap__getTableEntry(table, key) {
-      var entry = table[key];
-      return entry === table ? null : entry;
-    },
-    _HashMap__setTableEntry(table, key, value) {
-      if (value == null)
-        table[key] = table;
-      else
-        table[key] = value;
-    },
-    _HashMap__newHashTable() {
-      var table = Object.create(null);
-      A._HashMap__setTableEntry(table, "<non-identifier-key>", table);
-      delete table["<non-identifier-key>"];
-      return table;
-    },
-    LinkedHashMap_LinkedHashMap$_literal(keyValuePairs, $K, $V) {
-      return $K._eval$1("@<0>")._bind$1($V)._eval$1("LinkedHashMap<1,2>")._as(A.fillLiteralMap(keyValuePairs, new A.JsLinkedHashMap($K._eval$1("@<0>")._bind$1($V)._eval$1("JsLinkedHashMap<1,2>"))));
-    },
-    LinkedHashMap_LinkedHashMap$_empty($K, $V) {
-      return new A.JsLinkedHashMap($K._eval$1("@<0>")._bind$1($V)._eval$1("JsLinkedHashMap<1,2>"));
-    },
-    HashSet_HashSet($E) {
-      return new A._HashSet($E._eval$1("_HashSet<0>"));
-    },
-    _HashSet__newHashTable() {
-      var table = Object.create(null);
-      table["<non-identifier-key>"] = table;
-      delete table["<non-identifier-key>"];
-      return table;
-    },
-    LinkedHashSet_LinkedHashSet($E) {
-      return new A._LinkedHashSet($E._eval$1("_LinkedHashSet<0>"));
-    },
-    LinkedHashSet_LinkedHashSet$_empty($E) {
-      return new A._LinkedHashSet($E._eval$1("_LinkedHashSet<0>"));
-    },
-    LinkedHashSet_LinkedHashSet$_literal(values, $E) {
-      return $E._eval$1("LinkedHashSet<0>")._as(A.fillLiteralSet(values, new A._LinkedHashSet($E._eval$1("_LinkedHashSet<0>"))));
-    },
-    _LinkedHashSet__newHashTable() {
-      var table = Object.create(null);
-      table["<non-identifier-key>"] = table;
-      delete table["<non-identifier-key>"];
-      return table;
-    },
-    _LinkedHashSetIterator$(_set, _modifications, $E) {
-      var t1 = new A._LinkedHashSetIterator(_set, _modifications, $E._eval$1("_LinkedHashSetIterator<0>"));
-      t1._collection$_cell = _set._collection$_first;
-      return t1;
-    },
-    IterableExtensions_get_firstOrNull(_this, $T) {
-      var iterator = J.get$iterator$ax(_this);
-      if (iterator.moveNext$0())
-        return iterator.get$current();
-      return null;
-    },
-    MapBase_mapToString(m) {
-      var result, t1;
-      if (A.isToStringVisiting(m))
-        return "{...}";
-      result = new A.StringBuffer("");
-      try {
-        t1 = {};
-        B.JSArray_methods.add$1($.toStringVisiting, m);
-        result._contents += "{";
-        t1.first = true;
-        m.forEach$1(0, new A.MapBase_mapToString_closure(t1, result));
-        result._contents += "}";
-      } finally {
-        if (0 >= $.toStringVisiting.length)
-          return A.ioore($.toStringVisiting, -1);
-        $.toStringVisiting.pop();
-      }
-      t1 = result._contents;
-      return t1.charCodeAt(0) == 0 ? t1 : t1;
-    },
-    _HashMap: function _HashMap(t0) {
-      var _ = this;
-      _._collection$_length = 0;
-      _._collection$_keys = _._collection$_rest = _._nums = _._strings = null;
-      _.$ti = t0;
-    },
-    _HashMap_addAll_closure: function _HashMap_addAll_closure(t0) {
-      this.$this = t0;
-    },
-    _HashMapKeyIterable: function _HashMapKeyIterable(t0, t1) {
-      this._collection$_map = t0;
-      this.$ti = t1;
-    },
-    _HashMapKeyIterator: function _HashMapKeyIterator(t0, t1, t2) {
-      var _ = this;
-      _._collection$_map = t0;
-      _._collection$_keys = t1;
-      _._offset = 0;
-      _._collection$_current = null;
-      _.$ti = t2;
-    },
-    _HashSet: function _HashSet(t0) {
-      var _ = this;
-      _._collection$_length = 0;
-      _._collection$_elements = _._collection$_rest = _._nums = _._strings = null;
-      _.$ti = t0;
-    },
-    _HashSetIterator: function _HashSetIterator(t0, t1, t2) {
-      var _ = this;
-      _._set = t0;
-      _._collection$_elements = t1;
-      _._offset = 0;
-      _._collection$_current = null;
-      _.$ti = t2;
-    },
-    _LinkedHashSet: function _LinkedHashSet(t0) {
-      var _ = this;
-      _._collection$_length = 0;
-      _._collection$_last = _._collection$_first = _._collection$_rest = _._nums = _._strings = null;
-      _._collection$_modifications = 0;
-      _.$ti = t0;
-    },
-    _LinkedHashSetCell: function _LinkedHashSetCell(t0) {
-      this._element = t0;
-      this._collection$_previous = this._collection$_next = null;
-    },
-    _LinkedHashSetIterator: function _LinkedHashSetIterator(t0, t1, t2) {
-      var _ = this;
-      _._set = t0;
-      _._collection$_modifications = t1;
-      _._collection$_current = _._collection$_cell = null;
-      _.$ti = t2;
-    },
-    ListBase: function ListBase() {
-    },
-    MapBase: function MapBase() {
-    },
-    MapBase_mapToString_closure: function MapBase_mapToString_closure(t0, t1) {
-      this._box_0 = t0;
-      this.result = t1;
-    },
-    SetBase: function SetBase() {
-    },
-    _SetBase: function _SetBase() {
-    },
-    Error__throw(error, stackTrace) {
-      error = A.initializeExceptionWrapper(error, new Error());
-      if (error == null)
-        error = A._asObject(error);
-      error.stack = stackTrace.toString$0(0);
-      throw error;
-    },
-    List_List$filled($length, fill, growable, $E) {
-      var i,
-        result = growable ? J.JSArray_JSArray$growable($length, $E) : J.JSArray_JSArray$fixed($length, $E);
-      if ($length !== 0 && fill != null)
-        for (i = 0; i < result.length; ++i)
-          result[i] = fill;
-      return result;
-    },
-    List_List$_of(elements, $E) {
-      var list, t1;
-      if (Array.isArray(elements))
-        return A._setArrayType(elements.slice(0), $E._eval$1("JSArray<0>"));
-      list = A._setArrayType([], $E._eval$1("JSArray<0>"));
-      for (t1 = J.get$iterator$ax(elements); t1.moveNext$0();)
-        B.JSArray_methods.add$1(list, t1.get$current());
-      return list;
-    },
-    StringBuffer__writeAll(string, objects, separator) {
-      var iterator = J.get$iterator$ax(objects);
-      if (!iterator.moveNext$0())
-        return string;
-      if (separator.length === 0) {
-        do
-          string += A.S(iterator.get$current());
-        while (iterator.moveNext$0());
-      } else {
-        string += A.S(iterator.get$current());
-        while (iterator.moveNext$0())
-          string = string + separator + A.S(iterator.get$current());
-      }
-      return string;
-    },
-    StackTrace_current() {
-      return A.getTraceFromException(new Error());
-    },
-    Error_safeToString(object) {
-      if (typeof object == "number" || A._isBool(object) || object == null)
-        return J.toString$0$(object);
-      if (typeof object == "string")
-        return JSON.stringify(object);
-      return A.Primitives_safeToString(object);
-    },
-    Error_throwWithStackTrace(error, stackTrace) {
-      A.checkNotNullable(error, "error", type$.Object);
-      A.checkNotNullable(stackTrace, "stackTrace", type$.StackTrace);
-      A.Error__throw(error, stackTrace);
-    },
-    AssertionError$(message) {
-      return new A.AssertionError(message);
-    },
-    ArgumentError$(message, $name) {
-      return new A.ArgumentError(false, null, $name, message);
-    },
-    ArgumentError$value(value, $name, message) {
-      return new A.ArgumentError(true, value, $name, message);
-    },
-    RangeError$range(invalidValue, minValue, maxValue, $name, message) {
-      return new A.RangeError(minValue, maxValue, true, invalidValue, $name, "Invalid value");
-    },
-    RangeError_checkNotNegative(value, $name) {
-      return value;
-    },
-    IndexError$withLength(invalidValue, $length, indexable, $name) {
-      return new A.IndexError($length, true, invalidValue, $name, "Index out of range");
-    },
-    UnsupportedError$(message) {
-      return new A.UnsupportedError(message);
-    },
-    UnimplementedError$(message) {
-      return new A.UnimplementedError(message);
-    },
-    StateError$(message) {
-      return new A.StateError(message);
-    },
-    ConcurrentModificationError$(modifiedObject) {
-      return new A.ConcurrentModificationError(modifiedObject);
-    },
-    Iterable_iterableToShortString(iterable, leftDelimiter, rightDelimiter) {
-      var parts, t1;
-      if (A.isToStringVisiting(iterable)) {
-        if (leftDelimiter === "(" && rightDelimiter === ")")
-          return "(...)";
-        return leftDelimiter + "..." + rightDelimiter;
-      }
-      parts = A._setArrayType([], type$.JSArray_String);
-      B.JSArray_methods.add$1($.toStringVisiting, iterable);
-      try {
-        A._iterablePartsToStrings(iterable, parts);
-      } finally {
-        if (0 >= $.toStringVisiting.length)
-          return A.ioore($.toStringVisiting, -1);
-        $.toStringVisiting.pop();
-      }
-      t1 = A.StringBuffer__writeAll(leftDelimiter, type$.Iterable_dynamic._as(parts), ", ") + rightDelimiter;
-      return t1.charCodeAt(0) == 0 ? t1 : t1;
-    },
-    Iterable_iterableToFullString(iterable, leftDelimiter, rightDelimiter) {
-      var buffer, t1;
-      if (A.isToStringVisiting(iterable))
-        return leftDelimiter + "..." + rightDelimiter;
-      buffer = new A.StringBuffer(leftDelimiter);
-      B.JSArray_methods.add$1($.toStringVisiting, iterable);
-      try {
-        t1 = buffer;
-        t1._contents = A.StringBuffer__writeAll(t1._contents, iterable, ", ");
-      } finally {
-        if (0 >= $.toStringVisiting.length)
-          return A.ioore($.toStringVisiting, -1);
-        $.toStringVisiting.pop();
-      }
-      buffer._contents += rightDelimiter;
-      t1 = buffer._contents;
-      return t1.charCodeAt(0) == 0 ? t1 : t1;
-    },
-    _iterablePartsToStrings(iterable, parts) {
-      var next, ultimateString, penultimateString, penultimate, ultimate, ultimate0, elision,
-        it = iterable.get$iterator(iterable),
-        $length = 0, count = 0;
-      for (;;) {
-        if (!($length < 80 || count < 3))
-          break;
-        if (!it.moveNext$0())
-          return;
-        next = A.S(it.get$current());
-        B.JSArray_methods.add$1(parts, next);
-        $length += next.length + 2;
-        ++count;
-      }
-      if (!it.moveNext$0()) {
-        if (count <= 5)
-          return;
-        if (0 >= parts.length)
-          return A.ioore(parts, -1);
-        ultimateString = parts.pop();
-        if (0 >= parts.length)
-          return A.ioore(parts, -1);
-        penultimateString = parts.pop();
-      } else {
-        penultimate = it.get$current();
-        ++count;
-        if (!it.moveNext$0()) {
-          if (count <= 4) {
-            B.JSArray_methods.add$1(parts, A.S(penultimate));
-            return;
-          }
-          ultimateString = A.S(penultimate);
-          if (0 >= parts.length)
-            return A.ioore(parts, -1);
-          penultimateString = parts.pop();
-          $length += ultimateString.length + 2;
-        } else {
-          ultimate = it.get$current();
-          ++count;
-          for (; it.moveNext$0(); penultimate = ultimate, ultimate = ultimate0) {
-            ultimate0 = it.get$current();
-            ++count;
-            if (count > 100) {
-              for (;;) {
-                if (!($length > 75 && count > 3))
-                  break;
-                if (0 >= parts.length)
-                  return A.ioore(parts, -1);
-                $length -= parts.pop().length + 2;
-                --count;
+      },
+      _wrapJsFunctionForAsync($function) {
+        var $protected = function (fn, ERROR) {
+          return function (errorCode, result) {
+            while (true) {
+              try {
+                fn(errorCode, result);
+                break;
+              } catch (error) {
+                result = error;
+                errorCode = ERROR;
               }
-              B.JSArray_methods.add$1(parts, "...");
+            }
+          };
+        }($function, 1);
+        return $.Zone__current.registerBinaryCallback$3$1(new A._wrapJsFunctionForAsync_closure($protected), type$.void, type$.int, type$.dynamic);
+      },
+      _SyncStarIterator__terminatedBody(_1, _2, _3) {
+        return 0;
+      },
+      AsyncError_defaultStackTrace(error) {
+        var stackTrace;
+        if (type$.Error._is(error)) {
+          stackTrace = error.get$stackTrace();
+          if (stackTrace != null)
+            return stackTrace;
+        }
+        return B.C__StringStackTrace;
+      },
+      _Future__chainCoreFuture(source, target, sync) {
+        var t2, t3, ignoreError, listeners, _box_0 = {},
+          t1 = _box_0.source = source;
+        for (t2 = type$._Future_dynamic; t3 = t1._state, (t3 & 4) !== 0; t1 = source) {
+          source = t2._as(t1._resultOrListeners);
+          _box_0.source = source;
+        }
+        if (t1 === target) {
+          t2 = A.StackTrace_current();
+          target._asyncCompleteErrorObject$1(new A.AsyncError(new A.ArgumentError(true, t1, null, "Cannot complete a future with itself"), t2));
+          return;
+        }
+        ignoreError = target._state & 1;
+        t2 = t1._state = t3 | ignoreError;
+        if ((t2 & 24) === 0) {
+          listeners = type$.nullable__FutureListener_dynamic_dynamic._as(target._resultOrListeners);
+          target._state = target._state & 1 | 4;
+          target._resultOrListeners = t1;
+          t1._prependListeners$1(listeners);
+          return;
+        }
+        if (!sync)
+          if (target._resultOrListeners == null)
+            t1 = (t2 & 16) === 0 || ignoreError !== 0;
+          else
+            t1 = false;
+        else
+          t1 = true;
+        if (t1) {
+          listeners = target._removeListeners$0();
+          target._cloneResult$1(_box_0.source);
+          A._Future__propagateToListeners(target, listeners);
+          return;
+        }
+        target._state ^= 2;
+        A._rootScheduleMicrotask(null, null, target._zone, type$.void_Function._as(new A._Future__chainCoreFuture_closure(_box_0, target)));
+      },
+      _Future__propagateToListeners(source, listeners) {
+        var t2, t3, _box_0, t4, t5, hasError, asyncError, nextListener, nextListener0, sourceResult, t6, zone, oldZone, result, current, _box_1 = {},
+          t1 = _box_1.source = source;
+        for (t2 = type$.AsyncError, t3 = type$.nullable__FutureListener_dynamic_dynamic; ;) {
+          _box_0 = {};
+          t4 = t1._state;
+          t5 = (t4 & 16) === 0;
+          hasError = !t5;
+          if (listeners == null) {
+            if (hasError && (t4 & 1) === 0) {
+              asyncError = t2._as(t1._resultOrListeners);
+              A._rootHandleError(asyncError.error, asyncError.stackTrace);
+            }
+            return;
+          }
+          _box_0.listener = listeners;
+          nextListener = listeners._nextListener;
+          for (t1 = listeners; nextListener != null; t1 = nextListener, nextListener = nextListener0) {
+            t1._nextListener = null;
+            A._Future__propagateToListeners(_box_1.source, t1);
+            _box_0.listener = nextListener;
+            nextListener0 = nextListener._nextListener;
+          }
+          t4 = _box_1.source;
+          sourceResult = t4._resultOrListeners;
+          _box_0.listenerHasError = hasError;
+          _box_0.listenerValueOrError = sourceResult;
+          if (t5) {
+            t6 = t1.state;
+            t6 = (t6 & 1) !== 0 || (t6 & 15) === 8;
+          } else
+            t6 = true;
+          if (t6) {
+            zone = t1.result._zone;
+            if (hasError) {
+              t4 = t4._zone === zone;
+              t4 = !(t4 || t4);
+            } else
+              t4 = false;
+            if (t4) {
+              t2._as(sourceResult);
+              A._rootHandleError(sourceResult.error, sourceResult.stackTrace);
+              return;
+            }
+            oldZone = $.Zone__current;
+            if (oldZone !== zone)
+              $.Zone__current = zone;
+            else
+              oldZone = null;
+            t1 = t1.state;
+            if ((t1 & 15) === 8)
+              new A._Future__propagateToListeners_handleWhenCompleteCallback(_box_0, _box_1, hasError).call$0();
+            else if (t5) {
+              if ((t1 & 1) !== 0)
+                new A._Future__propagateToListeners_handleValueCallback(_box_0, sourceResult).call$0();
+            } else if ((t1 & 2) !== 0)
+              new A._Future__propagateToListeners_handleError(_box_1, _box_0).call$0();
+            if (oldZone != null)
+              $.Zone__current = oldZone;
+            t1 = _box_0.listenerValueOrError;
+            if (t1 instanceof A._Future) {
+              t4 = _box_0.listener.$ti;
+              t4 = t4._eval$1("Future<2>")._is(t1) || !t4._rest[1]._is(t1);
+            } else
+              t4 = false;
+            if (t4) {
+              result = _box_0.listener.result;
+              if ((t1._state & 24) !== 0) {
+                current = t3._as(result._resultOrListeners);
+                result._resultOrListeners = null;
+                listeners = result._reverseListeners$1(current);
+                result._state = t1._state & 30 | result._state & 1;
+                result._resultOrListeners = t1._resultOrListeners;
+                _box_1.source = t1;
+                continue;
+              } else
+                A._Future__chainCoreFuture(t1, result, true);
               return;
             }
           }
-          penultimateString = A.S(penultimate);
-          ultimateString = A.S(ultimate);
-          $length += ultimateString.length + penultimateString.length + 4;
+          result = _box_0.listener.result;
+          current = t3._as(result._resultOrListeners);
+          result._resultOrListeners = null;
+          listeners = result._reverseListeners$1(current);
+          t1 = _box_0.listenerHasError;
+          t4 = _box_0.listenerValueOrError;
+          if (!t1) {
+            result.$ti._precomputed1._as(t4);
+            result._state = 8;
+            result._resultOrListeners = t4;
+          } else {
+            t2._as(t4);
+            result._state = result._state & 1 | 16;
+            result._resultOrListeners = t4;
+          }
+          _box_1.source = result;
+          t1 = result;
         }
-      }
-      if (count > parts.length + 2) {
-        $length += 5;
-        elision = "...";
-      } else
-        elision = null;
-      for (;;) {
-        if (!($length > 80 && parts.length > 3))
-          break;
-        if (0 >= parts.length)
-          return A.ioore(parts, -1);
-        $length -= parts.pop().length + 2;
-        if (elision == null) {
+      },
+      _registerErrorHandler(errorHandler, zone) {
+        var t1;
+        if (type$.dynamic_Function_Object_StackTrace._is(errorHandler))
+          return zone.registerBinaryCallback$3$1(errorHandler, type$.dynamic, type$.Object, type$.StackTrace);
+        t1 = type$.dynamic_Function_Object;
+        if (t1._is(errorHandler))
+          return t1._as(errorHandler);
+        throw A.wrapException(A.ArgumentError$value(errorHandler, "onError", string$.Error_));
+      },
+      _microtaskLoop() {
+        var entry, next;
+        for (entry = $._nextCallback; entry != null; entry = $._nextCallback) {
+          $._lastPriorityCallback = null;
+          next = entry.next;
+          $._nextCallback = next;
+          if (next == null)
+            $._lastCallback = null;
+          entry.callback.call$0();
+        }
+      },
+      _startMicrotaskLoop() {
+        $._isInCallbackLoop = true;
+        try {
+          A._microtaskLoop();
+        } finally {
+          $._lastPriorityCallback = null;
+          $._isInCallbackLoop = false;
+          if ($._nextCallback != null)
+            $.$get$_AsyncRun__scheduleImmediateClosure().call$1(A.async___startMicrotaskLoop$closure());
+        }
+      },
+      _scheduleAsyncCallback(callback) {
+        var newEntry = new A._AsyncCallbackEntry(callback),
+          lastCallback = $._lastCallback;
+        if (lastCallback == null) {
+          $._nextCallback = $._lastCallback = newEntry;
+          if (!$._isInCallbackLoop)
+            $.$get$_AsyncRun__scheduleImmediateClosure().call$1(A.async___startMicrotaskLoop$closure());
+        } else
+          $._lastCallback = lastCallback.next = newEntry;
+      },
+      _schedulePriorityAsyncCallback(callback) {
+        var entry, lastPriorityCallback, next,
+          t1 = $._nextCallback;
+        if (t1 == null) {
+          A._scheduleAsyncCallback(callback);
+          $._lastPriorityCallback = $._lastCallback;
+          return;
+        }
+        entry = new A._AsyncCallbackEntry(callback);
+        lastPriorityCallback = $._lastPriorityCallback;
+        if (lastPriorityCallback == null) {
+          entry.next = t1;
+          $._nextCallback = $._lastPriorityCallback = entry;
+        } else {
+          next = lastPriorityCallback.next;
+          entry.next = next;
+          $._lastPriorityCallback = lastPriorityCallback.next = entry;
+          if (next == null)
+            $._lastCallback = entry;
+        }
+      },
+      scheduleMicrotask(callback) {
+        var _null = null,
+          currentZone = $.Zone__current;
+        if (B.C__RootZone === currentZone) {
+          A._rootScheduleMicrotask(_null, _null, B.C__RootZone, callback);
+          return;
+        }
+        A._rootScheduleMicrotask(_null, _null, currentZone, type$.void_Function._as(currentZone.bindCallbackGuarded$1(callback)));
+      },
+      StreamIterator_StreamIterator(stream, $T) {
+        A.checkNotNullable(stream, "stream", type$.Object);
+        return new A._StreamIterator($T._eval$1("_StreamIterator<0>"));
+      },
+      _rootHandleError(error, stackTrace) {
+        A._schedulePriorityAsyncCallback(new A._rootHandleError_closure(error, stackTrace));
+      },
+      _rootRun($self, $parent, zone, f, $R) {
+        var old,
+          t1 = $.Zone__current;
+        if (t1 === zone)
+          return f.call$0();
+        $.Zone__current = zone;
+        old = t1;
+        try {
+          t1 = f.call$0();
+          return t1;
+        } finally {
+          $.Zone__current = old;
+        }
+      },
+      _rootRunUnary($self, $parent, zone, f, arg, $R, $T) {
+        var old,
+          t1 = $.Zone__current;
+        if (t1 === zone)
+          return f.call$1(arg);
+        $.Zone__current = zone;
+        old = t1;
+        try {
+          t1 = f.call$1(arg);
+          return t1;
+        } finally {
+          $.Zone__current = old;
+        }
+      },
+      _rootRunBinary($self, $parent, zone, f, arg1, arg2, $R, $T1, $T2) {
+        var old,
+          t1 = $.Zone__current;
+        if (t1 === zone)
+          return f.call$2(arg1, arg2);
+        $.Zone__current = zone;
+        old = t1;
+        try {
+          t1 = f.call$2(arg1, arg2);
+          return t1;
+        } finally {
+          $.Zone__current = old;
+        }
+      },
+      _rootScheduleMicrotask($self, $parent, zone, f) {
+        type$.void_Function._as(f);
+        if (B.C__RootZone !== zone) {
+          f = zone.bindCallbackGuarded$1(f);
+          f = f;
+        }
+        A._scheduleAsyncCallback(f);
+      },
+      _AsyncRun__initializeScheduleImmediate_internalCallback: function _AsyncRun__initializeScheduleImmediate_internalCallback(t0) {
+        this._box_0 = t0;
+      },
+      _AsyncRun__initializeScheduleImmediate_closure: function _AsyncRun__initializeScheduleImmediate_closure(t0, t1, t2) {
+        this._box_0 = t0;
+        this.div = t1;
+        this.span = t2;
+      },
+      _AsyncRun__scheduleImmediateJsOverride_internalCallback: function _AsyncRun__scheduleImmediateJsOverride_internalCallback(t0) {
+        this.callback = t0;
+      },
+      _AsyncRun__scheduleImmediateWithSetImmediate_internalCallback: function _AsyncRun__scheduleImmediateWithSetImmediate_internalCallback(t0) {
+        this.callback = t0;
+      },
+      _TimerImpl: function _TimerImpl() {
+      },
+      _TimerImpl_internalCallback: function _TimerImpl_internalCallback(t0, t1) {
+        this.$this = t0;
+        this.callback = t1;
+      },
+      _AsyncAwaitCompleter: function _AsyncAwaitCompleter(t0, t1) {
+        this._future = t0;
+        this.isSync = false;
+        this.$ti = t1;
+      },
+      _awaitOnObject_closure: function _awaitOnObject_closure(t0) {
+        this.bodyFunction = t0;
+      },
+      _awaitOnObject_closure0: function _awaitOnObject_closure0(t0) {
+        this.bodyFunction = t0;
+      },
+      _wrapJsFunctionForAsync_closure: function _wrapJsFunctionForAsync_closure(t0) {
+        this.$protected = t0;
+      },
+      _SyncStarIterator: function _SyncStarIterator(t0, t1) {
+        var _ = this;
+        _._body = t0;
+        _._suspendedBodies = _._nestedIterator = _._datum = _._async$_current = null;
+        _.$ti = t1;
+      },
+      _SyncStarIterable: function _SyncStarIterable(t0, t1) {
+        this._outerHelper = t0;
+        this.$ti = t1;
+      },
+      AsyncError: function AsyncError(t0, t1) {
+        this.error = t0;
+        this.stackTrace = t1;
+      },
+      _FutureListener: function _FutureListener(t0, t1, t2, t3, t4) {
+        var _ = this;
+        _._nextListener = null;
+        _.result = t0;
+        _.state = t1;
+        _.callback = t2;
+        _.errorCallback = t3;
+        _.$ti = t4;
+      },
+      _Future: function _Future(t0, t1) {
+        var _ = this;
+        _._state = 0;
+        _._zone = t0;
+        _._resultOrListeners = null;
+        _.$ti = t1;
+      },
+      _Future__addListener_closure: function _Future__addListener_closure(t0, t1) {
+        this.$this = t0;
+        this.listener = t1;
+      },
+      _Future__prependListeners_closure: function _Future__prependListeners_closure(t0, t1) {
+        this._box_0 = t0;
+        this.$this = t1;
+      },
+      _Future__chainCoreFuture_closure: function _Future__chainCoreFuture_closure(t0, t1) {
+        this._box_0 = t0;
+        this.target = t1;
+      },
+      _Future__asyncCompleteWithValue_closure: function _Future__asyncCompleteWithValue_closure(t0, t1) {
+        this.$this = t0;
+        this.value = t1;
+      },
+      _Future__asyncCompleteErrorObject_closure: function _Future__asyncCompleteErrorObject_closure(t0, t1) {
+        this.$this = t0;
+        this.error = t1;
+      },
+      _Future__propagateToListeners_handleWhenCompleteCallback: function _Future__propagateToListeners_handleWhenCompleteCallback(t0, t1, t2) {
+        this._box_0 = t0;
+        this._box_1 = t1;
+        this.hasError = t2;
+      },
+      _Future__propagateToListeners_handleWhenCompleteCallback_closure: function _Future__propagateToListeners_handleWhenCompleteCallback_closure(t0, t1) {
+        this.joinedResult = t0;
+        this.originalSource = t1;
+      },
+      _Future__propagateToListeners_handleWhenCompleteCallback_closure0: function _Future__propagateToListeners_handleWhenCompleteCallback_closure0(t0) {
+        this.joinedResult = t0;
+      },
+      _Future__propagateToListeners_handleValueCallback: function _Future__propagateToListeners_handleValueCallback(t0, t1) {
+        this._box_0 = t0;
+        this.sourceResult = t1;
+      },
+      _Future__propagateToListeners_handleError: function _Future__propagateToListeners_handleError(t0, t1) {
+        this._box_1 = t0;
+        this._box_0 = t1;
+      },
+      _AsyncCallbackEntry: function _AsyncCallbackEntry(t0) {
+        this.callback = t0;
+        this.next = null;
+      },
+      Stream: function Stream() {
+      },
+      Stream_length_closure: function Stream_length_closure(t0, t1) {
+        this._box_0 = t0;
+        this.$this = t1;
+      },
+      Stream_length_closure0: function Stream_length_closure0(t0, t1) {
+        this._box_0 = t0;
+        this.future = t1;
+      },
+      _StreamIterator: function _StreamIterator(t0) {
+        this.$ti = t0;
+      },
+      _Zone: function _Zone() {
+      },
+      _rootHandleError_closure: function _rootHandleError_closure(t0, t1) {
+        this.error = t0;
+        this.stackTrace = t1;
+      },
+      _RootZone: function _RootZone() {
+      },
+      _RootZone_bindCallbackGuarded_closure: function _RootZone_bindCallbackGuarded_closure(t0, t1) {
+        this.$this = t0;
+        this.f = t1;
+      },
+      _RootZone_bindUnaryCallbackGuarded_closure: function _RootZone_bindUnaryCallbackGuarded_closure(t0, t1, t2) {
+        this.$this = t0;
+        this.f = t1;
+        this.T = t2;
+      },
+      HashMap_HashMap($K, $V) {
+        return new A._HashMap($K._eval$1("@<0>")._bind$1($V)._eval$1("_HashMap<1,2>"));
+      },
+      _HashMap__getTableEntry(table, key) {
+        var entry = table[key];
+        return entry === table ? null : entry;
+      },
+      _HashMap__setTableEntry(table, key, value) {
+        if (value == null)
+          table[key] = table;
+        else
+          table[key] = value;
+      },
+      _HashMap__newHashTable() {
+        var table = Object.create(null);
+        A._HashMap__setTableEntry(table, "<non-identifier-key>", table);
+        delete table["<non-identifier-key>"];
+        return table;
+      },
+      LinkedHashMap_LinkedHashMap$_literal(keyValuePairs, $K, $V) {
+        return $K._eval$1("@<0>")._bind$1($V)._eval$1("LinkedHashMap<1,2>")._as(A.fillLiteralMap(keyValuePairs, new A.JsLinkedHashMap($K._eval$1("@<0>")._bind$1($V)._eval$1("JsLinkedHashMap<1,2>"))));
+      },
+      LinkedHashMap_LinkedHashMap$_empty($K, $V) {
+        return new A.JsLinkedHashMap($K._eval$1("@<0>")._bind$1($V)._eval$1("JsLinkedHashMap<1,2>"));
+      },
+      HashSet_HashSet($E) {
+        return new A._HashSet($E._eval$1("_HashSet<0>"));
+      },
+      _HashSet__newHashTable() {
+        var table = Object.create(null);
+        table["<non-identifier-key>"] = table;
+        delete table["<non-identifier-key>"];
+        return table;
+      },
+      LinkedHashSet_LinkedHashSet($E) {
+        return new A._LinkedHashSet($E._eval$1("_LinkedHashSet<0>"));
+      },
+      LinkedHashSet_LinkedHashSet$_empty($E) {
+        return new A._LinkedHashSet($E._eval$1("_LinkedHashSet<0>"));
+      },
+      LinkedHashSet_LinkedHashSet$_literal(values, $E) {
+        return $E._eval$1("LinkedHashSet<0>")._as(A.fillLiteralSet(values, new A._LinkedHashSet($E._eval$1("_LinkedHashSet<0>"))));
+      },
+      _LinkedHashSet__newHashTable() {
+        var table = Object.create(null);
+        table["<non-identifier-key>"] = table;
+        delete table["<non-identifier-key>"];
+        return table;
+      },
+      _LinkedHashSetIterator$(_set, _modifications, $E) {
+        var t1 = new A._LinkedHashSetIterator(_set, _modifications, $E._eval$1("_LinkedHashSetIterator<0>"));
+        t1._collection$_cell = _set._collection$_first;
+        return t1;
+      },
+      IterableExtensions_get_firstOrNull(_this, $T) {
+        var iterator = J.get$iterator$ax(_this);
+        if (iterator.moveNext$0())
+          return iterator.get$current();
+        return null;
+      },
+      MapBase_mapToString(m) {
+        var result, t1;
+        if (A.isToStringVisiting(m))
+          return "{...}";
+        result = new A.StringBuffer("");
+        try {
+          t1 = {};
+          B.JSArray_methods.add$1($.toStringVisiting, m);
+          result._contents += "{";
+          t1.first = true;
+          m.forEach$1(0, new A.MapBase_mapToString_closure(t1, result));
+          result._contents += "}";
+        } finally {
+          if (0 >= $.toStringVisiting.length)
+            return A.ioore($.toStringVisiting, -1);
+          $.toStringVisiting.pop();
+        }
+        t1 = result._contents;
+        return t1.charCodeAt(0) == 0 ? t1 : t1;
+      },
+      _HashMap: function _HashMap(t0) {
+        var _ = this;
+        _._collection$_length = 0;
+        _._collection$_keys = _._collection$_rest = _._nums = _._strings = null;
+        _.$ti = t0;
+      },
+      _HashMap_addAll_closure: function _HashMap_addAll_closure(t0) {
+        this.$this = t0;
+      },
+      _HashMapKeyIterable: function _HashMapKeyIterable(t0, t1) {
+        this._collection$_map = t0;
+        this.$ti = t1;
+      },
+      _HashMapKeyIterator: function _HashMapKeyIterator(t0, t1, t2) {
+        var _ = this;
+        _._collection$_map = t0;
+        _._collection$_keys = t1;
+        _._offset = 0;
+        _._collection$_current = null;
+        _.$ti = t2;
+      },
+      _HashSet: function _HashSet(t0) {
+        var _ = this;
+        _._collection$_length = 0;
+        _._collection$_elements = _._collection$_rest = _._nums = _._strings = null;
+        _.$ti = t0;
+      },
+      _HashSetIterator: function _HashSetIterator(t0, t1, t2) {
+        var _ = this;
+        _._set = t0;
+        _._collection$_elements = t1;
+        _._offset = 0;
+        _._collection$_current = null;
+        _.$ti = t2;
+      },
+      _LinkedHashSet: function _LinkedHashSet(t0) {
+        var _ = this;
+        _._collection$_length = 0;
+        _._collection$_last = _._collection$_first = _._collection$_rest = _._nums = _._strings = null;
+        _._collection$_modifications = 0;
+        _.$ti = t0;
+      },
+      _LinkedHashSetCell: function _LinkedHashSetCell(t0) {
+        this._element = t0;
+        this._collection$_previous = this._collection$_next = null;
+      },
+      _LinkedHashSetIterator: function _LinkedHashSetIterator(t0, t1, t2) {
+        var _ = this;
+        _._set = t0;
+        _._collection$_modifications = t1;
+        _._collection$_current = _._collection$_cell = null;
+        _.$ti = t2;
+      },
+      ListBase: function ListBase() {
+      },
+      MapBase: function MapBase() {
+      },
+      MapBase_mapToString_closure: function MapBase_mapToString_closure(t0, t1) {
+        this._box_0 = t0;
+        this.result = t1;
+      },
+      SetBase: function SetBase() {
+      },
+      _SetBase: function _SetBase() {
+      },
+      Error__throw(error, stackTrace) {
+        error = A.initializeExceptionWrapper(error, new Error());
+        if (error == null)
+          error = A._asObject(error);
+        error.stack = stackTrace.toString$0(0);
+        throw error;
+      },
+      List_List$filled($length, fill, growable, $E) {
+        var i,
+          result = growable ? J.JSArray_JSArray$growable($length, $E) : J.JSArray_JSArray$fixed($length, $E);
+        if ($length !== 0 && fill != null)
+          for (i = 0; i < result.length; ++i)
+            result[i] = fill;
+        return result;
+      },
+      List_List$_of(elements, $E) {
+        var list, t1;
+        if (Array.isArray(elements))
+          return A._setArrayType(elements.slice(0), $E._eval$1("JSArray<0>"));
+        list = A._setArrayType([], $E._eval$1("JSArray<0>"));
+        for (t1 = J.get$iterator$ax(elements); t1.moveNext$0();)
+          B.JSArray_methods.add$1(list, t1.get$current());
+        return list;
+      },
+      StringBuffer__writeAll(string, objects, separator) {
+        var iterator = J.get$iterator$ax(objects);
+        if (!iterator.moveNext$0())
+          return string;
+        if (separator.length === 0) {
+          do
+            string += A.S(iterator.get$current());
+          while (iterator.moveNext$0());
+        } else {
+          string += A.S(iterator.get$current());
+          while (iterator.moveNext$0())
+            string = string + separator + A.S(iterator.get$current());
+        }
+        return string;
+      },
+      StackTrace_current() {
+        return A.getTraceFromException(new Error());
+      },
+      Error_safeToString(object) {
+        if (typeof object == "number" || A._isBool(object) || object == null)
+          return J.toString$0$(object);
+        if (typeof object == "string")
+          return JSON.stringify(object);
+        return A.Primitives_safeToString(object);
+      },
+      Error_throwWithStackTrace(error, stackTrace) {
+        A.checkNotNullable(error, "error", type$.Object);
+        A.checkNotNullable(stackTrace, "stackTrace", type$.StackTrace);
+        A.Error__throw(error, stackTrace);
+      },
+      AssertionError$(message) {
+        return new A.AssertionError(message);
+      },
+      ArgumentError$(message, $name) {
+        return new A.ArgumentError(false, null, $name, message);
+      },
+      ArgumentError$value(value, $name, message) {
+        return new A.ArgumentError(true, value, $name, message);
+      },
+      RangeError$range(invalidValue, minValue, maxValue, $name, message) {
+        return new A.RangeError(minValue, maxValue, true, invalidValue, $name, "Invalid value");
+      },
+      RangeError_checkNotNegative(value, $name) {
+        if (value < 0)
+          throw A.wrapException(A.RangeError$range(value, 0, null, $name, null));
+        return value;
+      },
+      IndexError$withLength(invalidValue, $length, indexable, $name) {
+        return new A.IndexError($length, true, invalidValue, $name, "Index out of range");
+      },
+      UnsupportedError$(message) {
+        return new A.UnsupportedError(message);
+      },
+      UnimplementedError$(message) {
+        return new A.UnimplementedError(message);
+      },
+      StateError$(message) {
+        return new A.StateError(message);
+      },
+      ConcurrentModificationError$(modifiedObject) {
+        return new A.ConcurrentModificationError(modifiedObject);
+      },
+      Iterable_iterableToShortString(iterable, leftDelimiter, rightDelimiter) {
+        var parts, t1;
+        if (A.isToStringVisiting(iterable)) {
+          if (leftDelimiter === "(" && rightDelimiter === ")")
+            return "(...)";
+          return leftDelimiter + "..." + rightDelimiter;
+        }
+        parts = A._setArrayType([], type$.JSArray_String);
+        B.JSArray_methods.add$1($.toStringVisiting, iterable);
+        try {
+          A._iterablePartsToStrings(iterable, parts);
+        } finally {
+          if (0 >= $.toStringVisiting.length)
+            return A.ioore($.toStringVisiting, -1);
+          $.toStringVisiting.pop();
+        }
+        t1 = A.StringBuffer__writeAll(leftDelimiter, type$.Iterable_dynamic._as(parts), ", ") + rightDelimiter;
+        return t1.charCodeAt(0) == 0 ? t1 : t1;
+      },
+      Iterable_iterableToFullString(iterable, leftDelimiter, rightDelimiter) {
+        var buffer, t1;
+        if (A.isToStringVisiting(iterable))
+          return leftDelimiter + "..." + rightDelimiter;
+        buffer = new A.StringBuffer(leftDelimiter);
+        B.JSArray_methods.add$1($.toStringVisiting, iterable);
+        try {
+          t1 = buffer;
+          t1._contents = A.StringBuffer__writeAll(t1._contents, iterable, ", ");
+        } finally {
+          if (0 >= $.toStringVisiting.length)
+            return A.ioore($.toStringVisiting, -1);
+          $.toStringVisiting.pop();
+        }
+        buffer._contents += rightDelimiter;
+        t1 = buffer._contents;
+        return t1.charCodeAt(0) == 0 ? t1 : t1;
+      },
+      _iterablePartsToStrings(iterable, parts) {
+        var next, ultimateString, penultimateString, penultimate, ultimate, ultimate0, elision,
+          it = iterable.get$iterator(iterable),
+          $length = 0, count = 0;
+        for (; ;) {
+          if (!($length < 80 || count < 3))
+            break;
+          if (!it.moveNext$0())
+            return;
+          next = A.S(it.get$current());
+          B.JSArray_methods.add$1(parts, next);
+          $length += next.length + 2;
+          ++count;
+        }
+        if (!it.moveNext$0()) {
+          if (count <= 5)
+            return;
+          if (0 >= parts.length)
+            return A.ioore(parts, -1);
+          ultimateString = parts.pop();
+          if (0 >= parts.length)
+            return A.ioore(parts, -1);
+          penultimateString = parts.pop();
+        } else {
+          penultimate = it.get$current();
+          ++count;
+          if (!it.moveNext$0()) {
+            if (count <= 4) {
+              B.JSArray_methods.add$1(parts, A.S(penultimate));
+              return;
+            }
+            ultimateString = A.S(penultimate);
+            if (0 >= parts.length)
+              return A.ioore(parts, -1);
+            penultimateString = parts.pop();
+            $length += ultimateString.length + 2;
+          } else {
+            ultimate = it.get$current();
+            ++count;
+            for (; it.moveNext$0(); penultimate = ultimate, ultimate = ultimate0) {
+              ultimate0 = it.get$current();
+              ++count;
+              if (count > 100) {
+                for (; ;) {
+                  if (!($length > 75 && count > 3))
+                    break;
+                  if (0 >= parts.length)
+                    return A.ioore(parts, -1);
+                  $length -= parts.pop().length + 2;
+                  --count;
+                }
+                B.JSArray_methods.add$1(parts, "...");
+                return;
+              }
+            }
+            penultimateString = A.S(penultimate);
+            ultimateString = A.S(ultimate);
+            $length += ultimateString.length + penultimateString.length + 4;
+          }
+        }
+        if (count > parts.length + 2) {
           $length += 5;
           elision = "...";
-        }
-      }
-      if (elision != null)
-        B.JSArray_methods.add$1(parts, elision);
-      B.JSArray_methods.add$1(parts, penultimateString);
-      B.JSArray_methods.add$1(parts, ultimateString);
-    },
-    Object_hash(object1, object2) {
-      var t1 = J.get$hashCode$(object1);
-      object2 = J.get$hashCode$(object2);
-      object2 = A.SystemHash_finish(A.SystemHash_combine(A.SystemHash_combine($.$get$_hashSeed(), t1), object2));
-      return object2;
-    },
-    _Enum: function _Enum() {
-    },
-    Error: function Error() {
-    },
-    AssertionError: function AssertionError(t0) {
-      this.message = t0;
-    },
-    TypeError: function TypeError() {
-    },
-    ArgumentError: function ArgumentError(t0, t1, t2, t3) {
-      var _ = this;
-      _._hasValue = t0;
-      _.invalidValue = t1;
-      _.name = t2;
-      _.message = t3;
-    },
-    RangeError: function RangeError(t0, t1, t2, t3, t4, t5) {
-      var _ = this;
-      _.start = t0;
-      _.end = t1;
-      _._hasValue = t2;
-      _.invalidValue = t3;
-      _.name = t4;
-      _.message = t5;
-    },
-    IndexError: function IndexError(t0, t1, t2, t3, t4) {
-      var _ = this;
-      _.length = t0;
-      _._hasValue = t1;
-      _.invalidValue = t2;
-      _.name = t3;
-      _.message = t4;
-    },
-    UnsupportedError: function UnsupportedError(t0) {
-      this.message = t0;
-    },
-    UnimplementedError: function UnimplementedError(t0) {
-      this.message = t0;
-    },
-    StateError: function StateError(t0) {
-      this.message = t0;
-    },
-    ConcurrentModificationError: function ConcurrentModificationError(t0) {
-      this.modifiedObject = t0;
-    },
-    StackOverflowError: function StackOverflowError() {
-    },
-    _Exception: function _Exception(t0) {
-      this.message = t0;
-    },
-    Iterable: function Iterable() {
-    },
-    MapEntry: function MapEntry(t0, t1, t2) {
-      this.key = t0;
-      this.value = t1;
-      this.$ti = t2;
-    },
-    Null: function Null() {
-    },
-    Object: function Object() {
-    },
-    _StringStackTrace: function _StringStackTrace() {
-    },
-    StringBuffer: function StringBuffer(t0) {
-      this._contents = t0;
-    },
-    ClientAppBinding: function ClientAppBinding(t0, t1, t2) {
-      var _ = this;
-      _.__ClientAppBinding__attachTarget_A = $;
-      _._attachBetween = null;
-      _.ComponentsBinding__rootElement = t0;
-      _.SchedulerBinding__schedulerPhase = t1;
-      _.SchedulerBinding__postFrameCallbacks = t2;
-    },
-    _ClientAppBinding_AppBinding_ComponentsBinding: function _ClientAppBinding_AppBinding_ComponentsBinding() {
-    },
-    RootDomRenderObject$(node, nodes) {
-      var t1 = new A.RootDomRenderObject(node, A._setArrayType([], type$.JSArray_JSObject)),
-        t2 = nodes == null ? A.NodeListIterable_toIterable(A._asJSObject(node.childNodes)) : nodes,
-        t3 = type$.JSObject;
-      t2 = A.List_List$_of(t2, t3);
-      t1.HydratableDomRenderObject_toHydrate = t2;
-      t2 = A.IterableExtensions_get_firstOrNull(t2, t3);
-      t1.__RootDomRenderObject_beforeStart_F = t2 == null ? null : A._asJSObjectQ(t2.previousSibling);
-      return t1;
-    },
-    EventBinding$(element, type, fn) {
-      var t1 = new A.EventBinding(type, fn);
-      t1.EventBinding$3(element, type, fn);
-      return t1;
-    },
-    AttributeOperation_clearOrSetAttribute(_this, $name, value) {
-      if (value == null) {
-        if (!A._asBool(_this.hasAttribute($name)))
-          return;
-        _this.removeAttribute($name);
-      } else {
-        if (A._asStringQ(_this.getAttribute($name)) === value)
-          return;
-        _this.setAttribute($name, value);
-      }
-    },
-    DomRenderObject: function DomRenderObject() {
-    },
-    DomRenderElement: function DomRenderElement(t0) {
-      var _ = this;
-      _.__DomRenderElement_node_F = $;
-      _.events = null;
-      _.HydratableDomRenderObject_toHydrate = t0;
-      _.nextSibling = _.previousSibling = _.parent = null;
-    },
-    DomRenderElement__createNode_closure: function DomRenderElement__createNode_closure(t0) {
-      this.tag = t0;
-    },
-    DomRenderElement_update_closure: function DomRenderElement_update_closure() {
-    },
-    DomRenderElement_update_closure0: function DomRenderElement_update_closure0(t0, t1, t2) {
-      this.$this = t0;
-      this.prevEventTypes = t1;
-      this.dataEvents = t2;
-    },
-    DomRenderText: function DomRenderText() {
-      var _ = this;
-      _.__DomRenderText_node_F = $;
-      _.nextSibling = _.previousSibling = _.parent = null;
-    },
-    DomRenderText__createNode_closure: function DomRenderText__createNode_closure() {
-    },
-    RootDomRenderObject: function RootDomRenderObject(t0, t1) {
-      var _ = this;
-      _.node = t0;
-      _.__RootDomRenderObject_beforeStart_F = $;
-      _.HydratableDomRenderObject_toHydrate = t1;
-      _.nextSibling = _.previousSibling = _.parent = null;
-    },
-    MultiChildDomRenderObject: function MultiChildDomRenderObject() {
-    },
-    HydratableDomRenderObject: function HydratableDomRenderObject() {
-    },
-    EventBinding: function EventBinding(t0, t1) {
-      this.type = t0;
-      this.fn = t1;
-      this._subscription = null;
-    },
-    EventBinding_closure: function EventBinding_closure(t0) {
-      this.$this = t0;
-    },
-    _DomRenderElement_DomRenderObject_MultiChildDomRenderObject: function _DomRenderElement_DomRenderObject_MultiChildDomRenderObject() {
-    },
-    _DomRenderElement_DomRenderObject_MultiChildDomRenderObject_HydratableDomRenderObject: function _DomRenderElement_DomRenderObject_MultiChildDomRenderObject_HydratableDomRenderObject() {
-    },
-    _RootDomRenderObject_DomRenderObject_MultiChildDomRenderObject: function _RootDomRenderObject_DomRenderObject_MultiChildDomRenderObject() {
-    },
-    _RootDomRenderObject_DomRenderObject_MultiChildDomRenderObject_HydratableDomRenderObject: function _RootDomRenderObject_DomRenderObject_MultiChildDomRenderObject_HydratableDomRenderObject() {
-    },
-    h2$(children, attributes, classes) {
-      return new A.h2(classes, attributes, children, null);
-    },
-    h3$(children, attributes) {
-      return new A.h3(attributes, children, null);
-    },
-    section$(children, classes, id) {
-      return new A.section(id, classes, children, null);
-    },
-    div$(children, attributes, classes) {
-      return new A.div(classes, attributes, children, null);
-    },
-    li$(children) {
-      return new A.li(children, null);
-    },
-    p$(children, attributes, classes) {
-      return new A.p(classes, attributes, children, null);
-    },
-    button$(children, attributes, classes, id) {
-      return new A.button(id, classes, attributes, children, null);
-    },
-    a$(children, attributes, classes, href, id, target) {
-      return new A.a(href, target, id, classes, attributes, children, null);
-    },
-    i$(children, attributes, classes) {
-      return new A.i(classes, attributes, children, null);
-    },
-    span$(children, attributes, classes) {
-      return new A.span(classes, attributes, children, null);
-    },
-    footer: function footer(t0, t1, t2) {
-      this.classes = t0;
-      this.children = t1;
-      this.key = t2;
-    },
-    h1: function h1(t0, t1, t2) {
-      this.classes = t0;
-      this.children = t1;
-      this.key = t2;
-    },
-    h2: function h2(t0, t1, t2, t3) {
-      var _ = this;
-      _.classes = t0;
-      _.attributes = t1;
-      _.children = t2;
-      _.key = t3;
-    },
-    h3: function h3(t0, t1, t2) {
-      this.attributes = t0;
-      this.children = t1;
-      this.key = t2;
-    },
-    nav: function nav(t0, t1, t2, t3) {
-      var _ = this;
-      _.id = t0;
-      _.classes = t1;
-      _.children = t2;
-      _.key = t3;
-    },
-    section: function section(t0, t1, t2, t3) {
-      var _ = this;
-      _.id = t0;
-      _.classes = t1;
-      _.children = t2;
-      _.key = t3;
-    },
-    div: function div(t0, t1, t2, t3) {
-      var _ = this;
-      _.classes = t0;
-      _.attributes = t1;
-      _.children = t2;
-      _.key = t3;
-    },
-    ul: function ul(t0, t1, t2) {
-      this.classes = t0;
-      this.children = t1;
-      this.key = t2;
-    },
-    li: function li(t0, t1) {
-      this.children = t0;
-      this.key = t1;
-    },
-    p: function p(t0, t1, t2, t3) {
-      var _ = this;
-      _.classes = t0;
-      _.attributes = t1;
-      _.children = t2;
-      _.key = t3;
-    },
-    button: function button(t0, t1, t2, t3, t4) {
-      var _ = this;
-      _.id = t0;
-      _.classes = t1;
-      _.attributes = t2;
-      _.children = t3;
-      _.key = t4;
-    },
-    img: function img(t0, t1, t2, t3) {
-      var _ = this;
-      _.alt = t0;
-      _.src = t1;
-      _.attributes = t2;
-      _.key = t3;
-    },
-    a: function a(t0, t1, t2, t3, t4, t5, t6) {
-      var _ = this;
-      _.href = t0;
-      _.target = t1;
-      _.id = t2;
-      _.classes = t3;
-      _.attributes = t4;
-      _.children = t5;
-      _.key = t6;
-    },
-    Target: function Target(t0, t1) {
-      this.index = t0;
-      this._name = t1;
-    },
-    i: function i(t0, t1, t2, t3) {
-      var _ = this;
-      _.classes = t0;
-      _.attributes = t1;
-      _.children = t2;
-      _.key = t3;
-    },
-    span: function span(t0, t1, t2, t3) {
-      var _ = this;
-      _.classes = t0;
-      _.attributes = t1;
-      _.children = t2;
-      _.key = t3;
-    },
-    _ColorMixin: function _ColorMixin() {
-    },
-    _Color: function _Color(t0) {
-      this._value = t0;
-    },
-    __Color_Object__ColorMixin: function __Color_Object__ColorMixin() {
-    },
-    _AllSpacing: function _AllSpacing() {
-    },
-    NumberString_get_numstr(_this) {
-      if (_this == 1 / 0 || _this == -1 / 0)
-        return B.JSInt_methods.toString$0(_this).toLowerCase();
-      return B.JSInt_methods.roundToDouble$0(_this) === _this ? B.JSInt_methods.toString$0(B.JSInt_methods.round$0(_this)) : B.JSInt_methods.toString$0(_this);
-    },
-    _Unit: function _Unit() {
-    },
-    _EmUnit: function _EmUnit(t0, t1) {
-      this._unit = t0;
-      this._unit$_value = t1;
-    },
-    _RemUnit: function _RemUnit(t0, t1) {
-      this._unit = t0;
-      this._unit$_value = t1;
-    },
-    _extension_0__prefixed(_this, prefix) {
-      var t1 = type$.String;
-      return _this.map$2$1(0, new A._extension_0__prefixed_closure(prefix), t1, t1);
-    },
-    Styles: function Styles() {
-    },
-    StylesMixin: function StylesMixin() {
-    },
-    _Styles: function _Styles() {
-    },
-    _extension_0__prefixed_closure: function _extension_0__prefixed_closure(t0) {
-      this.prefix = t0;
-    },
-    _Styles_Object_StylesMixin: function _Styles_Object_StylesMixin() {
-    },
-    AppBinding: function AppBinding() {
-    },
-    _AppBinding_Object_SchedulerBinding: function _AppBinding_Object_SchedulerBinding() {
-    },
-    SchedulerPhase: function SchedulerPhase(t0, t1) {
-      this.index = t0;
-      this._name = t1;
-    },
-    SchedulerBinding: function SchedulerBinding() {
-    },
-    _RootElement$(component) {
-      var t1 = A.HashSet_HashSet(type$.Element),
-        t2 = ($.Element__nextHashCode + 1) % 16777215;
-      $.Element__nextHashCode = t2;
-      return new A._RootElement(null, false, false, t1, t2, component, B._ElementLifecycle_0);
-    },
-    Component_canUpdate(oldComponent, newComponent) {
-      var t1 = A.getRuntimeTypeOfDartObject(oldComponent),
-        t2 = A.getRuntimeTypeOfDartObject(newComponent);
-      if (t1 !== t2)
-        return false;
-      if (oldComponent instanceof A.DomComponent && oldComponent.tag !== type$.DomComponent._as(newComponent).tag)
-        return false;
-      return true;
-    },
-    _InactiveElements__deactivateRecursively(element) {
-      element.deactivate$0();
-      element.visitChildren$1(A.framework__InactiveElements__deactivateRecursively$closure());
-    },
-    BuildOwner: function BuildOwner(t0, t1) {
-      var _ = this;
-      _._dirtyElements = t0;
-      _._isFirstBuild = _._scheduledBuild = false;
-      _._inactiveElements = t1;
-      _._dirtyElementsNeedsResorting = null;
-    },
-    BuildOwner_performInitialBuild_closure: function BuildOwner_performInitialBuild_closure(t0, t1) {
-      this.$this = t0;
-      this.completeBuild = t1;
-    },
-    BuildableElement: function BuildableElement() {
-    },
-    DomComponent: function DomComponent(t0, t1, t2, t3, t4, t5, t6, t7) {
-      var _ = this;
-      _.tag = t0;
-      _.id = t1;
-      _.classes = t2;
-      _.styles = t3;
-      _.attributes = t4;
-      _.events = t5;
-      _.children = t6;
-      _.key = t7;
-    },
-    DomElement: function DomElement(t0, t1, t2, t3, t4, t5, t6) {
-      var _ = this;
-      _._wrappingElement = null;
-      _.RenderObjectElement__renderObject = t0;
-      _.RenderObjectElement__dirtyRender = t1;
-      _.RenderObjectElement__attached = t2;
-      _._children = null;
-      _._forgottenChildren = t3;
-      _._slot = _._notificationTree = _._parent = null;
-      _._cachedHash = t4;
-      _._depth = null;
-      _._component = t5;
-      _._owner = _._binding = null;
-      _._lifecycleState = t6;
-      _._dependencies = _._inheritedElements = _._observerElements = null;
-      _._hadUnsatisfiedDependencies = false;
-      _._dirty = true;
-      _._inDirtyList = false;
-      _._parentRenderObjectElement = null;
-      _._parentChanged = false;
-    },
-    Text: function Text(t0, t1) {
-      this.text = t0;
-      this.key = t1;
-    },
-    TextElement: function TextElement(t0, t1, t2, t3, t4, t5) {
-      var _ = this;
-      _.RenderObjectElement__renderObject = t0;
-      _.RenderObjectElement__dirtyRender = t1;
-      _.RenderObjectElement__attached = t2;
-      _._slot = _._notificationTree = _._parent = null;
-      _._cachedHash = t3;
-      _._depth = null;
-      _._component = t4;
-      _._owner = _._binding = null;
-      _._lifecycleState = t5;
-      _._dependencies = _._inheritedElements = _._observerElements = null;
-      _._hadUnsatisfiedDependencies = false;
-      _._dirty = true;
-      _._inDirtyList = false;
-      _._parentRenderObjectElement = null;
-      _._parentChanged = false;
-    },
-    ComponentsBinding: function ComponentsBinding() {
-    },
-    _Root: function _Root(t0, t1, t2) {
-      this.child = t0;
-      this.rootRenderObject = t1;
-      this.key = t2;
-    },
-    _RootElement: function _RootElement(t0, t1, t2, t3, t4, t5, t6) {
-      var _ = this;
-      _.RenderObjectElement__renderObject = t0;
-      _.RenderObjectElement__dirtyRender = t1;
-      _.RenderObjectElement__attached = t2;
-      _._children = null;
-      _._forgottenChildren = t3;
-      _._slot = _._notificationTree = _._parent = null;
-      _._cachedHash = t4;
-      _._depth = null;
-      _._component = t5;
-      _._owner = _._binding = null;
-      _._lifecycleState = t6;
-      _._dependencies = _._inheritedElements = _._observerElements = null;
-      _._hadUnsatisfiedDependencies = false;
-      _._dirty = true;
-      _._inDirtyList = false;
-      _._parentRenderObjectElement = null;
-      _._parentChanged = false;
-    },
-    Component: function Component() {
-    },
-    _ElementLifecycle: function _ElementLifecycle(t0, t1) {
-      this.index = t0;
-      this._name = t1;
-    },
-    Element: function Element() {
-    },
-    Element_updateChildren_replaceWithNullIfForgotten: function Element_updateChildren_replaceWithNullIfForgotten(t0) {
-      this.forgottenChildren = t0;
-    },
-    Element_updateChildren_slotFor: function Element_updateChildren_slotFor() {
-    },
-    Element_updateSlotForChild_visit: function Element_updateSlotForChild_visit(t0) {
-      this.newSlot = t0;
-    },
-    Element_updateSlotForChild_visit_closure: function Element_updateSlotForChild_visit_closure(t0, t1) {
-      this._box_0 = t0;
-      this.visit = t1;
-    },
-    Element_detachRenderObject_closure: function Element_detachRenderObject_closure() {
-    },
-    ElementSlot: function ElementSlot(t0, t1) {
-      this.target = null;
-      this.previousSibling = t0;
-      this.index = t1;
-    },
-    _InactiveElements: function _InactiveElements(t0) {
-      this._elements = t0;
-    },
-    LeafElement: function LeafElement() {
-    },
-    MultiChildElement: function MultiChildElement() {
-    },
-    MultiChildRenderObjectElement: function MultiChildRenderObjectElement() {
-    },
-    LeafRenderObjectElement: function LeafRenderObjectElement() {
-    },
-    RenderObjectElement: function RenderObjectElement() {
-    },
-    StatelessComponent: function StatelessComponent() {
-    },
-    StatelessElement: function StatelessElement(t0, t1, t2) {
-      var _ = this;
-      _._slot = _._notificationTree = _._parent = _._child = _._asyncFirstBuild = null;
-      _._cachedHash = t0;
-      _._depth = null;
-      _._component = t1;
-      _._owner = _._binding = null;
-      _._lifecycleState = t2;
-      _._dependencies = _._inheritedElements = _._observerElements = null;
-      _._hadUnsatisfiedDependencies = false;
-      _._dirty = true;
-      _._inDirtyList = false;
-      _._parentRenderObjectElement = null;
-      _._parentChanged = false;
-    },
-    App: function App(t0) {
-      this.key = t0;
-    },
-    ApproachSection: function ApproachSection(t0) {
-      this.key = t0;
-    },
-    ContactSection: function ContactSection(t0) {
-      this.key = t0;
-    },
-    HeroSection: function HeroSection(t0) {
-      this.key = t0;
-    },
-    NavigationBar: function NavigationBar(t0) {
-      this.key = t0;
-    },
-    ProjectsSection: function ProjectsSection(t0) {
-      this.key = t0;
-    },
-    ProjectsSection__buildProjectCard_closure: function ProjectsSection__buildProjectCard_closure() {
-    },
-    ServicesSection: function ServicesSection(t0) {
-      this.key = t0;
-    },
-    SkillsSection: function SkillsSection(t0) {
-      this.key = t0;
-    },
-    _EventStreamSubscription$(_target, _eventType, onData, _useCapture, $T) {
-      var result,
-        t1 = A._wrapZone(new A._EventStreamSubscription_closure(onData), type$.JSObject),
-        t2 = null;
-      if (t1 == null)
-        t1 = t2;
-      else {
-        if (typeof t1 == "function")
-          A.throwExpression(A.ArgumentError$("Attempting to rewrap a JS function.", null));
-        result = function(_call, f) {
-          return function(arg1) {
-            return _call(f, arg1, arguments.length);
-          };
-        }(A._callDartFunctionFast1, t1);
-        result[$.$get$DART_CLOSURE_PROPERTY_NAME()] = t1;
-        t1 = result;
-      }
-      if (t1 != null)
-        _target.addEventListener(_eventType, t1, false);
-      return new A._EventStreamSubscription(_target, _eventType, t1, false, $T._eval$1("_EventStreamSubscription<0>"));
-    },
-    _wrapZone(callback, $T) {
-      var t1 = $.Zone__current;
-      if (t1 === B.C__RootZone)
-        return callback;
-      return t1.bindUnaryCallbackGuarded$1$1(callback, $T);
-    },
-    EventStreamProvider: function EventStreamProvider(t0, t1) {
-      this._eventType = t0;
-      this.$ti = t1;
-    },
-    _EventStream: function _EventStream() {
-    },
-    _ElementEventStreamImpl: function _ElementEventStreamImpl(t0, t1, t2, t3) {
-      var _ = this;
-      _._target = t0;
-      _._eventType = t1;
-      _._useCapture = t2;
-      _.$ti = t3;
-    },
-    _EventStreamSubscription: function _EventStreamSubscription(t0, t1, t2, t3, t4) {
-      var _ = this;
-      _._target = t0;
-      _._eventType = t1;
-      _._onData = t2;
-      _._useCapture = t3;
-      _.$ti = t4;
-    },
-    _EventStreamSubscription_closure: function _EventStreamSubscription_closure(t0) {
-      this.onData = t0;
-    },
-    throwLateFieldNI(fieldName) {
-      throw A.initializeExceptionWrapper(A.LateError$fieldNI(fieldName), new Error());
-    },
-    throwLateFieldAI(fieldName) {
-      throw A.initializeExceptionWrapper(A.LateError$fieldAI(fieldName), new Error());
-    },
-    throwLateFieldADI(fieldName) {
-      throw A.initializeExceptionWrapper(new A.LateError("Field '" + fieldName + "' has been assigned during initialization."), new Error());
-    },
-    _callDartFunctionFast1(callback, arg1, $length) {
-      type$.Function._as(callback);
-      if (A._asInt($length) >= 1)
-        return callback.call$1(arg1);
-      return callback.call$0();
-    },
-    getProperty(o, $name, $T) {
-      return $T._as(o[$name]);
-    },
-    NodeListIterable_toIterable(_this) {
-      return new A._SyncStarIterable(A.NodeListIterable_toIterable$body(_this), type$._SyncStarIterable_JSObject);
-    },
-    NodeListIterable_toIterable$body($async$_this) {
-      return function() {
-        var _this = $async$_this;
-        var $async$goto = 0, $async$handler = 1, $async$errorStack = [], i, t1;
-        return function $async$NodeListIterable_toIterable($async$iterator, $async$errorCode, $async$result) {
-          if ($async$errorCode === 1) {
-            $async$errorStack.push($async$result);
-            $async$goto = $async$handler;
+        } else
+          elision = null;
+        for (; ;) {
+          if (!($length > 80 && parts.length > 3))
+            break;
+          if (0 >= parts.length)
+            return A.ioore(parts, -1);
+          $length -= parts.pop().length + 2;
+          if (elision == null) {
+            $length += 5;
+            elision = "...";
           }
-          for (;;)
-            switch ($async$goto) {
-              case 0:
-                // Function start
-                i = 0;
-              case 2:
-                // for condition
-                if (!(i < A._asInt(_this.length))) {
-                  // goto after for
-                  $async$goto = 4;
-                  break;
-                }
-                t1 = A._asJSObjectQ(_this.item(i));
-                t1.toString;
-                $async$goto = 5;
-                return $async$iterator._async$_current = t1, 1;
-              case 5:
-                // after yield
-              case 3:
-                // for update
-                ++i;
-                // goto for condition
-                $async$goto = 2;
-                break;
-              case 4:
-                // after for
-                // implicit return
-                return 0;
-              case 1:
-                // rethrow
-                return $async$iterator._datum = $async$errorStack.at(-1), 3;
+        }
+        if (elision != null)
+          B.JSArray_methods.add$1(parts, elision);
+        B.JSArray_methods.add$1(parts, penultimateString);
+        B.JSArray_methods.add$1(parts, ultimateString);
+      },
+      Object_hash(object1, object2) {
+        var t1 = J.get$hashCode$(object1);
+        object2 = J.get$hashCode$(object2);
+        object2 = A.SystemHash_finish(A.SystemHash_combine(A.SystemHash_combine($.$get$_hashSeed(), t1), object2));
+        return object2;
+      },
+      _Enum: function _Enum() {
+      },
+      Error: function Error() {
+      },
+      AssertionError: function AssertionError(t0) {
+        this.message = t0;
+      },
+      TypeError: function TypeError() {
+      },
+      ArgumentError: function ArgumentError(t0, t1, t2, t3) {
+        var _ = this;
+        _._hasValue = t0;
+        _.invalidValue = t1;
+        _.name = t2;
+        _.message = t3;
+      },
+      RangeError: function RangeError(t0, t1, t2, t3, t4, t5) {
+        var _ = this;
+        _.start = t0;
+        _.end = t1;
+        _._hasValue = t2;
+        _.invalidValue = t3;
+        _.name = t4;
+        _.message = t5;
+      },
+      IndexError: function IndexError(t0, t1, t2, t3, t4) {
+        var _ = this;
+        _.length = t0;
+        _._hasValue = t1;
+        _.invalidValue = t2;
+        _.name = t3;
+        _.message = t4;
+      },
+      UnsupportedError: function UnsupportedError(t0) {
+        this.message = t0;
+      },
+      UnimplementedError: function UnimplementedError(t0) {
+        this.message = t0;
+      },
+      StateError: function StateError(t0) {
+        this.message = t0;
+      },
+      ConcurrentModificationError: function ConcurrentModificationError(t0) {
+        this.modifiedObject = t0;
+      },
+      StackOverflowError: function StackOverflowError() {
+      },
+      _Exception: function _Exception(t0) {
+        this.message = t0;
+      },
+      Iterable: function Iterable() {
+      },
+      MapEntry: function MapEntry(t0, t1, t2) {
+        this.key = t0;
+        this.value = t1;
+        this.$ti = t2;
+      },
+      Null: function Null() {
+      },
+      Object: function Object() {
+      },
+      _StringStackTrace: function _StringStackTrace() {
+      },
+      StringBuffer: function StringBuffer(t0) {
+        this._contents = t0;
+      },
+      ClientAppBinding: function ClientAppBinding(t0, t1, t2) {
+        var _ = this;
+        _.__ClientAppBinding__attachTarget_A = $;
+        _._attachBetween = null;
+        _.ComponentsBinding__rootElement = t0;
+        _.SchedulerBinding__schedulerPhase = t1;
+        _.SchedulerBinding__postFrameCallbacks = t2;
+      },
+      _ClientAppBinding_AppBinding_ComponentsBinding: function _ClientAppBinding_AppBinding_ComponentsBinding() {
+      },
+      RootDomRenderObject$(node, nodes) {
+        var t1 = new A.RootDomRenderObject(node, A._setArrayType([], type$.JSArray_JSObject)),
+          t2 = nodes == null ? A.NodeListIterable_toIterable(A._asJSObject(node.childNodes)) : nodes,
+          t3 = type$.JSObject;
+        t2 = A.List_List$_of(t2, t3);
+        t1.HydratableDomRenderObject_toHydrate = t2;
+        t2 = A.IterableExtensions_get_firstOrNull(t2, t3);
+        t1.__RootDomRenderObject_beforeStart_F = t2 == null ? null : A._asJSObjectQ(t2.previousSibling);
+        return t1;
+      },
+      EventBinding$(element, type, fn) {
+        var t1 = new A.EventBinding(type, fn);
+        t1.EventBinding$3(element, type, fn);
+        return t1;
+      },
+      AttributeOperation_clearOrSetAttribute(_this, $name, value) {
+        if (value == null) {
+          if (!A._asBool(_this.hasAttribute($name)))
+            return;
+          _this.removeAttribute($name);
+        } else {
+          if (A._asStringQ(_this.getAttribute($name)) === value)
+            return;
+          _this.setAttribute($name, value);
+        }
+      },
+      DomRenderObject: function DomRenderObject() {
+      },
+      DomRenderElement: function DomRenderElement(t0) {
+        var _ = this;
+        _.__DomRenderElement_node_F = $;
+        _.events = null;
+        _.HydratableDomRenderObject_toHydrate = t0;
+        _.nextSibling = _.previousSibling = _.parent = null;
+      },
+      DomRenderElement__createNode_closure: function DomRenderElement__createNode_closure(t0) {
+        this.tag = t0;
+      },
+      DomRenderElement_update_closure: function DomRenderElement_update_closure() {
+      },
+      DomRenderElement_update_closure0: function DomRenderElement_update_closure0(t0, t1, t2) {
+        this.$this = t0;
+        this.prevEventTypes = t1;
+        this.dataEvents = t2;
+      },
+      DomRenderText: function DomRenderText() {
+        var _ = this;
+        _.__DomRenderText_node_F = $;
+        _.nextSibling = _.previousSibling = _.parent = null;
+      },
+      DomRenderText__createNode_closure: function DomRenderText__createNode_closure() {
+      },
+      RootDomRenderObject: function RootDomRenderObject(t0, t1) {
+        var _ = this;
+        _.node = t0;
+        _.__RootDomRenderObject_beforeStart_F = $;
+        _.HydratableDomRenderObject_toHydrate = t1;
+        _.nextSibling = _.previousSibling = _.parent = null;
+      },
+      MultiChildDomRenderObject: function MultiChildDomRenderObject() {
+      },
+      HydratableDomRenderObject: function HydratableDomRenderObject() {
+      },
+      EventBinding: function EventBinding(t0, t1) {
+        this.type = t0;
+        this.fn = t1;
+        this._subscription = null;
+      },
+      EventBinding_closure: function EventBinding_closure(t0) {
+        this.$this = t0;
+      },
+      _DomRenderElement_DomRenderObject_MultiChildDomRenderObject: function _DomRenderElement_DomRenderObject_MultiChildDomRenderObject() {
+      },
+      _DomRenderElement_DomRenderObject_MultiChildDomRenderObject_HydratableDomRenderObject: function _DomRenderElement_DomRenderObject_MultiChildDomRenderObject_HydratableDomRenderObject() {
+      },
+      _RootDomRenderObject_DomRenderObject_MultiChildDomRenderObject: function _RootDomRenderObject_DomRenderObject_MultiChildDomRenderObject() {
+      },
+      _RootDomRenderObject_DomRenderObject_MultiChildDomRenderObject_HydratableDomRenderObject: function _RootDomRenderObject_DomRenderObject_MultiChildDomRenderObject_HydratableDomRenderObject() {
+      },
+      h2$(children, attributes, classes) {
+        return new A.h2(classes, attributes, children, null);
+      },
+      h3$(children, attributes, classes) {
+        return new A.h3(classes, attributes, children, null);
+      },
+      h4$(children) {
+        return new A.h4(children, null);
+      },
+      section$(children, classes, id) {
+        return new A.section(id, classes, children, null);
+      },
+      div$(children, attributes, classes, events) {
+        return new A.div(classes, attributes, events, children, null);
+      },
+      ul$(children, classes) {
+        return new A.ul(classes, children, null);
+      },
+      li$(children) {
+        return new A.li(children, null);
+      },
+      p$(children, attributes, classes) {
+        return new A.p(classes, attributes, children, null);
+      },
+      button$(children, attributes, classes, events, id) {
+        return new A.button(id, classes, attributes, events, children, null);
+      },
+      img$(alt, attributes, classes, src) {
+        return new A.img(alt, src, classes, attributes, null);
+      },
+      a$(children, attributes, classes, href, id, target) {
+        return new A.a(href, target, id, classes, attributes, children, null);
+      },
+      i$(children, attributes, classes) {
+        return new A.i(classes, attributes, children, null);
+      },
+      span$(children, attributes, classes) {
+        return new A.span(classes, attributes, children, null);
+      },
+      footer: function footer(t0, t1, t2) {
+        this.classes = t0;
+        this.children = t1;
+        this.key = t2;
+      },
+      h1: function h1(t0, t1, t2) {
+        this.classes = t0;
+        this.children = t1;
+        this.key = t2;
+      },
+      h2: function h2(t0, t1, t2, t3) {
+        var _ = this;
+        _.classes = t0;
+        _.attributes = t1;
+        _.children = t2;
+        _.key = t3;
+      },
+      h3: function h3(t0, t1, t2, t3) {
+        var _ = this;
+        _.classes = t0;
+        _.attributes = t1;
+        _.children = t2;
+        _.key = t3;
+      },
+      h4: function h4(t0, t1) {
+        this.children = t0;
+        this.key = t1;
+      },
+      nav: function nav(t0, t1, t2, t3) {
+        var _ = this;
+        _.id = t0;
+        _.classes = t1;
+        _.children = t2;
+        _.key = t3;
+      },
+      section: function section(t0, t1, t2, t3) {
+        var _ = this;
+        _.id = t0;
+        _.classes = t1;
+        _.children = t2;
+        _.key = t3;
+      },
+      div: function div(t0, t1, t2, t3, t4) {
+        var _ = this;
+        _.classes = t0;
+        _.attributes = t1;
+        _.events = t2;
+        _.children = t3;
+        _.key = t4;
+      },
+      ul: function ul(t0, t1, t2) {
+        this.classes = t0;
+        this.children = t1;
+        this.key = t2;
+      },
+      li: function li(t0, t1) {
+        this.children = t0;
+        this.key = t1;
+      },
+      p: function p(t0, t1, t2, t3) {
+        var _ = this;
+        _.classes = t0;
+        _.attributes = t1;
+        _.children = t2;
+        _.key = t3;
+      },
+      button: function button(t0, t1, t2, t3, t4, t5) {
+        var _ = this;
+        _.id = t0;
+        _.classes = t1;
+        _.attributes = t2;
+        _.events = t3;
+        _.children = t4;
+        _.key = t5;
+      },
+      img: function img(t0, t1, t2, t3, t4) {
+        var _ = this;
+        _.alt = t0;
+        _.src = t1;
+        _.classes = t2;
+        _.attributes = t3;
+        _.key = t4;
+      },
+      a: function a(t0, t1, t2, t3, t4, t5, t6) {
+        var _ = this;
+        _.href = t0;
+        _.target = t1;
+        _.id = t2;
+        _.classes = t3;
+        _.attributes = t4;
+        _.children = t5;
+        _.key = t6;
+      },
+      Target: function Target(t0, t1) {
+        this.index = t0;
+        this._name = t1;
+      },
+      i: function i(t0, t1, t2, t3) {
+        var _ = this;
+        _.classes = t0;
+        _.attributes = t1;
+        _.children = t2;
+        _.key = t3;
+      },
+      span: function span(t0, t1, t2, t3) {
+        var _ = this;
+        _.classes = t0;
+        _.attributes = t1;
+        _.children = t2;
+        _.key = t3;
+      },
+      _ColorMixin: function _ColorMixin() {
+      },
+      _Color: function _Color(t0) {
+        this._value = t0;
+      },
+      __Color_Object__ColorMixin: function __Color_Object__ColorMixin() {
+      },
+      _AllSpacing: function _AllSpacing() {
+      },
+      NumberString_get_numstr(_this) {
+        if (_this == 1 / 0 || _this == -1 / 0)
+          return B.JSInt_methods.toString$0(_this).toLowerCase();
+        return B.JSInt_methods.roundToDouble$0(_this) === _this ? B.JSInt_methods.toString$0(B.JSInt_methods.round$0(_this)) : B.JSInt_methods.toString$0(_this);
+      },
+      _Unit: function _Unit() {
+      },
+      _EmUnit: function _EmUnit(t0, t1) {
+        this._unit = t0;
+        this._unit$_value = t1;
+      },
+      _RemUnit: function _RemUnit(t0, t1) {
+        this._unit = t0;
+        this._unit$_value = t1;
+      },
+      _extension_0__prefixed(_this, prefix) {
+        var t1 = type$.String;
+        return _this.map$2$1(0, new A._extension_0__prefixed_closure(prefix), t1, t1);
+      },
+      Styles: function Styles() {
+      },
+      StylesMixin: function StylesMixin() {
+      },
+      _Styles: function _Styles() {
+      },
+      _extension_0__prefixed_closure: function _extension_0__prefixed_closure(t0) {
+        this.prefix = t0;
+      },
+      _Styles_Object_StylesMixin: function _Styles_Object_StylesMixin() {
+      },
+      AppBinding: function AppBinding() {
+      },
+      _AppBinding_Object_SchedulerBinding: function _AppBinding_Object_SchedulerBinding() {
+      },
+      SchedulerPhase: function SchedulerPhase(t0, t1) {
+        this.index = t0;
+        this._name = t1;
+      },
+      SchedulerBinding: function SchedulerBinding() {
+      },
+      SchedulerBinding_scheduleBuild_closure: function SchedulerBinding_scheduleBuild_closure(t0, t1) {
+        this.$this = t0;
+        this.buildCallback = t1;
+      },
+      _RootElement$(component) {
+        var t1 = A.HashSet_HashSet(type$.Element),
+          t2 = ($.Element__nextHashCode + 1) % 16777215;
+        $.Element__nextHashCode = t2;
+        return new A._RootElement(null, false, false, t1, t2, component, B._ElementLifecycle_0);
+      },
+      Component_canUpdate(oldComponent, newComponent) {
+        var t1 = A.getRuntimeTypeOfDartObject(oldComponent),
+          t2 = A.getRuntimeTypeOfDartObject(newComponent);
+        if (t1 !== t2)
+          return false;
+        if (oldComponent instanceof A.DomComponent && oldComponent.tag !== type$.DomComponent._as(newComponent).tag)
+          return false;
+        return true;
+      },
+      Element__sort(a, b) {
+        var t2,
+          t1 = type$.Element;
+        t1._as(a);
+        t1._as(b);
+        t1 = a._depth;
+        t1.toString;
+        t2 = b._depth;
+        t2.toString;
+        if (t1 < t2)
+          return -1;
+        else if (t2 < t1)
+          return 1;
+        else {
+          t1 = b._dirty;
+          if (t1 && !a._dirty)
+            return -1;
+          else if (a._dirty && !t1)
+            return 1;
+        }
+        return 0;
+      },
+      _InactiveElements__deactivateRecursively(element) {
+        element.deactivate$0();
+        element.visitChildren$1(A.framework__InactiveElements__deactivateRecursively$closure());
+      },
+      BuildOwner: function BuildOwner(t0, t1) {
+        var _ = this;
+        _._dirtyElements = t0;
+        _._isFirstBuild = _._scheduledBuild = false;
+        _._inactiveElements = t1;
+        _._dirtyElementsNeedsResorting = null;
+      },
+      BuildOwner_performInitialBuild_closure: function BuildOwner_performInitialBuild_closure(t0, t1) {
+        this.$this = t0;
+        this.completeBuild = t1;
+      },
+      BuildableElement: function BuildableElement() {
+      },
+      DomComponent: function DomComponent(t0, t1, t2, t3, t4, t5, t6, t7) {
+        var _ = this;
+        _.tag = t0;
+        _.id = t1;
+        _.classes = t2;
+        _.styles = t3;
+        _.attributes = t4;
+        _.events = t5;
+        _.children = t6;
+        _.key = t7;
+      },
+      DomElement: function DomElement(t0, t1, t2, t3, t4, t5, t6) {
+        var _ = this;
+        _._wrappingElement = null;
+        _.RenderObjectElement__renderObject = t0;
+        _.RenderObjectElement__dirtyRender = t1;
+        _.RenderObjectElement__attached = t2;
+        _._children = null;
+        _._forgottenChildren = t3;
+        _._slot = _._notificationTree = _._parent = null;
+        _._cachedHash = t4;
+        _._depth = null;
+        _._component = t5;
+        _._owner = _._binding = null;
+        _._lifecycleState = t6;
+        _._dependencies = _._inheritedElements = _._observerElements = null;
+        _._hadUnsatisfiedDependencies = false;
+        _._dirty = true;
+        _._inDirtyList = false;
+        _._parentRenderObjectElement = null;
+        _._parentChanged = false;
+      },
+      Text: function Text(t0, t1) {
+        this.text = t0;
+        this.key = t1;
+      },
+      TextElement: function TextElement(t0, t1, t2, t3, t4, t5) {
+        var _ = this;
+        _.RenderObjectElement__renderObject = t0;
+        _.RenderObjectElement__dirtyRender = t1;
+        _.RenderObjectElement__attached = t2;
+        _._slot = _._notificationTree = _._parent = null;
+        _._cachedHash = t3;
+        _._depth = null;
+        _._component = t4;
+        _._owner = _._binding = null;
+        _._lifecycleState = t5;
+        _._dependencies = _._inheritedElements = _._observerElements = null;
+        _._hadUnsatisfiedDependencies = false;
+        _._dirty = true;
+        _._inDirtyList = false;
+        _._parentRenderObjectElement = null;
+        _._parentChanged = false;
+      },
+      ComponentsBinding: function ComponentsBinding() {
+      },
+      _Root: function _Root(t0, t1, t2) {
+        this.child = t0;
+        this.rootRenderObject = t1;
+        this.key = t2;
+      },
+      _RootElement: function _RootElement(t0, t1, t2, t3, t4, t5, t6) {
+        var _ = this;
+        _.RenderObjectElement__renderObject = t0;
+        _.RenderObjectElement__dirtyRender = t1;
+        _.RenderObjectElement__attached = t2;
+        _._children = null;
+        _._forgottenChildren = t3;
+        _._slot = _._notificationTree = _._parent = null;
+        _._cachedHash = t4;
+        _._depth = null;
+        _._component = t5;
+        _._owner = _._binding = null;
+        _._lifecycleState = t6;
+        _._dependencies = _._inheritedElements = _._observerElements = null;
+        _._hadUnsatisfiedDependencies = false;
+        _._dirty = true;
+        _._inDirtyList = false;
+        _._parentRenderObjectElement = null;
+        _._parentChanged = false;
+      },
+      Component: function Component() {
+      },
+      _ElementLifecycle: function _ElementLifecycle(t0, t1) {
+        this.index = t0;
+        this._name = t1;
+      },
+      Element: function Element() {
+      },
+      Element_updateChildren_replaceWithNullIfForgotten: function Element_updateChildren_replaceWithNullIfForgotten(t0) {
+        this.forgottenChildren = t0;
+      },
+      Element_updateChildren_slotFor: function Element_updateChildren_slotFor() {
+      },
+      Element_updateSlotForChild_visit: function Element_updateSlotForChild_visit(t0) {
+        this.newSlot = t0;
+      },
+      Element_updateSlotForChild_visit_closure: function Element_updateSlotForChild_visit_closure(t0, t1) {
+        this._box_0 = t0;
+        this.visit = t1;
+      },
+      Element_detachRenderObject_closure: function Element_detachRenderObject_closure() {
+      },
+      ElementSlot: function ElementSlot(t0, t1) {
+        this.target = null;
+        this.previousSibling = t0;
+        this.index = t1;
+      },
+      _InactiveElements: function _InactiveElements(t0) {
+        this._elements = t0;
+      },
+      _InactiveElements__unmount_closure: function _InactiveElements__unmount_closure(t0) {
+        this.$this = t0;
+      },
+      LeafElement: function LeafElement() {
+      },
+      MultiChildElement: function MultiChildElement() {
+      },
+      MultiChildRenderObjectElement: function MultiChildRenderObjectElement() {
+      },
+      LeafRenderObjectElement: function LeafRenderObjectElement() {
+      },
+      RenderObjectElement: function RenderObjectElement() {
+      },
+      StatefulComponent: function StatefulComponent() {
+      },
+      State: function State() {
+      },
+      StatefulElement: function StatefulElement(t0, t1, t2, t3) {
+        var _ = this;
+        _._framework$_state = t0;
+        _._asyncInitState = null;
+        _._didChangeDependencies = false;
+        _._slot = _._notificationTree = _._parent = _._child = null;
+        _._cachedHash = t1;
+        _._depth = null;
+        _._component = t2;
+        _._owner = _._binding = null;
+        _._lifecycleState = t3;
+        _._dependencies = _._inheritedElements = _._observerElements = null;
+        _._hadUnsatisfiedDependencies = false;
+        _._dirty = true;
+        _._inDirtyList = false;
+        _._parentRenderObjectElement = null;
+        _._parentChanged = false;
+      },
+      StatelessComponent: function StatelessComponent() {
+      },
+      StatelessElement: function StatelessElement(t0, t1, t2) {
+        var _ = this;
+        _._slot = _._notificationTree = _._parent = _._child = _._asyncFirstBuild = null;
+        _._cachedHash = t0;
+        _._depth = null;
+        _._component = t1;
+        _._owner = _._binding = null;
+        _._lifecycleState = t2;
+        _._dependencies = _._inheritedElements = _._observerElements = null;
+        _._hadUnsatisfiedDependencies = false;
+        _._dirty = true;
+        _._inDirtyList = false;
+        _._parentRenderObjectElement = null;
+        _._parentChanged = false;
+      },
+      App: function App(t0) {
+        this.key = t0;
+      },
+      ApproachSection: function ApproachSection(t0) {
+        this.key = t0;
+      },
+      ContactSection: function ContactSection(t0) {
+        this.key = t0;
+      },
+      HeroSection: function HeroSection(t0) {
+        this.key = t0;
+      },
+      NavigationBar: function NavigationBar(t0) {
+        this.key = t0;
+      },
+      ProjectDetailModal: function ProjectDetailModal(t0, t1, t2) {
+        this.project = t0;
+        this.onClose = t1;
+        this.key = t2;
+      },
+      _ProjectDetailModalState: function _ProjectDetailModalState() {
+        this._currentImageIndex = 1;
+        this._framework$_element = this._component = null;
+      },
+      _ProjectDetailModalState_build_closure: function _ProjectDetailModalState_build_closure(t0) {
+        this.$this = t0;
+      },
+      _ProjectDetailModalState_build_closure0: function _ProjectDetailModalState_build_closure0() {
+      },
+      _ProjectDetailModalState_build_closure1: function _ProjectDetailModalState_build_closure1(t0) {
+        this.$this = t0;
+      },
+      _ProjectDetailModalState_build_closure2: function _ProjectDetailModalState_build_closure2(t0) {
+        this.$this = t0;
+      },
+      _ProjectDetailModalState_build__closure0: function _ProjectDetailModalState_build__closure0(t0) {
+        this.$this = t0;
+      },
+      _ProjectDetailModalState_build_closure3: function _ProjectDetailModalState_build_closure3(t0) {
+        this.$this = t0;
+      },
+      _ProjectDetailModalState_build__closure: function _ProjectDetailModalState_build__closure(t0) {
+        this.$this = t0;
+      },
+      _ProjectDetailModalState_build_closure4: function _ProjectDetailModalState_build_closure4() {
+      },
+      _ProjectDetailModalState_build_closure5: function _ProjectDetailModalState_build_closure5() {
+      },
+      ProjectsSection: function ProjectsSection(t0) {
+        this.key = t0;
+      },
+      _ProjectsSectionState: function _ProjectsSectionState(t0) {
+        var _ = this;
+        _._selectedProject = null;
+        _.projects = t0;
+        _._framework$_element = _._component = null;
+      },
+      _ProjectsSectionState__openProject_closure: function _ProjectsSectionState__openProject_closure(t0, t1) {
+        this.$this = t0;
+        this.project = t1;
+      },
+      _ProjectsSectionState__closeProject_closure: function _ProjectsSectionState__closeProject_closure(t0) {
+        this.$this = t0;
+      },
+      _ProjectsSectionState_build_closure: function _ProjectsSectionState_build_closure(t0) {
+        this.$this = t0;
+      },
+      _ProjectsSectionState__buildProjectCard_closure: function _ProjectsSectionState__buildProjectCard_closure(t0, t1) {
+        this.$this = t0;
+        this.project = t1;
+      },
+      _ProjectsSectionState__buildProjectCard_closure0: function _ProjectsSectionState__buildProjectCard_closure0() {
+      },
+      ServicesSection: function ServicesSection(t0) {
+        this.key = t0;
+      },
+      SkillsSection: function SkillsSection(t0) {
+        this.key = t0;
+      },
+      Project: function Project(t0, t1, t2, t3, t4, t5) {
+        var _ = this;
+        _.title = t0;
+        _.subtitle = t1;
+        _.description = t2;
+        _.assetFolder = t3;
+        _.techStack = t4;
+        _.keyFeatures = t5;
+      },
+      _EventStreamSubscription$(_target, _eventType, onData, _useCapture, $T) {
+        var result,
+          t1 = A._wrapZone(new A._EventStreamSubscription_closure(onData), type$.JSObject),
+          t2 = null;
+        if (t1 == null)
+          t1 = t2;
+        else {
+          if (typeof t1 == "function")
+            A.throwExpression(A.ArgumentError$("Attempting to rewrap a JS function.", null));
+          result = function (_call, f) {
+            return function (arg1) {
+              return _call(f, arg1, arguments.length);
+            };
+          }(A._callDartFunctionFast1, t1);
+          result[$.$get$DART_CLOSURE_PROPERTY_NAME()] = t1;
+          t1 = result;
+        }
+        if (t1 != null)
+          _target.addEventListener(_eventType, t1, false);
+        return new A._EventStreamSubscription(_target, _eventType, t1, false, $T._eval$1("_EventStreamSubscription<0>"));
+      },
+      _wrapZone(callback, $T) {
+        var t1 = $.Zone__current;
+        if (t1 === B.C__RootZone)
+          return callback;
+        return t1.bindUnaryCallbackGuarded$1$1(callback, $T);
+      },
+      EventStreamProvider: function EventStreamProvider(t0, t1) {
+        this._eventType = t0;
+        this.$ti = t1;
+      },
+      _EventStream: function _EventStream() {
+      },
+      _ElementEventStreamImpl: function _ElementEventStreamImpl(t0, t1, t2, t3) {
+        var _ = this;
+        _._target = t0;
+        _._eventType = t1;
+        _._useCapture = t2;
+        _.$ti = t3;
+      },
+      _EventStreamSubscription: function _EventStreamSubscription(t0, t1, t2, t3, t4) {
+        var _ = this;
+        _._target = t0;
+        _._eventType = t1;
+        _._onData = t2;
+        _._useCapture = t3;
+        _.$ti = t4;
+      },
+      _EventStreamSubscription_closure: function _EventStreamSubscription_closure(t0) {
+        this.onData = t0;
+      },
+      printString(string) {
+        if (typeof dartPrint == "function") {
+          dartPrint(string);
+          return;
+        }
+        if (typeof console == "object" && typeof console.log != "undefined") {
+          console.log(string);
+          return;
+        }
+        if (typeof print == "function") {
+          print(string);
+          return;
+        }
+        throw "Unable to print message: " + String(string);
+      },
+      throwLateFieldNI(fieldName) {
+        throw A.initializeExceptionWrapper(A.LateError$fieldNI(fieldName), new Error());
+      },
+      throwLateFieldAI(fieldName) {
+        throw A.initializeExceptionWrapper(A.LateError$fieldAI(fieldName), new Error());
+      },
+      throwLateFieldADI(fieldName) {
+        throw A.initializeExceptionWrapper(new A.LateError("Field '" + fieldName + "' has been assigned during initialization."), new Error());
+      },
+      _callDartFunctionFast1(callback, arg1, $length) {
+        type$.Function._as(callback);
+        if (A._asInt($length) >= 1)
+          return callback.call$1(arg1);
+        return callback.call$0();
+      },
+      getProperty(o, $name, $T) {
+        return $T._as(o[$name]);
+      },
+      NodeListIterable_toIterable(_this) {
+        return new A._SyncStarIterable(A.NodeListIterable_toIterable$body(_this), type$._SyncStarIterable_JSObject);
+      },
+      NodeListIterable_toIterable$body($async$_this) {
+        return function () {
+          var _this = $async$_this;
+          var $async$goto = 0, $async$handler = 1, $async$errorStack = [], i, t1;
+          return function $async$NodeListIterable_toIterable($async$iterator, $async$errorCode, $async$result) {
+            if ($async$errorCode === 1) {
+              $async$errorStack.push($async$result);
+              $async$goto = $async$handler;
             }
+            for (; ;)
+              switch ($async$goto) {
+                case 0:
+                  // Function start
+                  i = 0;
+                case 2:
+                  // for condition
+                  if (!(i < A._asInt(_this.length))) {
+                    // goto after for
+                    $async$goto = 4;
+                    break;
+                  }
+                  t1 = A._asJSObjectQ(_this.item(i));
+                  t1.toString;
+                  $async$goto = 5;
+                  return $async$iterator._async$_current = t1, 1;
+                case 5:
+                // after yield
+                case 3:
+                  // for update
+                  ++i;
+                  // goto for condition
+                  $async$goto = 2;
+                  break;
+                case 4:
+                  // after for
+                  // implicit return
+                  return 0;
+                case 1:
+                  // rethrow
+                  return $async$iterator._datum = $async$errorStack.at(-1), 3;
+              }
+          };
         };
-      };
+      },
+      events(onChange, onClick, onInput, $V) {
+        return A.LinkedHashMap_LinkedHashMap$_empty(type$.String, type$.void_Function_JSObject);
+      },
+      main() {
+        var t1 = new A.ClientAppBinding(null, B.SchedulerPhase_0, A._setArrayType([], type$.JSArray_of_void_Function));
+        t1.__ClientAppBinding__attachTarget_A = "body";
+        t1.super$ComponentsBinding$attachRootComponent(new A.App(null));
+      }
     },
-    events(onChange, onClick, onInput, $V) {
-      return A.LinkedHashMap_LinkedHashMap$_empty(type$.String, type$.void_Function_JSObject);
-    },
-    main() {
-      var t1 = new A.ClientAppBinding(null, B.SchedulerPhase_0, A._setArrayType([], type$.JSArray_of_void_Function));
-      t1.__ClientAppBinding__attachTarget_A = "body";
-      t1.super$ComponentsBinding$attachRootComponent(new A.App(null));
-    }
-  },
-  B = {};
+    B = {};
   var holders = [A, J, B];
   var $ = {};
   A.JS_CONST.prototype = {};
@@ -4427,7 +4627,7 @@
     },
     $isTrustedGetRuntimeType: 1
   };
-  J.JavaScriptObject.prototype = {$isJSObject: 1};
+  J.JavaScriptObject.prototype = { $isJSObject: 1 };
   J.LegacyJavaScriptObject.prototype = {
     get$hashCode(receiver) {
       return 0;
@@ -4493,6 +4693,63 @@
       if (!(index >= 0 && index < receiver.length))
         return A.ioore(receiver, index);
       return receiver[index];
+    },
+    sort$1(receiver, compare) {
+      var len, a, b, undefineds, i,
+        t1 = A._arrayInstanceType(receiver);
+      t1._eval$1("int(1,1)?")._as(compare);
+      receiver.$flags & 2 && A.throwUnsupportedOperation(receiver, "sort");
+      len = receiver.length;
+      if (len < 2)
+        return;
+      if (compare == null)
+        compare = J._interceptors_JSArray__compareAny$closure();
+      if (len === 2) {
+        a = receiver[0];
+        b = receiver[1];
+        t1 = compare.call$2(a, b);
+        if (typeof t1 !== "number")
+          return t1.$gt();
+        if (t1 > 0) {
+          receiver[0] = b;
+          receiver[1] = a;
+        }
+        return;
+      }
+      undefineds = 0;
+      if (t1._precomputed1._is(null))
+        for (i = 0; i < receiver.length; ++i)
+          if (receiver[i] === void 0) {
+            receiver[i] = null;
+            ++undefineds;
+          }
+      receiver.sort(A.convertDartClosureToJS(compare, 2));
+      if (undefineds > 0)
+        this._replaceSomeNullsWithUndefined$1(receiver, undefineds);
+    },
+    _replaceSomeNullsWithUndefined$1(receiver, count) {
+      var i0,
+        i = receiver.length;
+      for (; i0 = i - 1, i > 0; i = i0)
+        if (receiver[i0] === null) {
+          receiver[i0] = void 0;
+          --count;
+          if (count === 0)
+            break;
+        }
+    },
+    indexOf$1(receiver, element) {
+      var i,
+        $length = receiver.length;
+      if (0 >= $length)
+        return -1;
+      for (i = 0; i < $length; ++i) {
+        if (!(i < receiver.length))
+          return A.ioore(receiver, i);
+        if (J.$eq$(receiver[i], element))
+          return i;
+      }
+      return -1;
     },
     toString$0(receiver) {
       return A.Iterable_iterableToFullString(receiver, "[", "]");
@@ -4569,6 +4826,33 @@
     $isIterator: 1
   };
   J.JSNumber.prototype = {
+    compareTo$1(receiver, b) {
+      var bIsNegative;
+      A._asNum(b);
+      if (receiver < b)
+        return -1;
+      else if (receiver > b)
+        return 1;
+      else if (receiver === b) {
+        if (receiver === 0) {
+          bIsNegative = this.get$isNegative(b);
+          if (this.get$isNegative(receiver) === bIsNegative)
+            return 0;
+          if (this.get$isNegative(receiver))
+            return -1;
+          return 1;
+        }
+        return 0;
+      } else if (isNaN(receiver)) {
+        if (isNaN(b))
+          return 0;
+        return 1;
+      } else
+        return -1;
+    },
+    get$isNegative(receiver) {
+      return receiver === 0 ? 1 / receiver < 0 : receiver < 0;
+    },
     round$0(receiver) {
       if (receiver > 0) {
         if (receiver !== 1 / 0)
@@ -4616,6 +4900,7 @@
     get$runtimeType(receiver) {
       return A.createRuntimeType(type$.num);
     },
+    $isComparable: 1,
     $isdouble: 1,
     $isnum: 1
   };
@@ -4633,6 +4918,15 @@
     $isTrustedGetRuntimeType: 1
   };
   J.JSString.prototype = {
+    compareTo$1(receiver, other) {
+      var t1;
+      A._asString(other);
+      if (receiver === other)
+        t1 = 0;
+      else
+        t1 = receiver < other ? -1 : 1;
+      return t1;
+    },
     toString$0(receiver) {
       return receiver;
     },
@@ -4654,6 +4948,7 @@
       return receiver.length;
     },
     $isTrustedGetRuntimeType: 1,
+    $isComparable: 1,
     $isString: 1
   };
   A._CastIterableBase.prototype = {
@@ -4711,6 +5006,40 @@
       return new A.ListIterator(_this, _this.get$length(_this), A._instanceType(_this)._eval$1("ListIterator<ListIterable.E>"));
     }
   };
+  A.SubListIterable.prototype = {
+    get$_endIndex() {
+      var $length = J.get$length$asx(this.__internal$_iterable),
+        endOrLength = this._endOrLength;
+      if (endOrLength > $length)
+        return $length;
+      return endOrLength;
+    },
+    get$_startIndex() {
+      var $length = J.get$length$asx(this.__internal$_iterable),
+        t1 = this._start;
+      if (t1 > $length)
+        return $length;
+      return t1;
+    },
+    get$length(_) {
+      var endOrLength,
+        $length = J.get$length$asx(this.__internal$_iterable),
+        t1 = this._start;
+      if (t1 >= $length)
+        return 0;
+      endOrLength = this._endOrLength;
+      if (endOrLength >= $length)
+        return $length - t1;
+      return endOrLength - t1;
+    },
+    elementAt$1(_, index) {
+      var _this = this,
+        realIndex = _this.get$_startIndex() + index;
+      if (index < 0 || realIndex >= _this.get$_endIndex())
+        throw A.wrapException(A.IndexError$withLength(index, _this.get$length(0), _this, "index"));
+      return J.elementAt$1$ax(_this.__internal$_iterable, realIndex);
+    }
+  };
   A.ListIterator.prototype = {
     get$current() {
       var t1 = this.__internal$_current;
@@ -4748,7 +5077,7 @@
       return this._f.call$1(t1.elementAt$1(t1, index));
     }
   };
-  A.EfficientLengthMappedIterable.prototype = {$isEfficientLengthIterable: 1};
+  A.EfficientLengthMappedIterable.prototype = { $isEfficientLengthIterable: 1 };
   A.MappedIterator.prototype = {
     moveNext$0() {
       var _this = this,
@@ -4775,6 +5104,16 @@
     }
   };
   A.FixedLengthListMixin.prototype = {};
+  A.ReversedListIterable.prototype = {
+    get$length(_) {
+      return J.get$length$asx(this._source);
+    },
+    elementAt$1(_, index) {
+      var t1 = this._source,
+        t2 = J.getInterceptor$asx(t1);
+      return t2.elementAt$1(t1, t2.get$length(t1) - 1 - index);
+    }
+  };
   A.__CastListBase__CastIterableBase_ListMixin.prototype = {};
   A.ConstantMap.prototype = {
     toString$0(_) {
@@ -4901,8 +5240,8 @@
     $requiredArgCount: 1,
     $defaultValues: null
   };
-  A.Closure0Args.prototype = {"call*": "call$0", $requiredArgCount: 0};
-  A.Closure2Args.prototype = {"call*": "call$2", $requiredArgCount: 2};
+  A.Closure0Args.prototype = { "call*": "call$0", $requiredArgCount: 0 };
+  A.Closure2Args.prototype = { "call*": "call$2", $requiredArgCount: 2 };
   A.TearOffClosure.prototype = {};
   A.StaticClosure.prototype = {
     toString$0(_) {
@@ -5211,19 +5550,19 @@
     call$1(o) {
       return this.getTag(o);
     },
-    $signature: 7
+    $signature: 8
   };
   A.initHooks_closure0.prototype = {
     call$2(o, tag) {
       return this.getUnknownTag(o, tag);
     },
-    $signature: 8
+    $signature: 9
   };
   A.initHooks_closure1.prototype = {
     call$1(tag) {
       return this.prototypeForTag(A._asString(tag));
     },
-    $signature: 9
+    $signature: 10
   };
   A.NativeByteBuffer.prototype = {
     get$runtimeType(receiver) {
@@ -5382,7 +5721,7 @@
       return this.__rti$_message;
     }
   };
-  A._TypeError.prototype = {$isTypeError: 1};
+  A._TypeError.prototype = { $isTypeError: 1 };
   A._AsyncRun__initializeScheduleImmediate_internalCallback.prototype = {
     call$1(__wc0_formal) {
       var t1 = this._box_0,
@@ -5390,7 +5729,7 @@
       t1.storedCallback = null;
       f.call$0();
     },
-    $signature: 3
+    $signature: 4
   };
   A._AsyncRun__initializeScheduleImmediate_closure.prototype = {
     call$1(callback) {
@@ -5400,19 +5739,19 @@
       t2 = this.span;
       t1.firstChild ? t1.removeChild(t2) : t1.appendChild(t2);
     },
-    $signature: 10
+    $signature: 11
   };
   A._AsyncRun__scheduleImmediateJsOverride_internalCallback.prototype = {
     call$0() {
       this.callback.call$0();
     },
-    $signature: 4
+    $signature: 5
   };
   A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback.prototype = {
     call$0() {
       this.callback.call$0();
     },
-    $signature: 4
+    $signature: 5
   };
   A._TimerImpl.prototype = {
     _TimerImpl$2(milliseconds, callback) {
@@ -5433,19 +5772,19 @@
     call$1(result) {
       return this.bodyFunction.call$2(0, result);
     },
-    $signature: 11
+    $signature: 12
   };
   A._awaitOnObject_closure0.prototype = {
     call$2(error, stackTrace) {
       this.bodyFunction.call$2(1, new A.ExceptionAndStackTrace(error, type$.StackTrace._as(stackTrace)));
     },
-    $signature: 12
+    $signature: 13
   };
   A._wrapJsFunctionForAsync_closure.prototype = {
     call$2(errorCode, result) {
       this.$protected(A._asInt(errorCode), result);
     },
-    $signature: 13
+    $signature: 14
   };
   A._SyncStarIterator.prototype = {
     get$current() {
@@ -5457,7 +5796,7 @@
       errorCode = A._asInt(errorCode);
       errorValue = errorValue;
       body = this._body;
-      for (;;)
+      for (; ;)
         try {
           t1 = body(this, errorCode, errorValue);
           return t1;
@@ -5468,7 +5807,7 @@
     },
     moveNext$0() {
       var nestedIterator, exception, value, suspendedBodies, _this = this, errorValue = null, errorCode = 0;
-      for (;;) {
+      for (; ;) {
         nestedIterator = _this._nestedIterator;
         if (nestedIterator != null)
           try {
@@ -5806,7 +6145,7 @@
     call$1(__wc0_formal) {
       this.joinedResult._completeWithResultOf$1(this.originalSource);
     },
-    $signature: 3
+    $signature: 4
   };
   A._Future__propagateToListeners_handleWhenCompleteCallback_closure0.prototype = {
     call$2(e, s) {
@@ -5814,7 +6153,7 @@
       type$.StackTrace._as(s);
       this.joinedResult._completeErrorObject$1(new A.AsyncError(e, s));
     },
-    $signature: 14
+    $signature: 15
   };
   A._Future__propagateToListeners_handleValueCallback.prototype = {
     call$0() {
@@ -5908,7 +6247,7 @@
     $signature: 0
   };
   A._StreamIterator.prototype = {};
-  A._Zone.prototype = {$isZone: 1};
+  A._Zone.prototype = { $isZone: 1 };
   A._rootHandleError_closure.prototype = {
     call$0() {
       A.Error_throwWithStackTrace(this.error, this.stackTrace);
@@ -6596,7 +6935,7 @@
       t2 = A.S(v);
       t1._contents += t2;
     },
-    $signature: 15
+    $signature: 16
   };
   A.SetBase.prototype = {
     addAll$1(_, elements) {
@@ -6811,7 +7150,8 @@
       return "null";
     }
   };
-  A.Object.prototype = {$isObject: 1,
+  A.Object.prototype = {
+    $isObject: 1,
     $eq(_, other) {
       return this === other;
     },
@@ -6859,7 +7199,7 @@
     },
     reportBuildError$3(element, error, stackTrace) {
       type$.StackTrace._as(stackTrace);
-      A._asJSObject(init.G.console).error("Error while building " + A.getRuntimeTypeOfDartObject(type$.StatelessComponent._as(A.Element.prototype.get$component.call(element))).toString$0(0) + ":\n" + A.S(error) + "\n\n" + stackTrace.toString$0(0));
+      A._asJSObject(init.G.console).error("Error while building " + A.getRuntimeTypeOfDartObject(element.get$component()).toString$0(0) + ":\n" + A.S(error) + "\n\n" + stackTrace.toString$0(0));
     }
   };
   A._ClientAppBinding_AppBinding_ComponentsBinding.prototype = {};
@@ -6925,7 +7265,7 @@
       t1 = type$.String;
       t2 = A.LinkedHashSet_LinkedHashSet$_empty(t1);
       i = 0;
-      for (;;) {
+      for (; ;) {
         t3 = _this.__DomRenderElement_node_F;
         t3 === $ && A.throwLateFieldNI("node");
         if (!(i < A._asInt(A._asJSObject(t3.attributes).length)))
@@ -7040,14 +7380,14 @@
       var t1 = n instanceof $.$get$_cachedElementConstructor();
       return t1 && A._asString(n.tagName).toLowerCase() === this.tag;
     },
-    $signature: 5
+    $signature: 6
   };
   A.DomRenderElement_update_closure.prototype = {
     call$1(e) {
       type$.MapEntry_String_String._as(e);
       return e.key + ": " + e.value;
     },
-    $signature: 16
+    $signature: 17
   };
   A.DomRenderElement_update_closure0.prototype = {
     call$2(type, fn) {
@@ -7065,7 +7405,7 @@
         t1.$indexSet(0, type, A.EventBinding$(t2, type, fn));
       }
     },
-    $signature: 17
+    $signature: 18
   };
   A.DomRenderText.prototype = {
     get$node() {
@@ -7113,7 +7453,7 @@
       var t1 = n instanceof $.$get$_cachedTextConstructor();
       return t1;
     },
-    $signature: 5
+    $signature: 6
   };
   A.RootDomRenderObject.prototype = {
     attach$2$after(child, after) {
@@ -7219,7 +7559,7 @@
     call$1($event) {
       this.$this.fn.call$1($event);
     },
-    $signature: 6
+    $signature: 1
   };
   A._DomRenderElement_DomRenderObject_MultiChildDomRenderObject.prototype = {};
   A._DomRenderElement_DomRenderObject_MultiChildDomRenderObject_HydratableDomRenderObject.prototype = {};
@@ -7246,7 +7586,13 @@
   A.h3.prototype = {
     build$1(context) {
       var _null = null;
-      return new A.DomComponent("h3", _null, _null, _null, this.attributes, _null, this.children, _null);
+      return new A.DomComponent("h3", _null, this.classes, _null, this.attributes, _null, this.children, _null);
+    }
+  };
+  A.h4.prototype = {
+    build$1(context) {
+      var _null = null;
+      return new A.DomComponent("h4", _null, _null, _null, _null, _null, this.children, _null);
     }
   };
   A.nav.prototype = {
@@ -7263,8 +7609,8 @@
   };
   A.div.prototype = {
     build$1(context) {
-      var _null = null;
-      return new A.DomComponent("div", _null, this.classes, _null, this.attributes, _null, this.children, _null);
+      var _this = this;
+      return new A.DomComponent("div", null, _this.classes, null, _this.attributes, _this.events, _this.children, null);
     }
   };
   A.ul.prototype = {
@@ -7290,22 +7636,27 @@
     build$1(context) {
       var _this = this,
         t1 = type$.String,
-        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
-      t2.addAll$1(0, _this.attributes);
+        t2 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1),
+        t3 = _this.attributes;
+      if (t3 != null)
+        t2.addAll$1(0, t3);
       t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, type$.void_Function_JSObject);
+      t3 = _this.events;
+      if (t3 != null)
+        t1.addAll$1(0, t3);
       t1.addAll$1(0, A.events__events$closure().call$1$1$onClick(null, type$.void));
       return new A.DomComponent("button", _this.id, _this.classes, null, t2, t1, _this.children, null);
     }
   };
   A.img.prototype = {
     build$1(context) {
-      var _null = null,
+      var _this = this, _null = null,
         t1 = type$.String;
       t1 = A.LinkedHashMap_LinkedHashMap$_empty(t1, t1);
-      t1.addAll$1(0, this.attributes);
-      t1.$indexSet(0, "alt", this.alt);
-      t1.$indexSet(0, "src", this.src);
-      return new A.DomComponent("img", _null, _null, _null, t1, _null, _null, _null);
+      t1.addAll$1(0, _this.attributes);
+      t1.$indexSet(0, "alt", _this.alt);
+      t1.$indexSet(0, "src", _this.src);
+      return new A.DomComponent("img", _null, _this.classes, _null, t1, _null, _null, _null);
     }
   };
   A.a.prototype = {
@@ -7397,7 +7748,7 @@
       t1 = k.length !== 0 ? "-" + k : "";
       return new A.MapEntry(this.prefix + t1, v, type$.MapEntry_String_String);
     },
-    $signature: 18
+    $signature: 19
   };
   A._Styles_Object_StylesMixin.prototype = {};
   A.AppBinding.prototype = {};
@@ -7408,6 +7759,10 @@
     }
   };
   A.SchedulerBinding.prototype = {
+    scheduleBuild$1(buildCallback) {
+      var t1 = type$.void_Function;
+      A.scheduleMicrotask(t1._as(new A.SchedulerBinding_scheduleBuild_closure(this, t1._as(buildCallback))));
+    },
     completeInitialFrame$0() {
       this._flushPostFrameCallbacks$0();
     },
@@ -7420,7 +7775,85 @@
         localPostFrameCallbacks[_i].call$0();
     }
   };
+  A.SchedulerBinding_scheduleBuild_closure.prototype = {
+    call$0() {
+      var t1 = this.$this,
+        t2 = type$.void_Function._as(this.buildCallback);
+      t1.SchedulerBinding__schedulerPhase = B.SchedulerPhase_1;
+      t2.call$0();
+      t1.SchedulerBinding__schedulerPhase = B.SchedulerPhase_2;
+      t1._flushPostFrameCallbacks$0();
+      t1.SchedulerBinding__schedulerPhase = B.SchedulerPhase_0;
+      return null;
+    },
+    $signature: 0
+  };
   A.BuildOwner.prototype = {
+    scheduleBuildFor$1(element) {
+      var _this = this;
+      if (element._inDirtyList) {
+        _this._dirtyElementsNeedsResorting = true;
+        return;
+      }
+      if (!_this._scheduledBuild) {
+        element._binding.scheduleBuild$1(_this.get$performBuild());
+        _this._scheduledBuild = true;
+      }
+      B.JSArray_methods.add$1(_this._dirtyElements, element);
+      element._inDirtyList = true;
+    },
+    lockState$1(callback) {
+      return this.lockState$body$BuildOwner(type$.dynamic_Function._as(callback));
+    },
+    lockState$body$BuildOwner(callback) {
+      var $async$goto = 0,
+        $async$completer = A._makeAsyncAwaitCompleter(type$.void),
+        $async$handler = 1, $async$errorStack = [], $async$next = [], res;
+      var $async$lockState$1 = A._wrapJsFunctionForAsync(function ($async$errorCode, $async$result) {
+        if ($async$errorCode === 1) {
+          $async$errorStack.push($async$result);
+          $async$goto = $async$handler;
+        }
+        for (; ;)
+          switch ($async$goto) {
+            case 0:
+              // Function start
+              $async$handler = 2;
+              res = callback.call$0();
+              $async$goto = res instanceof A._Future ? 5 : 6;
+              break;
+            case 5:
+              // then
+              $async$goto = 7;
+              return A._asyncAwait(res, $async$lockState$1);
+            case 7:
+            // returning from await.
+            case 6:
+              // join
+              $async$next.push(4);
+              // goto finally
+              $async$goto = 3;
+              break;
+            case 2:
+              // uncaught
+              $async$next = [1];
+            case 3:
+              // finally
+              $async$handler = 1;
+              // goto the next finally handler
+              $async$goto = $async$next.pop();
+              break;
+            case 4:
+              // after finally
+              // implicit return
+              return A._asyncReturn(null, $async$completer);
+            case 1:
+              // rethrow
+              return A._asyncRethrow($async$errorStack.at(-1), $async$completer);
+          }
+      });
+      return A._asyncStartSync($async$lockState$1, $async$completer);
+    },
     performInitialBuild$2(element, completeBuild) {
       return this.performInitialBuild$body$BuildOwner(element, type$.void_Function._as(completeBuild));
     },
@@ -7428,10 +7861,10 @@
       var $async$goto = 0,
         $async$completer = A._makeAsyncAwaitCompleter(type$.void),
         $async$self = this;
-      var $async$performInitialBuild$2 = A._wrapJsFunctionForAsync(function($async$errorCode, $async$result) {
+      var $async$performInitialBuild$2 = A._wrapJsFunctionForAsync(function ($async$errorCode, $async$result) {
         if ($async$errorCode === 1)
           return A._asyncRethrow($async$result, $async$completer);
-        for (;;)
+        for (; ;)
           switch ($async$goto) {
             case 0:
               // Function start
@@ -7444,6 +7877,85 @@
           }
       });
       return A._asyncStartSync($async$performInitialBuild$2, $async$completer);
+    },
+    performBuild$0() {
+      var dirtyCount, index, element, e, element0, t1, t2, t3, exception, dirtyCount0, _i, _this = this;
+      try {
+        t1 = _this._dirtyElements;
+        B.JSArray_methods.sort$1(t1, A.framework_Element__sort$closure());
+        _this._dirtyElementsNeedsResorting = false;
+        dirtyCount = t1.length;
+        index = 0;
+        for (; ;) {
+          t2 = index;
+          t3 = dirtyCount;
+          if (typeof t2 !== "number")
+            return t2.$lt();
+          if (typeof t3 !== "number")
+            return A.iae(t3);
+          if (!(t2 < t3))
+            break;
+          element = B.JSArray_methods.$index(t1, index);
+          try {
+            element.rebuild$0();
+            element.toString;
+          } catch (exception) {
+            e = A.unwrapException(exception);
+            t1 = A.S(e);
+            A.printString("Error on rebuilding component: " + t1);
+            throw exception;
+          }
+          t2 = index;
+          if (typeof t2 !== "number")
+            return t2.$add();
+          index = t2 + 1;
+          t2 = dirtyCount;
+          t3 = t1.length;
+          if (typeof t2 !== "number")
+            return t2.$lt();
+          if (!(t2 < t3)) {
+            t2 = _this._dirtyElementsNeedsResorting;
+            t2.toString;
+          } else
+            t2 = true;
+          if (t2) {
+            B.JSArray_methods.sort$1(t1, A.framework_Element__sort$closure());
+            t2 = _this._dirtyElementsNeedsResorting = false;
+            dirtyCount0 = t1.length;
+            dirtyCount = dirtyCount0;
+            for (; ;) {
+              t3 = index;
+              if (typeof t3 !== "number")
+                return t3.$gt();
+              if (t3 > 0) {
+                t3 = index;
+                if (typeof t3 !== "number")
+                  return t3.$sub();
+                --t3;
+                if (t3 >>> 0 !== t3 || t3 >= dirtyCount0)
+                  return A.ioore(t1, t3);
+                t3 = t1[t3]._dirty;
+              } else
+                t3 = t2;
+              if (!t3)
+                break;
+              t3 = index;
+              if (typeof t3 !== "number")
+                return t3.$sub();
+              index = t3 - 1;
+            }
+          }
+        }
+      } finally {
+        for (t1 = _this._dirtyElements, t2 = t1.length, _i = 0; _i < t2; ++_i) {
+          element0 = t1[_i];
+          element0._inDirtyList = false;
+        }
+        B.JSArray_methods.clear$0(t1);
+        _this._dirtyElementsNeedsResorting = null;
+        _this.lockState$1(_this._inactiveElements.get$_unmountAll());
+        _this._scheduledBuild = false;
+      }
     }
   };
   A.BuildOwner_performInitialBuild_closure.prototype = {
@@ -7467,7 +7979,7 @@
     performRebuild$0() {
       var e, st, exception, t1, t2, t3, _this = this, _null = null, built = null;
       try {
-        built = type$.StatelessComponent._as(A.Element.prototype.get$component.call(_this)).build$1(_this);
+        built = _this.build$0();
       } catch (exception) {
         e = A.unwrapException(exception);
         st = A.getTraceFromException(exception);
@@ -7584,10 +8096,10 @@
       var $async$goto = 0,
         $async$completer = A._makeAsyncAwaitCompleter(type$.void),
         $async$self = this, element, t1, buildOwner;
-      var $async$attachRootComponent$1 = A._wrapJsFunctionForAsync(function($async$errorCode, $async$result) {
+      var $async$attachRootComponent$1 = A._wrapJsFunctionForAsync(function ($async$errorCode, $async$result) {
         if ($async$errorCode === 1)
           return A._asyncRethrow($async$result, $async$completer);
-        for (;;)
+        for (; ;)
           switch ($async$goto) {
             case 0:
               // Function start
@@ -7704,7 +8216,7 @@
       prevChild = _null;
       newChildrenTop = 0;
       oldChildrenTop = 0;
-      for (;;) {
+      for (; ;) {
         if (!(oldChildrenTop <= oldChildrenBottom && newChildrenTop <= newChildrenBottom))
           break;
         oldChild = replaceWithNullIfForgotten.call$1(t1.$index(oldChildren, oldChildrenTop));
@@ -7720,7 +8232,7 @@
         ++oldChildrenTop;
         prevChild = t3;
       }
-      for (;;) {
+      for (; ;) {
         t3 = oldChildrenTop <= oldChildrenBottom;
         if (!(t3 && newChildrenTop <= newChildrenBottom))
           break;
@@ -7790,7 +8302,7 @@
       }
       newChildrenBottom = newComponents.length - 1;
       oldChildrenBottom = t1.get$length(oldChildren) - 1;
-      for (;;) {
+      for (; ;) {
         if (!(oldChildrenTop <= oldChildrenBottom && newChildrenTop <= newChildrenBottom))
           break;
         oldChild = t1.$index(oldChildren, oldChildrenTop);
@@ -7887,6 +8399,12 @@
       _this._inheritedElements = null;
       _this._lifecycleState = B._ElementLifecycle_2;
     },
+    unmount$0() {
+      var _this = this;
+      _this.get$component();
+      _this._dependencies = _this._component = _this._parentRenderObjectElement = null;
+      _this._lifecycleState = B._ElementLifecycle_3;
+    },
     _updateInheritance$0() {
       var t1 = this._parent;
       this._inheritedElements = t1 == null ? null : t1._inheritedElements;
@@ -7898,6 +8416,15 @@
     attachNotificationTree$0() {
       var t1 = this._parent;
       this._notificationTree = t1 == null ? null : t1._notificationTree;
+    },
+    markNeedsBuild$0() {
+      var _this = this;
+      if (_this._lifecycleState !== B._ElementLifecycle_1)
+        return;
+      if (_this._dirty)
+        return;
+      _this._dirty = true;
+      _this._owner.scheduleBuildFor$1(_this);
     },
     rebuild$0() {
       var _this = this;
@@ -7925,13 +8452,13 @@
     call$1(child) {
       return child != null && this.forgottenChildren.contains$1(0, child) ? null : child;
     },
-    $signature: 19
+    $signature: 20
   };
   A.Element_updateChildren_slotFor.prototype = {
     call$2(newChildIndex, previousChild) {
       return new A.ElementSlot(previousChild, newChildIndex);
     },
-    $signature: 20
+    $signature: 21
   };
   A.Element_updateSlotForChild_visit.prototype = {
     call$1(element) {
@@ -7943,20 +8470,20 @@
         element.visitChildren$1(new A.Element_updateSlotForChild_visit_closure(t1, this));
       }
     },
-    $signature: 1
+    $signature: 2
   };
   A.Element_updateSlotForChild_visit_closure.prototype = {
     call$1(child) {
       this._box_0.next = child;
       this.visit.call$1(child);
     },
-    $signature: 1
+    $signature: 2
   };
   A.Element_detachRenderObject_closure.prototype = {
     call$1(child) {
       child.detachRenderObject$0();
     },
-    $signature: 1
+    $signature: 2
   };
   A.ElementSlot.prototype = {
     $eq(_, other) {
@@ -7970,7 +8497,29 @@
       return A.Object_hash(this.index, this.previousSibling);
     }
   };
-  A._InactiveElements.prototype = {};
+  A._InactiveElements.prototype = {
+    _unmount$1(element) {
+      element.visitChildren$1(new A._InactiveElements__unmount_closure(this));
+      element.unmount$0();
+    },
+    _unmountAll$0() {
+      var t2, t3,
+        t1 = this._elements,
+        elements = A.List_List$_of(t1, A._instanceType(t1)._precomputed1);
+      B.JSArray_methods.sort$1(elements, A.framework_Element__sort$closure());
+      t1.clear$0(0);
+      for (t1 = A._arrayInstanceType(elements)._eval$1("ReversedListIterable<1>"), t2 = new A.ReversedListIterable(elements, t1), t2 = new A.ListIterator(t2, t2.get$length(0), t1._eval$1("ListIterator<ListIterable.E>")), t1 = t1._eval$1("ListIterable.E"); t2.moveNext$0();) {
+        t3 = t2.__internal$_current;
+        this._unmount$1(t3 == null ? t1._as(t3) : t3);
+      }
+    }
+  };
+  A._InactiveElements__unmount_closure.prototype = {
+    call$1(child) {
+      this.$this._unmount$1(child);
+    },
+    $signature: 2
+  };
   A.LeafElement.prototype = {
     mount$2($parent, newSlot) {
       this.super$Element$mount($parent, newSlot);
@@ -8136,6 +8685,86 @@
       this.RenderObjectElement__attached = false;
     }
   };
+  A.StatefulComponent.prototype = {
+    createElement$0() {
+      var t1 = this.createState$0(),
+        t2 = ($.Element__nextHashCode + 1) % 16777215;
+      $.Element__nextHashCode = t2;
+      t2 = new A.StatefulElement(t1, t2, this, B._ElementLifecycle_0);
+      t1._framework$_element = t2;
+      t1.set$_component(this);
+      return t2;
+    }
+  };
+  A.State.prototype = {
+    setState$1(fn) {
+      type$.void_Function._as(fn).call$0();
+      this._framework$_element.markNeedsBuild$0();
+    },
+    set$_component(_component) {
+      this._component = A._instanceType(this)._eval$1("State.T?")._as(_component);
+    }
+  };
+  A.StatefulElement.prototype = {
+    build$0() {
+      return this._framework$_state.build$1(this);
+    },
+    didMount$0() {
+      var _this = this;
+      if (_this._owner._isFirstBuild)
+        _this._framework$_state.toString;
+      _this._initState$0();
+      _this.super$BuildableElement$didMount();
+    },
+    _initState$0() {
+      try {
+        this._framework$_state.toString;
+      } finally {
+      }
+      this._framework$_state.toString;
+    },
+    performRebuild$0() {
+      var _this = this;
+      _this._owner.toString;
+      if (_this._didChangeDependencies) {
+        _this._framework$_state.toString;
+        _this._didChangeDependencies = false;
+      }
+      _this.super$BuildableElement$performRebuild();
+    },
+    shouldRebuild$1(newComponent) {
+      var t1;
+      type$.StatefulComponent._as(newComponent);
+      t1 = this._framework$_state;
+      t1.toString;
+      A._instanceType(t1)._eval$1("State.T")._as(newComponent);
+      return true;
+    },
+    update$1(newComponent) {
+      type$.StatefulComponent._as(newComponent);
+      this.super$Element$update(newComponent);
+      this._framework$_state.set$_component(newComponent);
+    },
+    didUpdate$1(oldComponent) {
+      var t1;
+      type$.StatefulComponent._as(oldComponent);
+      try {
+        t1 = this._framework$_state;
+        t1.toString;
+        A._instanceType(t1)._eval$1("State.T")._as(oldComponent);
+      } finally {
+      }
+      this.super$Element$didUpdate(oldComponent);
+    },
+    deactivate$0() {
+      this._framework$_state.toString;
+      this.super$Element$deactivate();
+    },
+    unmount$0() {
+      this.super$Element$unmount();
+      this._framework$_state = this._framework$_state._framework$_element = null;
+    }
+  };
   A.StatelessComponent.prototype = {
     createElement$0() {
       var t1 = ($.Element__nextHashCode + 1) % 16777215;
@@ -8156,6 +8785,9 @@
       type$.StatelessComponent._as(A.Element.prototype.get$component.call(this));
       return true;
     },
+    build$0() {
+      return type$.StatelessComponent._as(A.Element.prototype.get$component.call(this)).build$1(this);
+    },
     performRebuild$0() {
       this._owner.toString;
       this.super$BuildableElement$performRebuild();
@@ -8167,10 +8799,10 @@
         _s9_ = "go-to-top",
         _s11_ = "footer-link",
         t1 = type$.JSArray_Component,
-        t2 = A.div$(A._setArrayType([new A.HeroSection(_null), new A.ServicesSection(_null), new A.SkillsSection(_null), new A.ProjectsSection(_null), new A.ApproachSection(_null), new A.ContactSection(_null)], t1), _null, "main-content"),
+        t2 = A.div$(A._setArrayType([new A.HeroSection(_null), new A.ServicesSection(_null), new A.SkillsSection(_null), new A.ProjectsSection(_null), new A.ApproachSection(_null), new A.ContactSection(_null)], t1), _null, "main-content", _null),
         t3 = type$.String;
       t3 = A.LinkedHashMap_LinkedHashMap$_literal(["onclick", 'window.scrollTo({top: 0, behavior: "smooth"})', "aria-label", "Go to top"], t3, t3);
-      return A.div$(A._setArrayType([new A.NavigationBar(_null), t2, A.button$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-arrow-up")], t1), t3, _s9_, _s9_), new A.footer("footer", A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.a$(A._setArrayType([new A.Text("Home", _null)], t1), _null, _s11_, "#hero", _null, _null), A.a$(A._setArrayType([new A.Text("Projects", _null)], t1), _null, _s11_, "#projects", _null, _null), A.a$(A._setArrayType([new A.Text("Contact", _null)], t1), _null, _s11_, "#contact", _null, _null)], t1), _null, "footer-links"), A.p$(A._setArrayType([new A.Text("\xa9 2026 Krishnalal A K. Built with Jaspr for Web.", _null)], t1), _null, _null)], t1), _null, "footer-content")], t1), _null)], t1), _null, "app-container");
+      return A.div$(A._setArrayType([new A.NavigationBar(_null), t2, A.button$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-arrow-up")], t1), t3, _s9_, _null, _s9_), new A.footer("footer", A._setArrayType([A.div$(A._setArrayType([A.p$(A._setArrayType([new A.Text("\xa9 2026 Krishnalal A K. Built with Jaspr for Web.", _null)], t1), _null, _null)], t1), _null, "footer-content", _null)], t1), _null)], t1), _null, "app-container", _null);
     }
   };
   A.ApproachSection.prototype = {
@@ -8181,7 +8813,7 @@
         t1 = type$.String;
       t1 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "text-align: left;"], t1, t1);
       t2 = type$.JSArray_Component;
-      return A.section$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.h2$(A._setArrayType([new A.Text("How I Work", _null)], t2), t1, "section-title"), A.p$(A._setArrayType([new A.Text("I don't just write code. I build products that solve problems and delight users.", _null)], t2), _null, "lead")], t2), _null, "col-span-4"), A.div$(A._setArrayType([A.div$(A._setArrayType([_this._buildApproachCard$3$description$icon$title("Every feature starts with \"Why?\". I build what users actually need, not just what's spec'd.", "fas fa-user-check", "User-Centric"), _this._buildApproachCard$3$description$icon$title("I write code that your future team will thank you for. Readable, testable, and maintainable.", "fas fa-code", "Clean Code"), _this._buildApproachCard$3$description$icon$title("Janky animations aren't an option. I optimize for smooth 60fps performance on all devices.", "fas fa-tachometer-alt", "Performance"), _this._buildApproachCard$3$description$icon$title("From requirement analysis to App Store submission, I handle the entire lifecycle.", "fas fa-check-circle", "Ownership")], t2), _null, _s10_)], t2), _null, "col-span-8")], t2), _null, _s10_)], t2), _null, "container")], t2), "scroll-hidden", "approach");
+      return A.section$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.h2$(A._setArrayType([new A.Text("How I Work", _null)], t2), t1, "section-title"), A.p$(A._setArrayType([new A.Text("I don't just write code. I build products that solve problems and delight users.", _null)], t2), _null, "lead")], t2), _null, "col-span-4", _null), A.div$(A._setArrayType([A.div$(A._setArrayType([_this._buildApproachCard$3$description$icon$title("Every feature starts with \"Why?\". I build what users actually need, not just what's spec'd.", "fas fa-user-check", "User-Centric"), _this._buildApproachCard$3$description$icon$title("I write code that your future team will thank you for. Readable, testable, and maintainable.", "fas fa-code", "Clean Code"), _this._buildApproachCard$3$description$icon$title("Janky animations aren't an option. I optimize for smooth 60fps performance on all devices.", "fas fa-tachometer-alt", "Performance"), _this._buildApproachCard$3$description$icon$title("From requirement analysis to App Store submission, I handle the entire lifecycle.", "fas fa-check-circle", "Ownership")], t2), _null, _s10_, _null)], t2), _null, "col-span-8", _null)], t2), _null, _s10_, _null)], t2), _null, "container", _null)], t2), "scroll-hidden", "approach");
     },
     _buildApproachCard$3$description$icon$title(description, icon, title) {
       var _null = null,
@@ -8190,7 +8822,7 @@
         t3 = type$.JSArray_Component;
       t2 = A.i$(A._setArrayType([], t3), t2, icon);
       t1 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "font-size: 1.25rem;"], t1, t1);
-      return A.div$(A._setArrayType([t2, A.h3$(A._setArrayType([new A.Text(title, _null)], t3), t1), A.p$(A._setArrayType([new A.Text(description, _null)], t3), _null, _null)], t3), _null, "card col-span-6");
+      return A.div$(A._setArrayType([t2, A.h3$(A._setArrayType([new A.Text(title, _null)], t3), t1, _null), A.p$(A._setArrayType([new A.Text(description, _null)], t3), _null, _null)], t3), _null, "card col-span-6", _null);
     }
   };
   A.ContactSection.prototype = {
@@ -8206,12 +8838,12 @@
         t6 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "background: white; color: #111827;"], t4, t4);
       t6 = A.a$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-envelope"), new A.Text(" Email Me", _null)], t1), t6, "btn", "mailto:krishnalal.work@gmail.com", _null, _null);
       t7 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "border: 2px solid white; color: white;"], t4, t4);
-      t5 = A.div$(A._setArrayType([t2, t3, A.div$(A._setArrayType([t6, A.a$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fab fa-linkedin"), new A.Text(" LinkedIn", _null)], t1), t7, "btn", string$.https_, _null, B.Target_1_blank)], t1), t5, _null)], t1), _null, "contact-hero");
+      t5 = A.div$(A._setArrayType([t2, t3, A.div$(A._setArrayType([t6, A.a$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fab fa-linkedin"), new A.Text(" LinkedIn", _null)], t1), t7, "btn", string$.https_, _null, B.Target_1_blank)], t1), t5, _null, _null)], t1), _null, "contact-hero", _null);
       t7 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "margin-top: 3rem; justify-content: center;"], t4, t4);
       t6 = A.LinkedHashMap_LinkedHashMap$_literal(["style", _s21_], t4, t4);
-      t6 = A.a$(A._setArrayType([A.i$(A._setArrayType([], t1), t6, "fab fa-github"), new A.Text("GitHub", _null)], t1), _null, _s8_, "https://github.com/krishnalal", _null, B.Target_1_blank);
+      t6 = A.a$(A._setArrayType([A.i$(A._setArrayType([], t1), t6, ""), new A.Text("", _null)], t1), _null, _s8_, "", _null, B.Target_1_blank);
       t4 = A.LinkedHashMap_LinkedHashMap$_literal(["style", _s21_], t4, t4);
-      return A.section$(A._setArrayType([A.div$(A._setArrayType([t5, A.div$(A._setArrayType([t6, A.a$(A._setArrayType([A.i$(A._setArrayType([], t1), t4, "fas fa-phone"), new A.Text("+91 8137845683", _null)], t1), _null, _s8_, "tel:+918137845683", _null, _null)], t1), t7, "social-links")], t1), _null, "container")], t1), "scroll-hidden", "contact");
+      return A.section$(A._setArrayType([A.div$(A._setArrayType([t5, A.div$(A._setArrayType([t6, A.a$(A._setArrayType([A.i$(A._setArrayType([], t1), t4, ""), new A.Text("", _null)], t1), _null, _s8_, "", _null, _null)], t1), t7, "social-links", _null)], t1), _null, "container", _null)], t1), "scroll-hidden", "contact");
     }
   };
   A.HeroSection.prototype = {
@@ -8221,7 +8853,7 @@
         _s18_ = "font-size: 1.5rem;",
         t1 = type$.String,
         t2 = type$.JSArray_Component,
-        t3 = A.div$(A._setArrayType([new A.img("Krishna Lal", "images/profile.jpg", A.LinkedHashMap_LinkedHashMap$_literal(["onerror", "this.style.display='none'"], t1, t1), _null)], t2), _null, "hero-avatar"),
+        t3 = A.div$(A._setArrayType([A.img$("Krishna Lal", A.LinkedHashMap_LinkedHashMap$_literal(["onerror", "this.style.display='none'"], t1, t1), _null, "images/profile.jpg")], t2), _null, "hero-avatar", _null),
         t4 = A._setArrayType([new A.Text("I'm ", _null), A.span$(A._setArrayType([new A.Text("Krishnalal A K", _null)], t2), _null, "gradient-text")], t2),
         t5 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "margin: 1.5rem auto;"], t1, t1);
       t5 = A.p$(A._setArrayType([new A.Text("Flutter Developer crafting beautiful, high-performance mobile experiences. Based in India, working globally.", _null)], t2), t5, "lead scroll-hidden delay-200");
@@ -8235,7 +8867,7 @@
       t9 = A.a$(A._setArrayType([A.i$(A._setArrayType([], t2), t10, "fab fa-linkedin")], t2), t9, _s8_, string$.https_, _null, B.Target_1_blank);
       t10 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "padding: 0.8rem; color: var(--text-main); display: flex; align-items: center; justify: center; transition: transform 0.2s;"], t1, t1);
       t1 = A.LinkedHashMap_LinkedHashMap$_literal(["style", _s18_], t1, t1);
-      return A.section$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([t3, new A.h1("display scroll-hidden", t4, _null), t5, A.div$(A._setArrayType([t6, t7, A.div$(A._setArrayType([t9, A.a$(A._setArrayType([A.i$(A._setArrayType([], t2), t1, "fab fa-github")], t2), t10, _s8_, "https://github.com/krishnalal", _null, B.Target_1_blank)], t2), t8, "min-social-group")], t2), _null, "hero-ctas scroll-hidden delay-300")], t2), _null, "hero-content")], t2), _null, "container")], t2), "hero-section", "hero");
+      return A.section$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([t3, new A.h1("display scroll-hidden", t4, _null), t5, A.div$(A._setArrayType([t6, t7, A.div$(A._setArrayType([t9, A.a$(A._setArrayType([A.i$(A._setArrayType([], t2), t1, "fab fa-github")], t2), t10, _s8_, "https://github.com/krishnalalonline", _null, B.Target_1_blank)], t2), t8, "min-social-group", _null)], t2), _null, "hero-ctas scroll-hidden delay-300", _null)], t2), _null, "hero-content", _null)], t2), _null, "container", _null)], t2), "hero-section", "hero");
     }
   };
   A.NavigationBar.prototype = {
@@ -8244,44 +8876,203 @@
         _s8_ = "nav-link",
         t1 = type$.JSArray_Component,
         t2 = A.a$(A._setArrayType([new A.Text("K.", _null)], t1), _null, "nav-logo", "#hero", "nav-logo-text", _null),
-        t3 = A._setArrayType([A.li$(A._setArrayType([A.a$(A._setArrayType([new A.Text("Home", _null)], t1), _null, _s8_, "#hero", _null, _null)], t1)), A.li$(A._setArrayType([A.a$(A._setArrayType([new A.Text("Services", _null)], t1), _null, _s8_, "#services", _null, _null)], t1)), A.li$(A._setArrayType([A.a$(A._setArrayType([new A.Text("Projects", _null)], t1), _null, _s8_, "#projects", _null, _null)], t1)), A.li$(A._setArrayType([A.a$(A._setArrayType([new A.Text("Approach", _null)], t1), _null, _s8_, "#approach", _null, _null)], t1)), A.li$(A._setArrayType([A.a$(A._setArrayType([new A.Text("Contact", _null)], t1), _null, _s8_, "#contact", _null, _null)], t1))], t1),
+        t3 = A.ul$(A._setArrayType([A.li$(A._setArrayType([A.a$(A._setArrayType([new A.Text("Home", _null)], t1), _null, _s8_, "#hero", _null, _null)], t1)), A.li$(A._setArrayType([A.a$(A._setArrayType([new A.Text("Services", _null)], t1), _null, _s8_, "#services", _null, _null)], t1)), A.li$(A._setArrayType([A.a$(A._setArrayType([new A.Text("Projects", _null)], t1), _null, _s8_, "#projects", _null, _null)], t1)), A.li$(A._setArrayType([A.a$(A._setArrayType([new A.Text("Approach", _null)], t1), _null, _s8_, "#approach", _null, _null)], t1)), A.li$(A._setArrayType([A.a$(A._setArrayType([new A.Text("Contact", _null)], t1), _null, _s8_, "#contact", _null, _null)], t1))], t1), "nav-links"),
         t4 = type$.String;
       t4 = A.LinkedHashMap_LinkedHashMap$_literal(["onclick", 'document.body.setAttribute("data-theme", document.body.getAttribute("data-theme") === "dark" ? "light" : "dark")'], t4, t4);
-      return new A.nav("navbar", "navbar", A._setArrayType([A.div$(A._setArrayType([t2, new A.ul("nav-links", t3, _null), A.button$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-adjust")], t1), t4, "theme-toggle", _null)], t1), _null, "container nav-container")], t1), _null);
+      return new A.nav("navbar", "navbar", A._setArrayType([A.div$(A._setArrayType([t2, t3, A.button$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-adjust")], t1), t4, "theme-toggle", _null, _null)], t1), _null, "container nav-container", _null)], t1), _null);
     }
   };
-  A.ProjectsSection.prototype = {
+  A.ProjectDetailModal.prototype = {
+    createState$0() {
+      return new A._ProjectDetailModalState();
+    },
+    onClose$0() {
+      return this.onClose.call$0();
+    }
+  };
+  A._ProjectDetailModalState.prototype = {
     build$1(context) {
-      var t4, _null = null,
-        _s10_ = "col-span-6",
+      var t8, t9, t10, t11, t12, t13, _this = this, _null = null,
+        t1 = type$.String,
+        t2 = type$.void_Function_JSObject,
+        t3 = A.LinkedHashMap_LinkedHashMap$_literal(["click", new A._ProjectDetailModalState_build_closure(_this)], t1, t2),
+        t4 = A.LinkedHashMap_LinkedHashMap$_literal(["click", new A._ProjectDetailModalState_build_closure0()], t1, t2),
+        t5 = type$.JSArray_Component,
+        t6 = A.h3$(A._setArrayType([new A.Text(_this._component.project.title, _null)], t5), _null, "modal-title"),
+        t7 = A.LinkedHashMap_LinkedHashMap$_literal(["click", new A._ProjectDetailModalState_build_closure1(_this)], t1, t2);
+      t7 = A.div$(A._setArrayType([t6, A.button$(A._setArrayType([new A.Text("\xd7", _null)], t5), _null, "close-btn", t7, _null)], t5), _null, "modal-header", _null);
+      t6 = A.LinkedHashMap_LinkedHashMap$_literal(["click", new A._ProjectDetailModalState_build_closure2(_this)], t1, t2);
+      t6 = A.button$(A._setArrayType([new A.Text("\u276e", _null)], t5), _null, "carousel-btn prev", t6, _null);
+      t8 = _this._component.project;
+      t9 = "" + _this._currentImageIndex;
+      t9 = A.img$(t8.title + " Screenshot " + t9, A.LinkedHashMap_LinkedHashMap$_literal(["style", "object-fit: cover; width: 100%; height: 300px; border-radius: 8px; background-color: #f0f0f0;"], t1, t1), "carousel-image", "assets/projects/" + t8.assetFolder + "/" + t9 + ".jpg");
+      t2 = A.LinkedHashMap_LinkedHashMap$_literal(["click", new A._ProjectDetailModalState_build_closure3(_this)], t1, t2);
+      t2 = A.div$(A._setArrayType([t6, t9, A.button$(A._setArrayType([new A.Text("\u276f", _null)], t5), _null, "carousel-btn next", t2, _null)], t5), _null, "carousel-container", _null);
+      t9 = A.p$(A._setArrayType([new A.Text(_this._component.project.subtitle, _null)], t5), _null, "modal-subtitle");
+      t6 = _this._component.project.techStack;
+      t1 = A._arrayInstanceType(t6);
+      t8 = type$.Component;
+      t1 = A.List_List$_of(new A.MappedListIterable(t6, t1._eval$1("Component(1)")._as(new A._ProjectDetailModalState_build_closure4()), t1._eval$1("MappedListIterable<1,Component>")), t8);
+      t1 = A.div$(t1, _null, "tags-container", _null);
+      t6 = A.h4$(A._setArrayType([new A.Text("About", _null)], t5));
+      t10 = A.p$(A._setArrayType([new A.Text(_this._component.project.description, _null)], t5), _null, "modal-description");
+      t11 = A.h4$(A._setArrayType([new A.Text("Key Features", _null)], t5));
+      t12 = _this._component.project.keyFeatures;
+      t13 = A._arrayInstanceType(t12);
+      t8 = A.List_List$_of(new A.MappedListIterable(t12, t13._eval$1("Component(1)")._as(new A._ProjectDetailModalState_build_closure5()), t13._eval$1("MappedListIterable<1,Component>")), t8);
+      return A.div$(A._setArrayType([A.div$(A._setArrayType([t7, A.div$(A._setArrayType([t2, A.div$(A._setArrayType([t9, t1, t6, t10, t11, A.ul$(t8, "feature-list")], t5), _null, "modal-info", _null)], t5), _null, "modal-body custom-scrollbar", _null)], t5), _null, "modal-container", t4)], t5), _null, "modal-backdrop", t3);
+    }
+  };
+  A._ProjectDetailModalState_build_closure.prototype = {
+    call$1(e) {
+      A._asJSObject(e);
+      return this.$this._component.onClose$0();
+    },
+    $signature: 1
+  };
+  A._ProjectDetailModalState_build_closure0.prototype = {
+    call$1(e) {
+      return A._asJSObject(e).stopPropagation$0();
+    },
+    $signature: 1
+  };
+  A._ProjectDetailModalState_build_closure1.prototype = {
+    call$1(e) {
+      A._asJSObject(e);
+      return this.$this._component.onClose$0();
+    },
+    $signature: 1
+  };
+  A._ProjectDetailModalState_build_closure2.prototype = {
+    call$1(e) {
+      var t1;
+      A._asJSObject(e);
+      t1 = this.$this;
+      t1.setState$1(new A._ProjectDetailModalState_build__closure0(t1));
+    },
+    $signature: 1
+  };
+  A._ProjectDetailModalState_build__closure0.prototype = {
+    call$0() {
+      var t1 = this.$this,
+        t2 = t1._currentImageIndex;
+      if (t2 > 1)
+        t1._currentImageIndex = t2 - 1;
+      else
+        t1._currentImageIndex = 3;
+    },
+    $signature: 0
+  };
+  A._ProjectDetailModalState_build_closure3.prototype = {
+    call$1(e) {
+      var t1;
+      A._asJSObject(e);
+      t1 = this.$this;
+      t1.setState$1(new A._ProjectDetailModalState_build__closure(t1));
+    },
+    $signature: 1
+  };
+  A._ProjectDetailModalState_build__closure.prototype = {
+    call$0() {
+      var t1 = this.$this,
+        t2 = t1._currentImageIndex;
+      if (t2 < 3)
+        t1._currentImageIndex = t2 + 1;
+      else
+        t1._currentImageIndex = 1;
+    },
+    $signature: 0
+  };
+  A._ProjectDetailModalState_build_closure4.prototype = {
+    call$1(tech) {
+      return A.span$(A._setArrayType([new A.Text(A._asString(tech), null)], type$.JSArray_Component), null, "tech-tag");
+    },
+    $signature: 7
+  };
+  A._ProjectDetailModalState_build_closure5.prototype = {
+    call$1(feature) {
+      return A.li$(A._setArrayType([new A.Text(A._asString(feature), null)], type$.JSArray_Component));
+    },
+    $signature: 22
+  };
+  A.ProjectsSection.prototype = {
+    createState$0() {
+      var t1 = type$.JSArray_String;
+      return new A._ProjectsSectionState(A._setArrayType([new A.Project("OnReach", "Student Attendance & Academics Tracking App", "OnReach (Formerly PAMS) is an in-house student attendance and academic management application built to help educational institutions digitize attendance, staff management, and student performance tracking. The system supports multiple institutes with isolated data storage and role-based access control. The app is currently live on the Google Play Store in early-stage release.", "onreach", A._setArrayType(["Flutter", "Dart", "BLoC", "PHP (PDO)", "MySQL", "REST APIs"], t1), A._setArrayType(["Built using Flutter with scalable architecture", "Role-based access control for Admin and Staff", "Multi-institute architecture with separate data spaces", "Attendance management with morning & noon sessions", "Student records, parent details, exam marks & performance tracking", "Filterable reports with PDF export", "Secured APIs using token-based authentication"], t1)), new A.Project("Apple Studio", "Camera & Equipment Rental Management System", "Apple Studio is a camera and equipment rental management system built to streamline inventory, bookings, and equipment movement for photography and videography studios. The application reduces manual effort through structured workflows and a QR code\u2013driven dispatch and return process.", "apple_studio", A._setArrayType(["Flutter", "Provider", "MVVM", "Firebase", "REST APIs", "QR Code"], t1), A._setArrayType(["Complete rental management workflow", "QR-based dispatch & return system", "Inventory management for cameras, lenses, and accessories", "Booking lifecycle (rent, return, status tracking)", "Automated equipment availability checks", "Manual search and sort options"], t1)), new A.Project("Velishramam", "Matrimonial & Networking App", "Velishramam is a specialized matrimonial and networking application designed to help individuals connect through detailed profiles and traditional horoscope sharing. The app focuses on privacy, real-time discovery of new profiles, and a smooth, reliable user experience.", "velishramam", A._setArrayType(["Flutter", "Dart", "Provider", "REST APIs"], t1), A._setArrayType(["Detailed profiles and horoscope sharing", "Recently Added Profiles for real-time discovery", "Data privacy controls including deletion requests", "Smooth UI animations and responsive layouts", "Performance and stability improvements"], t1)), new A.Project("AMICA EDUHUB", "Educational Learning App", "AMICA EDUHUB is an educational mobile application designed to deliver structured learning content through video classes and interactive features.", "amica_eduhub", A._setArrayType(["Flutter", "Dart", "REST APIs", "Figma"], t1), A._setArrayType(["Structured learning content with video classes", "Secure video playback using private URLs", "Custom app icons and visual assets designed in Figma", "Managed manual Play Store release and versioning", "Mentored junior developers on the project"], t1)), new A.Project("E-Commerce Mobile App", "Online Shopping App", "A customer-facing e-commerce mobile application built to enable users to browse and purchase products with a fast, responsive, and production-grade shopping experience.", "ecommerce_app", A._setArrayType(["Flutter", "Provider", "Clean Architecture", "Dio", "Google Maps"], t1), A._setArrayType(["Pixel-perfect UI from Figma", "Google Maps integration for delivery", "Offline-first networking using Dio", "Advanced filtering and pagination", "Clean Architecture with Provider", "Smooth animations and transitions"], t1))], type$.JSArray_Project));
+    }
+  };
+  A._ProjectsSectionState.prototype = {
+    _openProject$1(project) {
+      this.setState$1(new A._ProjectsSectionState__openProject_closure(this, project));
+    },
+    _closeProject$0() {
+      this.setState$1(new A._ProjectsSectionState__closeProject_closure(this));
+    },
+    build$1(context) {
+      var t4, t5, _this = this, _null = null,
         t1 = type$.JSArray_Component,
         t2 = A.h2$(A._setArrayType([new A.Text("Featured Projects", _null)], t1), _null, "section-title"),
         t3 = type$.String;
       t3 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "text-align: center; margin: 0 auto 3rem auto;"], t3, t3);
-      t4 = type$.JSArray_String;
-      return A.section$(A._setArrayType([A.div$(A._setArrayType([t2, A.p$(A._setArrayType([new A.Text("Here are a few projects that showcase my ability to solve real-world problems.", _null)], t1), t3, "lead"), A.div$(A._setArrayType([this._buildProjectCard$5$description$imagePlaceholder$size$tags$title("A full-featured multi-vendor marketplace with real-time inventory and secure payments.", "blue", "col-span-12", A._setArrayType(["Flutter", "Firebase", "Stripe"], t4), "E-Commerce Marketplace"), this._buildProjectCard$5$description$imagePlaceholder$size$tags$title("Interactive learning app serving 500K+ students with offline-first capabilities.", "amber", _s10_, A._setArrayType(["Flutter", "BLoC", "Rest API"], t4), "Educational Platform"), this._buildProjectCard$5$description$imagePlaceholder$size$tags$title("Internal tool for business management with complex data visualization.", "indigo", _s10_, A._setArrayType(["Flutter", "Charts", "MySQL"], t4), "CRM Dashboard")], t1), _null, "bento-grid")], t1), _null, "container")], t1), "scroll-hidden", "projects");
+      t3 = A.p$(A._setArrayType([new A.Text("Here are a few projects that showcase my ability to solve real-world problems.", _null)], t1), t3, "lead");
+      t4 = _this.projects;
+      t5 = A._arrayInstanceType(t4);
+      t4 = A.List_List$_of(new A.MappedListIterable(t4, t5._eval$1("Component(1)")._as(new A._ProjectsSectionState_build_closure(_this)), t5._eval$1("MappedListIterable<1,Component>")), type$.Component);
+      t1 = A._setArrayType([A.div$(A._setArrayType([t2, t3, A.div$(t4, _null, "bento-grid", _null)], t1), _null, "container", _null)], t1);
+      t2 = _this._selectedProject;
+      if (t2 != null)
+        t1.push(new A.ProjectDetailModal(t2, _this.get$_closeProject(), _null));
+      return A.section$(t1, "scroll-hidden", "projects");
     },
-    _buildProjectCard$5$description$imagePlaceholder$size$tags$title(description, imagePlaceholder, size, tags, title) {
-      var t1, t2, t3, t4, t5, t6, _null = null;
-      type$.List_String._as(tags);
-      t1 = type$.String;
-      t2 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "background-color: var(--" + imagePlaceholder + ")"], t1, t1);
-      t1 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "width: 100%; height: 100%; opacity: 0.1; background-image: radial-gradient(circle, #000 1px, transparent 1px); background-size: 20px 20px;"], t1, t1);
-      t3 = type$.JSArray_Component;
-      t2 = A.div$(A._setArrayType([A.div$(A._setArrayType([], t3), t1, _null)], t3), t2, "project-image");
-      t1 = A.h3$(A._setArrayType([new A.Text(title, _null)], t3), _null);
-      t4 = A.p$(A._setArrayType([new A.Text(description, _null)], t3), _null, _null);
-      t5 = A._arrayInstanceType(tags);
-      t6 = t5._eval$1("MappedListIterable<1,span>");
-      t5 = A.List_List$_of(new A.MappedListIterable(tags, t5._eval$1("span(1)")._as(new A.ProjectsSection__buildProjectCard_closure()), t6), t6._eval$1("ListIterable.E"));
-      return A.div$(A._setArrayType([t2, A.div$(A._setArrayType([t1, t4, A.div$(t5, _null, "tech-stack")], t3), _null, "project-content")], t3), _null, "card project-card " + size);
+    _buildProjectCard$1(project) {
+      var t6, t7, t8, t9, _null = null,
+        size = B.JSArray_methods.indexOf$1(this.projects, project) === 0 ? "col-span-12" : "col-span-6",
+        t1 = type$.String,
+        t2 = A.LinkedHashMap_LinkedHashMap$_literal(["click", new A._ProjectsSectionState__buildProjectCard_closure(this, project)], t1, type$.void_Function_JSObject),
+        t3 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "cursor: pointer;"], t1, t1),
+        t4 = project.title,
+        t5 = type$.JSArray_Component;
+      t1 = A.div$(A._setArrayType([A.img$(t4, A.LinkedHashMap_LinkedHashMap$_literal(["loading", "lazy"], t1, t1), _null, "assets/projects/" + project.assetFolder + "/1.jpg")], t5), _null, "project-image", _null);
+      t4 = A.h3$(A._setArrayType([new A.Text(t4, _null)], t5), _null, _null);
+      t6 = A.p$(A._setArrayType([new A.Text(project.subtitle, _null)], t5), _null, _null);
+      t7 = project.techStack;
+      t7 = A.SubListIterable$(t7, 0, A.checkNotNullable(3, "count", type$.int), A._arrayInstanceType(t7)._precomputed1);
+      t8 = t7.$ti;
+      t9 = t8._eval$1("MappedListIterable<ListIterable.E,span>");
+      t7 = A.List_List$_of(new A.MappedListIterable(t7, t8._eval$1("span(ListIterable.E)")._as(new A._ProjectsSectionState__buildProjectCard_closure0()), t9), t9._eval$1("ListIterable.E"));
+      return A.div$(A._setArrayType([t1, A.div$(A._setArrayType([t4, t6, A.div$(t7, _null, "tech-stack", _null)], t5), _null, "project-content", _null)], t5), t3, "card project-card " + size, t2);
     }
   };
-  A.ProjectsSection__buildProjectCard_closure.prototype = {
+  A._ProjectsSectionState__openProject_closure.prototype = {
+    call$0() {
+      this.$this._selectedProject = this.project;
+    },
+    $signature: 0
+  };
+  A._ProjectsSectionState__closeProject_closure.prototype = {
+    call$0() {
+      this.$this._selectedProject = null;
+    },
+    $signature: 0
+  };
+  A._ProjectsSectionState_build_closure.prototype = {
+    call$1(project) {
+      return this.$this._buildProjectCard$1(type$.Project._as(project));
+    },
+    $signature: 23
+  };
+  A._ProjectsSectionState__buildProjectCard_closure.prototype = {
+    call$1(e) {
+      A._asJSObject(e);
+      return this.$this._openProject$1(this.project);
+    },
+    $signature: 1
+  };
+  A._ProjectsSectionState__buildProjectCard_closure0.prototype = {
     call$1(t) {
       return A.span$(A._setArrayType([new A.Text(A._asString(t), null)], type$.JSArray_Component), null, "tech-tag");
     },
-    $signature: 21
+    $signature: 7
   };
   A.ServicesSection.prototype = {
     build$1(context) {
@@ -8293,7 +9084,7 @@
         _s8_ = "tech-tag",
         _s15_0 = "card col-span-4",
         t1 = type$.JSArray_Component;
-      return A.section$(A._setArrayType([A.div$(A._setArrayType([A.h2$(A._setArrayType([new A.Text("What I Do", _null)], t1), _null, "section-title"), A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-mobile-alt")], t1), _null, _s12_0), A.h3$(A._setArrayType([new A.Text("Cross-Platform Apps", _null)], t1), _null), A.p$(A._setArrayType([new A.Text("I build high-performance mobile applications that work flawlessly on both iOS and Android from a single codebase.", _null)], t1), _null, _null), A.div$(A._setArrayType([A.span$(A._setArrayType([new A.Text("Flutter", _null)], t1), _null, _s8_), A.span$(A._setArrayType([new A.Text("Dart", _null)], t1), _null, _s8_), A.span$(A._setArrayType([new A.Text("Material 3", _null)], t1), _null, _s8_)], t1), _null, _s10_)], t1), _null, _s12_)], t1), _null, _s15_), A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-layer-group")], t1), _null, _s12_0), A.h3$(A._setArrayType([new A.Text("Scalable Architecture", _null)], t1), _null), A.p$(A._setArrayType([new A.Text("Clean, maintainable code structures that scale. I strictly follow Clean Architecture and MVVM patterns.", _null)], t1), _null, _null), A.div$(A._setArrayType([A.span$(A._setArrayType([new A.Text("BLoC", _null)], t1), _null, _s8_), A.span$(A._setArrayType([new A.Text("Provider", _null)], t1), _null, _s8_), A.span$(A._setArrayType([new A.Text("GetX", _null)], t1), _null, _s8_)], t1), _null, _s10_)], t1), _null, _s12_)], t1), _null, _s15_), A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-server")], t1), _null, _s12_0), A.h3$(A._setArrayType([new A.Text("Backend Ready", _null)], t1), _null), A.p$(A._setArrayType([new A.Text("Seamless integration with REST APIs and Firebase services.", _null)], t1), _null, _null)], t1), _null, _s12_)], t1), _null, _s15_0), A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-credit-card")], t1), _null, _s12_0), A.h3$(A._setArrayType([new A.Text("Complex Features", _null)], t1), _null), A.p$(A._setArrayType([new A.Text("Payment gateways, maps, real-time chat, and local storage.", _null)], t1), _null, _null)], t1), _null, _s12_)], t1), _null, _s15_0), A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-rocket")], t1), _null, _s12_0), A.h3$(A._setArrayType([new A.Text("CI/CD Pipelines", _null)], t1), _null), A.p$(A._setArrayType([new A.Text("Automated testing and deployment logic using tools like Codemagic.", _null)], t1), _null, _null)], t1), _null, _s12_)], t1), _null, _s15_0)], t1), _null, "bento-grid")], t1), _null, "container")], t1), "scroll-hidden", "services");
+      return A.section$(A._setArrayType([A.div$(A._setArrayType([A.h2$(A._setArrayType([new A.Text("What I Do", _null)], t1), _null, "section-title"), A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-mobile-alt")], t1), _null, _s12_0, _null), A.h3$(A._setArrayType([new A.Text("Cross-Platform Apps", _null)], t1), _null, _null), A.p$(A._setArrayType([new A.Text("I build high-performance mobile applications that work flawlessly on both iOS and Android from a single codebase.", _null)], t1), _null, _null), A.div$(A._setArrayType([A.span$(A._setArrayType([new A.Text("Flutter", _null)], t1), _null, _s8_), A.span$(A._setArrayType([new A.Text("Dart", _null)], t1), _null, _s8_), A.span$(A._setArrayType([new A.Text("Material 3", _null)], t1), _null, _s8_)], t1), _null, _s10_, _null)], t1), _null, _s12_, _null)], t1), _null, _s15_, _null), A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-layer-group")], t1), _null, _s12_0, _null), A.h3$(A._setArrayType([new A.Text("Scalable Architecture", _null)], t1), _null, _null), A.p$(A._setArrayType([new A.Text("Clean, maintainable code structures that scale. I strictly follow Clean Architecture and MVVM patterns.", _null)], t1), _null, _null), A.div$(A._setArrayType([A.span$(A._setArrayType([new A.Text("BLoC", _null)], t1), _null, _s8_), A.span$(A._setArrayType([new A.Text("Provider", _null)], t1), _null, _s8_), A.span$(A._setArrayType([new A.Text("GetX", _null)], t1), _null, _s8_)], t1), _null, _s10_, _null)], t1), _null, _s12_, _null)], t1), _null, _s15_, _null), A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-server")], t1), _null, _s12_0, _null), A.h3$(A._setArrayType([new A.Text("Backend Ready", _null)], t1), _null, _null), A.p$(A._setArrayType([new A.Text("Seamless integration with REST APIs and Firebase services.", _null)], t1), _null, _null)], t1), _null, _s12_, _null)], t1), _null, _s15_0, _null), A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-credit-card")], t1), _null, _s12_0, _null), A.h3$(A._setArrayType([new A.Text("Complex Features", _null)], t1), _null, _null), A.p$(A._setArrayType([new A.Text("Payment gateways, maps, real-time chat, and local storage.", _null)], t1), _null, _null)], t1), _null, _s12_, _null)], t1), _null, _s15_0, _null), A.div$(A._setArrayType([A.div$(A._setArrayType([A.div$(A._setArrayType([A.i$(A._setArrayType([], t1), _null, "fas fa-rocket")], t1), _null, _s12_0, _null), A.h3$(A._setArrayType([new A.Text("CI/CD Pipelines", _null)], t1), _null, _null), A.p$(A._setArrayType([new A.Text("Automated testing and deployment logic using tools like Codemagic.", _null)], t1), _null, _null)], t1), _null, _s12_, _null)], t1), _null, _s15_0, _null)], t1), _null, "bento-grid", _null)], t1), _null, "container", _null)], t1), "scroll-hidden", "services");
     }
   };
   A.SkillsSection.prototype = {
@@ -8306,11 +9097,11 @@
         t2 = A.h2$(A._setArrayType([new A.Text("Technical Skills", _null)], t1), _null, "section-title"),
         t3 = type$.String,
         t4 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "margin-bottom: 1rem;"], t3, t3);
-      t4 = A.div$(A._setArrayType([A.h3$(A._setArrayType([new A.Text("Core Expertise", _null)], t1), t4), A.div$(A._setArrayType([_this._buildSkillTag$2("Flutter", true), _this._buildSkillTag$2("Dart", true), _this._buildSkillTag$2("Dartz", true), _this._buildSkillTag$2("Clean Architecture", true), _this._buildSkillTag$2("MVVM", true), _this._buildSkillTag$2("BLoC", true), _this._buildSkillTag$2("Provider", true), _this._buildSkillTag$2("GetX", true)], t1), _null, _s10_)], t1), _null, "card col-span-12");
+      t4 = A.div$(A._setArrayType([A.h3$(A._setArrayType([new A.Text("Core Expertise", _null)], t1), t4, _null), A.div$(A._setArrayType([_this._buildSkillTag$2("Flutter", true), _this._buildSkillTag$2("Dart", true), _this._buildSkillTag$2("Dartz", true), _this._buildSkillTag$2("Clean Architecture", true), _this._buildSkillTag$2("MVVM", true), _this._buildSkillTag$2("BLoC", true), _this._buildSkillTag$2("Provider", true), _this._buildSkillTag$2("GetX", true)], t1), _null, _s10_, _null)], t1), _null, "card col-span-12", _null);
       t5 = A.LinkedHashMap_LinkedHashMap$_literal(["style", _s39_], t3, t3);
-      t5 = A.div$(A._setArrayType([A.h3$(A._setArrayType([new A.Text("Tools & Services", _null)], t1), t5), A.div$(A._setArrayType([_this._buildSkillTag$2("Firebase", false), _this._buildSkillTag$2("Git / GitHub", false), _this._buildSkillTag$2("Codemagic CI/CD", false), _this._buildSkillTag$2("Postman", false), _this._buildSkillTag$2("Jira", false), _this._buildSkillTag$2("Figma", false)], t1), _null, _s10_)], t1), _null, _s15_);
+      t5 = A.div$(A._setArrayType([A.h3$(A._setArrayType([new A.Text("Tools & Services", _null)], t1), t5, _null), A.div$(A._setArrayType([_this._buildSkillTag$2("Firebase", false), _this._buildSkillTag$2("Git / GitHub", false), _this._buildSkillTag$2("Codemagic CI/CD", false), _this._buildSkillTag$2("Postman", false), _this._buildSkillTag$2("Jira", false), _this._buildSkillTag$2("Figma", false)], t1), _null, _s10_, _null)], t1), _null, _s15_, _null);
       t3 = A.LinkedHashMap_LinkedHashMap$_literal(["style", _s39_], t3, t3);
-      return A.section$(A._setArrayType([A.div$(A._setArrayType([t2, A.div$(A._setArrayType([t4, t5, A.div$(A._setArrayType([A.h3$(A._setArrayType([new A.Text("Languages & DB", _null)], t1), t3), A.div$(A._setArrayType([_this._buildSkillTag$2("SQL / SQLite", false), _this._buildSkillTag$2("HTML / CSS", false), _this._buildSkillTag$2("JavaScript", false), _this._buildSkillTag$2("Java (Basic)", false), _this._buildSkillTag$2("Python (Basic)", false)], t1), _null, _s10_)], t1), _null, _s15_)], t1), _null, "bento-grid")], t1), _null, "container")], t1), "scroll-hidden", "skills");
+      return A.section$(A._setArrayType([A.div$(A._setArrayType([t2, A.div$(A._setArrayType([t4, t5, A.div$(A._setArrayType([A.h3$(A._setArrayType([new A.Text("Languages & DB", _null)], t1), t3, _null), A.div$(A._setArrayType([_this._buildSkillTag$2("SQL / SQLite", false), _this._buildSkillTag$2("HTML / CSS", false), _this._buildSkillTag$2("JavaScript", false), _this._buildSkillTag$2("Java (Basic)", false), _this._buildSkillTag$2("Python (Basic)", false)], t1), _null, _s10_, _null)], t1), _null, _s15_, _null)], t1), _null, "bento-grid", _null)], t1), _null, "container", _null)], t1), "scroll-hidden", "skills");
     },
     _buildSkillTag$2($name, highlight) {
       var styles = highlight ? "background: var(--primary); color: white; padding: 0.5rem 1rem; font-size: 1rem;" : "padding: 0.5rem 1rem; font-size: 1rem;",
@@ -8319,6 +9110,7 @@
       return A.span$(A._setArrayType([new A.Text($name, null)], type$.JSArray_Component), t1, "tech-tag");
     }
   };
+  A.Project.prototype = {};
   A.EventStreamProvider.prototype = {};
   A._EventStream.prototype = {};
   A._ElementEventStreamImpl.prototype = {};
@@ -8342,7 +9134,7 @@
     call$1(e) {
       return this.onData.call$1(A._asJSObject(e));
     },
-    $signature: 6
+    $signature: 1
   };
   (function aliases() {
     var _ = J.LegacyJavaScriptObject.prototype;
@@ -8360,6 +9152,8 @@
     _.super$Element$update = _.update$1;
     _.super$Element$didUpdate = _.didUpdate$1;
     _.super$Element$updateSlot = _.updateSlot$1;
+    _.super$Element$deactivate = _.deactivate$0;
+    _.super$Element$unmount = _.unmount$0;
     _.super$Element$_updateInheritance = _._updateInheritance$0;
     _.super$Element$didRebuild = _.didRebuild$0;
     _ = A.LeafElement.prototype;
@@ -8370,23 +9164,29 @@
     _.super$MultiChildRenderObjectElement$update = _.update$1;
   })();
   (function installTearOffs() {
-    var _static_1 = hunkHelpers._static_1,
+    var _static_2 = hunkHelpers._static_2,
+      _static_1 = hunkHelpers._static_1,
       _static_0 = hunkHelpers._static_0,
       _instance_0_u = hunkHelpers._instance_0u,
       _static = hunkHelpers.installStaticTearOff;
-    _static_1(A, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 2);
-    _static_1(A, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 2);
-    _static_1(A, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 2);
+    _static_2(J, "_interceptors_JSArray__compareAny$closure", "JSArray__compareAny", 24);
+    _static_1(A, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 3);
+    _static_1(A, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 3);
+    _static_1(A, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 3);
     _static_0(A, "async___startMicrotaskLoop$closure", "_startMicrotaskLoop", 0);
     _instance_0_u(A.ClientAppBinding.prototype, "get$completeInitialFrame", "completeInitialFrame$0", 0);
-    _static_1(A, "framework__InactiveElements__deactivateRecursively$closure", "_InactiveElements__deactivateRecursively", 1);
-    _static(A, "events__events$closure", 0, null, ["call$1$3$onChange$onClick$onInput", "call$0", "call$1$0", "call$1$1$onClick"], ["events", function() {
+    _static_2(A, "framework_Element__sort$closure", "Element__sort", 25);
+    _static_1(A, "framework__InactiveElements__deactivateRecursively$closure", "_InactiveElements__deactivateRecursively", 2);
+    _instance_0_u(A.BuildOwner.prototype, "get$performBuild", "performBuild$0", 0);
+    _instance_0_u(A._InactiveElements.prototype, "get$_unmountAll", "_unmountAll$0", 0);
+    _instance_0_u(A._ProjectsSectionState.prototype, "get$_closeProject", "_closeProject$0", 0);
+    _static(A, "events__events$closure", 0, null, ["call$1$3$onChange$onClick$onInput", "call$0", "call$1$0", "call$1$1$onClick"], ["events", function () {
       return A.events(null, null, null, type$.dynamic);
-    }, function($V) {
+    }, function ($V) {
       return A.events(null, null, null, $V);
-    }, function(onClick, $V) {
+    }, function (onClick, $V) {
       return A.events(null, onClick, null, $V);
-    }], 22, 0);
+    }], 26, 0);
   })();
   (function inheritance() {
     var _mixin = hunkHelpers.mixin,
@@ -8394,7 +9194,7 @@
       _inherit = hunkHelpers.inherit,
       _inheritMany = hunkHelpers.inheritMany;
     _inherit(A.Object, null);
-    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, A.SafeToStringHook, J.ArrayIterator, A.Iterable, A.CastIterator, A.Error, A.SentinelValue, A.ListIterator, A.MappedIterator, A.FixedLengthListMixin, A.ConstantMap, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A.ExceptionAndStackTrace, A._StackTrace, A.Closure, A.MapBase, A.LinkedHashMapCell, A.LinkedHashMapKeyIterator, A.LinkedHashMapValueIterator, A.LinkedHashMapEntryIterator, A.Rti, A._FunctionParameters, A._Type, A._TimerImpl, A._AsyncAwaitCompleter, A._SyncStarIterator, A.AsyncError, A._FutureListener, A._Future, A._AsyncCallbackEntry, A.Stream, A._StreamIterator, A._Zone, A._HashMapKeyIterator, A.SetBase, A._HashSetIterator, A._LinkedHashSetCell, A._LinkedHashSetIterator, A.ListBase, A._Enum, A.StackOverflowError, A._Exception, A.MapEntry, A.Null, A._StringStackTrace, A.StringBuffer, A._AppBinding_Object_SchedulerBinding, A.DomRenderObject, A.MultiChildDomRenderObject, A.HydratableDomRenderObject, A.EventBinding, A.Component, A._ColorMixin, A.__Color_Object__ColorMixin, A._AllSpacing, A._Unit, A._Styles_Object_StylesMixin, A.StylesMixin, A.SchedulerBinding, A.BuildOwner, A.Element, A.ComponentsBinding, A.ElementSlot, A._InactiveElements, A.RenderObjectElement, A.EventStreamProvider, A._EventStreamSubscription]);
+    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, A.SafeToStringHook, J.ArrayIterator, A.Iterable, A.CastIterator, A.Error, A.SentinelValue, A.ListIterator, A.MappedIterator, A.FixedLengthListMixin, A.ConstantMap, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A.ExceptionAndStackTrace, A._StackTrace, A.Closure, A.MapBase, A.LinkedHashMapCell, A.LinkedHashMapKeyIterator, A.LinkedHashMapValueIterator, A.LinkedHashMapEntryIterator, A.Rti, A._FunctionParameters, A._Type, A._TimerImpl, A._AsyncAwaitCompleter, A._SyncStarIterator, A.AsyncError, A._FutureListener, A._Future, A._AsyncCallbackEntry, A.Stream, A._StreamIterator, A._Zone, A._HashMapKeyIterator, A.SetBase, A._HashSetIterator, A._LinkedHashSetCell, A._LinkedHashSetIterator, A.ListBase, A._Enum, A.StackOverflowError, A._Exception, A.MapEntry, A.Null, A._StringStackTrace, A.StringBuffer, A._AppBinding_Object_SchedulerBinding, A.DomRenderObject, A.MultiChildDomRenderObject, A.HydratableDomRenderObject, A.EventBinding, A.Component, A._ColorMixin, A.__Color_Object__ColorMixin, A._AllSpacing, A._Unit, A._Styles_Object_StylesMixin, A.StylesMixin, A.SchedulerBinding, A.BuildOwner, A.Element, A.ComponentsBinding, A.ElementSlot, A._InactiveElements, A.RenderObjectElement, A.State, A.Project, A.EventStreamProvider, A._EventStreamSubscription]);
     _inheritMany(J.Interceptor, [J.JSBool, J.JSNull, J.JavaScriptObject, J.JavaScriptBigInt, J.JavaScriptSymbol, J.JSNumber, J.JSString]);
     _inheritMany(J.JavaScriptObject, [J.LegacyJavaScriptObject, J.JSArray, A.NativeByteBuffer, A.NativeTypedData]);
     _inheritMany(J.LegacyJavaScriptObject, [J.PlainJavaScriptObject, J.UnknownJavaScriptObject, J.JavaScriptFunction]);
@@ -8407,11 +9207,11 @@
     _inherit(A.CastList, A._CastListBase);
     _inheritMany(A.Error, [A.LateError, A.TypeError, A.JsNoSuchMethodError, A.UnknownJsTypeError, A.RuntimeError, A._Error, A.AssertionError, A.ArgumentError, A.UnsupportedError, A.UnimplementedError, A.StateError, A.ConcurrentModificationError]);
     _inheritMany(A.EfficientLengthIterable, [A.ListIterable, A.LinkedHashMapKeysIterable, A.LinkedHashMapValuesIterable, A.LinkedHashMapEntriesIterable, A._HashMapKeyIterable]);
+    _inheritMany(A.ListIterable, [A.SubListIterable, A.MappedListIterable, A.ReversedListIterable]);
     _inherit(A.EfficientLengthMappedIterable, A.MappedIterable);
-    _inherit(A.MappedListIterable, A.ListIterable);
     _inherit(A.ConstantStringMap, A.ConstantMap);
     _inherit(A.NullError, A.TypeError);
-    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._awaitOnObject_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A._RootZone_bindUnaryCallbackGuarded_closure, A.DomRenderElement__createNode_closure, A.DomRenderElement_update_closure, A.DomRenderText__createNode_closure, A.EventBinding_closure, A.Element_updateChildren_replaceWithNullIfForgotten, A.Element_updateSlotForChild_visit, A.Element_updateSlotForChild_visit_closure, A.Element_detachRenderObject_closure, A.ProjectsSection__buildProjectCard_closure, A._EventStreamSubscription_closure]);
+    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._awaitOnObject_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A._RootZone_bindUnaryCallbackGuarded_closure, A.DomRenderElement__createNode_closure, A.DomRenderElement_update_closure, A.DomRenderText__createNode_closure, A.EventBinding_closure, A.Element_updateChildren_replaceWithNullIfForgotten, A.Element_updateSlotForChild_visit, A.Element_updateSlotForChild_visit_closure, A.Element_detachRenderObject_closure, A._InactiveElements__unmount_closure, A._ProjectDetailModalState_build_closure, A._ProjectDetailModalState_build_closure0, A._ProjectDetailModalState_build_closure1, A._ProjectDetailModalState_build_closure2, A._ProjectDetailModalState_build_closure3, A._ProjectDetailModalState_build_closure4, A._ProjectDetailModalState_build_closure5, A._ProjectsSectionState_build_closure, A._ProjectsSectionState__buildProjectCard_closure, A._ProjectsSectionState__buildProjectCard_closure0, A._EventStreamSubscription_closure]);
     _inheritMany(A.TearOffClosure, [A.StaticClosure, A.BoundClosure]);
     _inheritMany(A.MapBase, [A.JsLinkedHashMap, A._HashMap]);
     _inheritMany(A.Closure2Args, [A.JsLinkedHashMap_addAll_closure, A.initHooks_closure0, A._awaitOnObject_closure0, A._wrapJsFunctionForAsync_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure0, A._HashMap_addAll_closure, A.MapBase_mapToString_closure, A.DomRenderElement_update_closure0, A._extension_0__prefixed_closure, A.Element_updateChildren_slotFor]);
@@ -8424,7 +9224,7 @@
     _inheritMany(A.NativeTypedArrayOfDouble, [A.NativeFloat32List, A.NativeFloat64List]);
     _inheritMany(A.NativeTypedArrayOfInt, [A.NativeInt16List, A.NativeInt32List, A.NativeInt8List, A.NativeUint16List, A.NativeUint32List, A.NativeUint8ClampedList, A.NativeUint8List]);
     _inherit(A._TypeError, A._Error);
-    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__chainCoreFuture_closure, A._Future__asyncCompleteWithValue_closure, A._Future__asyncCompleteErrorObject_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A.Stream_length_closure0, A._rootHandleError_closure, A._RootZone_bindCallbackGuarded_closure, A.BuildOwner_performInitialBuild_closure]);
+    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__chainCoreFuture_closure, A._Future__asyncCompleteWithValue_closure, A._Future__asyncCompleteErrorObject_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A.Stream_length_closure0, A._rootHandleError_closure, A._RootZone_bindCallbackGuarded_closure, A.SchedulerBinding_scheduleBuild_closure, A.BuildOwner_performInitialBuild_closure, A._ProjectDetailModalState_build__closure0, A._ProjectDetailModalState_build__closure, A._ProjectsSectionState__openProject_closure, A._ProjectsSectionState__closeProject_closure]);
     _inherit(A._RootZone, A._Zone);
     _inherit(A._SetBase, A.SetBase);
     _inheritMany(A._SetBase, [A._HashSet, A._LinkedHashSet]);
@@ -8437,8 +9237,8 @@
     _inherit(A.DomRenderElement, A._DomRenderElement_DomRenderObject_MultiChildDomRenderObject_HydratableDomRenderObject);
     _inherit(A._RootDomRenderObject_DomRenderObject_MultiChildDomRenderObject_HydratableDomRenderObject, A._RootDomRenderObject_DomRenderObject_MultiChildDomRenderObject);
     _inherit(A.RootDomRenderObject, A._RootDomRenderObject_DomRenderObject_MultiChildDomRenderObject_HydratableDomRenderObject);
-    _inheritMany(A.Component, [A.StatelessComponent, A.DomComponent, A.Text, A._Root]);
-    _inheritMany(A.StatelessComponent, [A.footer, A.h1, A.h2, A.h3, A.nav, A.section, A.div, A.ul, A.li, A.p, A.button, A.img, A.a, A.i, A.span, A.App, A.ApproachSection, A.ContactSection, A.HeroSection, A.NavigationBar, A.ProjectsSection, A.ServicesSection, A.SkillsSection]);
+    _inheritMany(A.Component, [A.StatelessComponent, A.DomComponent, A.Text, A._Root, A.StatefulComponent]);
+    _inheritMany(A.StatelessComponent, [A.footer, A.h1, A.h2, A.h3, A.h4, A.nav, A.section, A.div, A.ul, A.li, A.p, A.button, A.img, A.a, A.i, A.span, A.App, A.ApproachSection, A.ContactSection, A.HeroSection, A.NavigationBar, A.ServicesSection, A.SkillsSection]);
     _inheritMany(A._Enum, [A.Target, A.SchedulerPhase, A._ElementLifecycle]);
     _inherit(A._Color, A.__Color_Object__ColorMixin);
     _inheritMany(A._Unit, [A._EmUnit, A._RemUnit]);
@@ -8449,7 +9249,9 @@
     _inheritMany(A.MultiChildRenderObjectElement, [A.DomElement, A._RootElement]);
     _inherit(A.LeafRenderObjectElement, A.LeafElement);
     _inherit(A.TextElement, A.LeafRenderObjectElement);
-    _inherit(A.StatelessElement, A.BuildableElement);
+    _inheritMany(A.BuildableElement, [A.StatefulElement, A.StatelessElement]);
+    _inheritMany(A.StatefulComponent, [A.ProjectDetailModal, A.ProjectsSection]);
+    _inheritMany(A.State, [A._ProjectDetailModalState, A._ProjectsSectionState]);
     _inherit(A._EventStream, A.Stream);
     _inherit(A._ElementEventStreamImpl, A._EventStream);
     _mixin(A.__CastListBase__CastIterableBase_ListMixin, A.ListBase);
@@ -8470,15 +9272,15 @@
   })();
   var init = {
     G: typeof self != "undefined" ? self : globalThis,
-    typeUniverse: {eC: new Map(), tR: {}, eT: {}, tPV: {}, sEA: []},
-    mangledGlobalNames: {int: "int", double: "double", num: "num", String: "String", bool: "bool", Null: "Null", List: "List", Object: "Object", Map: "Map", JSObject: "JSObject"},
+    typeUniverse: { eC: new Map(), tR: {}, eT: {}, tPV: {}, sEA: [] },
+    mangledGlobalNames: { int: "int", double: "double", num: "num", String: "String", bool: "bool", Null: "Null", List: "List", Object: "Object", Map: "Map", JSObject: "JSObject" },
     mangledNames: {},
-    types: ["~()", "~(Element)", "~(~())", "Null(@)", "Null()", "bool(JSObject)", "~(JSObject)", "@(@)", "@(@,String)", "@(String)", "Null(~())", "~(@)", "Null(@,StackTrace)", "~(int,@)", "Null(Object,StackTrace)", "~(Object?,Object?)", "String(MapEntry<String,String>)", "~(String,~(JSObject))", "MapEntry<String,String>(String,String)", "Element?(Element?)", "ElementSlot(int,Element?)", "span(String)", "Map<String,~(JSObject)>({onChange:~(0^)?,onClick:~()?,onInput:~(0^)?})<Object?>"],
+    types: ["~()", "~(JSObject)", "~(Element)", "~(~())", "Null(@)", "Null()", "bool(JSObject)", "span(String)", "@(@)", "@(@,String)", "@(String)", "Null(~())", "~(@)", "Null(@,StackTrace)", "~(int,@)", "Null(Object,StackTrace)", "~(Object?,Object?)", "String(MapEntry<String,String>)", "~(String,~(JSObject))", "MapEntry<String,String>(String,String)", "Element?(Element?)", "ElementSlot(int,Element?)", "li(String)", "Component(Project)", "int(@,@)", "int(Element,Element)", "Map<String,~(JSObject)>({onChange:~(0^)?,onClick:~()?,onInput:~(0^)?})<Object?>"],
     interceptorsByTag: null,
     leafTags: null,
     arrayRti: Symbol("$ti")
   };
-  A._Universe_addRules(init.typeUniverse, JSON.parse('{"JavaScriptFunction":"LegacyJavaScriptObject","PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","NativeArrayBuffer":"NativeByteBuffer","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"TrustedGetRuntimeType":[]},"JavaScriptObject":{"JSObject":[]},"LegacyJavaScriptObject":{"JSObject":[]},"JSArray":{"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"JSArraySafeToStringHook":{"SafeToStringHook":[]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"ArrayIterator":{"Iterator":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"TrustedGetRuntimeType":[]},"_CastIterableBase":{"Iterable":["2"]},"CastIterator":{"Iterator":["2"]},"_CastListBase":{"ListBase":["2"],"List":["2"],"_CastIterableBase":["1","2"],"EfficientLengthIterable":["2"],"Iterable":["2"]},"CastList":{"_CastListBase":["1","2"],"ListBase":["2"],"List":["2"],"_CastIterableBase":["1","2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"ListBase.E":"2","Iterable.E":"2"},"LateError":{"Error":[]},"EfficientLengthIterable":{"Iterable":["1"]},"ListIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"ListIterator":{"Iterator":["1"]},"MappedIterable":{"Iterable":["2"],"Iterable.E":"2"},"EfficientLengthMappedIterable":{"MappedIterable":["1","2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2"},"MappedIterator":{"Iterator":["2"]},"MappedListIterable":{"ListIterable":["2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2","ListIterable.E":"2"},"ConstantMap":{"Map":["1","2"]},"ConstantStringMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"JsLinkedHashMap":{"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"]},"LinkedHashMapKeysIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"LinkedHashMapKeyIterator":{"Iterator":["1"]},"LinkedHashMapValuesIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"LinkedHashMapValueIterator":{"Iterator":["1"]},"LinkedHashMapEntriesIterable":{"EfficientLengthIterable":["MapEntry<1,2>"],"Iterable":["MapEntry<1,2>"],"Iterable.E":"MapEntry<1,2>"},"LinkedHashMapEntryIterator":{"Iterator":["MapEntry<1,2>"]},"NativeByteBuffer":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedData":{"JSObject":[]},"NativeByteData":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedArray":{"JavaScriptIndexingBehavior":["1"],"JSObject":[]},"NativeTypedArrayOfDouble":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"]},"NativeTypedArrayOfInt":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"]},"NativeFloat32List":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeFloat64List":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeInt16List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt32List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt8List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint16List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint32List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8ClampedList":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"_Type":{"Type":[]},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"_SyncStarIterator":{"Iterator":["1"]},"_SyncStarIterable":{"Iterable":["1"],"Iterable.E":"1"},"AsyncError":{"Error":[]},"_Future":{"Future":["1"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"_HashMap":{"MapBase":["1","2"],"Map":["1","2"]},"_HashMapKeyIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"_HashMapKeyIterator":{"Iterator":["1"]},"_HashSet":{"SetBase":["1"],"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"_HashSetIterator":{"Iterator":["1"]},"_LinkedHashSet":{"SetBase":["1"],"LinkedHashSet":["1"],"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"_LinkedHashSetIterator":{"Iterator":["1"]},"MapBase":{"Map":["1","2"]},"SetBase":{"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"_SetBase":{"SetBase":["1"],"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"double":{"num":[]},"int":{"num":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"ClientAppBinding":{"AppBinding":[]},"DomRenderObject":{"RenderObject":[]},"DomRenderElement":{"DomRenderObject":[],"RenderElement":[],"RenderObject":[]},"DomRenderText":{"DomRenderObject":[],"RenderText":[],"RenderObject":[]},"RootDomRenderObject":{"DomRenderObject":[],"RenderObject":[]},"span":{"StatelessComponent":[],"Component":[]},"footer":{"StatelessComponent":[],"Component":[]},"h1":{"StatelessComponent":[],"Component":[]},"h2":{"StatelessComponent":[],"Component":[]},"h3":{"StatelessComponent":[],"Component":[]},"nav":{"StatelessComponent":[],"Component":[]},"section":{"StatelessComponent":[],"Component":[]},"div":{"StatelessComponent":[],"Component":[]},"ul":{"StatelessComponent":[],"Component":[]},"li":{"StatelessComponent":[],"Component":[]},"p":{"StatelessComponent":[],"Component":[]},"button":{"StatelessComponent":[],"Component":[]},"img":{"StatelessComponent":[],"Component":[]},"a":{"StatelessComponent":[],"Component":[]},"i":{"StatelessComponent":[],"Component":[]},"_Styles":{"Styles":[]},"_WrappingDomComponent":{"DomComponent":[],"Component":[]},"Element":{"BuildContext":[]},"InheritedElement":{"Element":[],"BuildContext":[]},"ObserverElement":{"Element":[],"BuildContext":[]},"BuildableElement":{"Element":[],"BuildContext":[]},"DomComponent":{"Component":[]},"DomElement":{"RenderObjectElement":[],"Element":[],"BuildContext":[]},"Text":{"Component":[]},"TextElement":{"RenderObjectElement":[],"Element":[],"BuildContext":[]},"_Root":{"Component":[]},"_RootElement":{"RenderObjectElement":[],"Element":[],"BuildContext":[]},"LeafElement":{"Element":[],"BuildContext":[]},"MultiChildElement":{"Element":[],"BuildContext":[]},"MultiChildRenderObjectElement":{"RenderObjectElement":[],"Element":[],"BuildContext":[]},"LeafRenderObjectElement":{"RenderObjectElement":[],"Element":[],"BuildContext":[]},"StatelessComponent":{"Component":[]},"StatelessElement":{"Element":[],"BuildContext":[]},"App":{"StatelessComponent":[],"Component":[]},"ApproachSection":{"StatelessComponent":[],"Component":[]},"ContactSection":{"StatelessComponent":[],"Component":[]},"HeroSection":{"StatelessComponent":[],"Component":[]},"NavigationBar":{"StatelessComponent":[],"Component":[]},"ProjectsSection":{"StatelessComponent":[],"Component":[]},"ServicesSection":{"StatelessComponent":[],"Component":[]},"SkillsSection":{"StatelessComponent":[],"Component":[]},"_EventStream":{"Stream":["1"]},"_ElementEventStreamImpl":{"_EventStream":["1"],"Stream":["1"]},"_EventStreamSubscription":{"StreamSubscription":["1"]},"Int8List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint8List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint8ClampedList":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Int16List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint16List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Int32List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint32List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Float32List":{"List":["double"],"EfficientLengthIterable":["double"],"Iterable":["double"]},"Float64List":{"List":["double"],"EfficientLengthIterable":["double"],"Iterable":["double"]}}'));
+  A._Universe_addRules(init.typeUniverse, JSON.parse('{"JavaScriptFunction":"LegacyJavaScriptObject","PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","NativeArrayBuffer":"NativeByteBuffer","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"TrustedGetRuntimeType":[]},"JavaScriptObject":{"JSObject":[]},"LegacyJavaScriptObject":{"JSObject":[]},"JSArray":{"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"JSArraySafeToStringHook":{"SafeToStringHook":[]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"EfficientLengthIterable":["1"],"JSObject":[],"Iterable":["1"]},"ArrayIterator":{"Iterator":["1"]},"JSNumber":{"double":[],"num":[],"Comparable":["num"]},"JSInt":{"double":[],"int":[],"num":[],"Comparable":["num"],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"Comparable":["num"],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"Comparable":["String"],"TrustedGetRuntimeType":[]},"_CastIterableBase":{"Iterable":["2"]},"CastIterator":{"Iterator":["2"]},"_CastListBase":{"ListBase":["2"],"List":["2"],"_CastIterableBase":["1","2"],"EfficientLengthIterable":["2"],"Iterable":["2"]},"CastList":{"_CastListBase":["1","2"],"ListBase":["2"],"List":["2"],"_CastIterableBase":["1","2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"ListBase.E":"2","Iterable.E":"2"},"LateError":{"Error":[]},"EfficientLengthIterable":{"Iterable":["1"]},"ListIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"]},"SubListIterable":{"ListIterable":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1","ListIterable.E":"1"},"ListIterator":{"Iterator":["1"]},"MappedIterable":{"Iterable":["2"],"Iterable.E":"2"},"EfficientLengthMappedIterable":{"MappedIterable":["1","2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2"},"MappedIterator":{"Iterator":["2"]},"MappedListIterable":{"ListIterable":["2"],"EfficientLengthIterable":["2"],"Iterable":["2"],"Iterable.E":"2","ListIterable.E":"2"},"ReversedListIterable":{"ListIterable":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1","ListIterable.E":"1"},"ConstantMap":{"Map":["1","2"]},"ConstantStringMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"JsLinkedHashMap":{"MapBase":["1","2"],"LinkedHashMap":["1","2"],"Map":["1","2"]},"LinkedHashMapKeysIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"LinkedHashMapKeyIterator":{"Iterator":["1"]},"LinkedHashMapValuesIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"LinkedHashMapValueIterator":{"Iterator":["1"]},"LinkedHashMapEntriesIterable":{"EfficientLengthIterable":["MapEntry<1,2>"],"Iterable":["MapEntry<1,2>"],"Iterable.E":"MapEntry<1,2>"},"LinkedHashMapEntryIterator":{"Iterator":["MapEntry<1,2>"]},"NativeByteBuffer":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedData":{"JSObject":[]},"NativeByteData":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedArray":{"JavaScriptIndexingBehavior":["1"],"JSObject":[]},"NativeTypedArrayOfDouble":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"]},"NativeTypedArrayOfInt":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"]},"NativeFloat32List":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeFloat64List":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"EfficientLengthIterable":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeInt16List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt32List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt8List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint16List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint32List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8ClampedList":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"EfficientLengthIterable":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"_Type":{"Type":[]},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"_SyncStarIterator":{"Iterator":["1"]},"_SyncStarIterable":{"Iterable":["1"],"Iterable.E":"1"},"AsyncError":{"Error":[]},"_Future":{"Future":["1"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"_HashMap":{"MapBase":["1","2"],"Map":["1","2"]},"_HashMapKeyIterable":{"EfficientLengthIterable":["1"],"Iterable":["1"],"Iterable.E":"1"},"_HashMapKeyIterator":{"Iterator":["1"]},"_HashSet":{"SetBase":["1"],"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"_HashSetIterator":{"Iterator":["1"]},"_LinkedHashSet":{"SetBase":["1"],"LinkedHashSet":["1"],"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"_LinkedHashSetIterator":{"Iterator":["1"]},"MapBase":{"Map":["1","2"]},"SetBase":{"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"_SetBase":{"SetBase":["1"],"Set":["1"],"EfficientLengthIterable":["1"],"Iterable":["1"]},"double":{"num":[],"Comparable":["num"]},"int":{"num":[],"Comparable":["num"]},"num":{"Comparable":["num"]},"String":{"Comparable":["String"]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"ClientAppBinding":{"AppBinding":[]},"DomRenderObject":{"RenderObject":[]},"DomRenderElement":{"DomRenderObject":[],"RenderElement":[],"RenderObject":[]},"DomRenderText":{"DomRenderObject":[],"RenderText":[],"RenderObject":[]},"RootDomRenderObject":{"DomRenderObject":[],"RenderObject":[]},"li":{"StatelessComponent":[],"Component":[]},"span":{"StatelessComponent":[],"Component":[]},"footer":{"StatelessComponent":[],"Component":[]},"h1":{"StatelessComponent":[],"Component":[]},"h2":{"StatelessComponent":[],"Component":[]},"h3":{"StatelessComponent":[],"Component":[]},"h4":{"StatelessComponent":[],"Component":[]},"nav":{"StatelessComponent":[],"Component":[]},"section":{"StatelessComponent":[],"Component":[]},"div":{"StatelessComponent":[],"Component":[]},"ul":{"StatelessComponent":[],"Component":[]},"p":{"StatelessComponent":[],"Component":[]},"button":{"StatelessComponent":[],"Component":[]},"img":{"StatelessComponent":[],"Component":[]},"a":{"StatelessComponent":[],"Component":[]},"i":{"StatelessComponent":[],"Component":[]},"_Styles":{"Styles":[]},"_WrappingDomComponent":{"DomComponent":[],"Component":[]},"Element":{"BuildContext":[]},"InheritedElement":{"Element":[],"BuildContext":[]},"ObserverElement":{"Element":[],"BuildContext":[]},"StatefulComponent":{"Component":[]},"BuildableElement":{"Element":[],"BuildContext":[]},"DomComponent":{"Component":[]},"DomElement":{"RenderObjectElement":[],"Element":[],"BuildContext":[]},"Text":{"Component":[]},"TextElement":{"RenderObjectElement":[],"Element":[],"BuildContext":[]},"_Root":{"Component":[]},"_RootElement":{"RenderObjectElement":[],"Element":[],"BuildContext":[]},"LeafElement":{"Element":[],"BuildContext":[]},"MultiChildElement":{"Element":[],"BuildContext":[]},"MultiChildRenderObjectElement":{"RenderObjectElement":[],"Element":[],"BuildContext":[]},"LeafRenderObjectElement":{"RenderObjectElement":[],"Element":[],"BuildContext":[]},"StatefulElement":{"Element":[],"BuildContext":[]},"StatelessComponent":{"Component":[]},"StatelessElement":{"Element":[],"BuildContext":[]},"App":{"StatelessComponent":[],"Component":[]},"ApproachSection":{"StatelessComponent":[],"Component":[]},"ContactSection":{"StatelessComponent":[],"Component":[]},"HeroSection":{"StatelessComponent":[],"Component":[]},"NavigationBar":{"StatelessComponent":[],"Component":[]},"ProjectDetailModal":{"StatefulComponent":[],"Component":[]},"_ProjectDetailModalState":{"State":["ProjectDetailModal"],"State.T":"ProjectDetailModal"},"ProjectsSection":{"StatefulComponent":[],"Component":[]},"_ProjectsSectionState":{"State":["ProjectsSection"],"State.T":"ProjectsSection"},"ServicesSection":{"StatelessComponent":[],"Component":[]},"SkillsSection":{"StatelessComponent":[],"Component":[]},"_EventStream":{"Stream":["1"]},"_ElementEventStreamImpl":{"_EventStream":["1"],"Stream":["1"]},"_EventStreamSubscription":{"StreamSubscription":["1"]},"Int8List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint8List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint8ClampedList":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Int16List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint16List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Int32List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Uint32List":{"List":["int"],"EfficientLengthIterable":["int"],"Iterable":["int"]},"Float32List":{"List":["double"],"EfficientLengthIterable":["double"],"Iterable":["double"]},"Float64List":{"List":["double"],"EfficientLengthIterable":["double"],"Iterable":["double"]}}'));
   A._Universe_addErasedTypes(init.typeUniverse, JSON.parse('{"__CastListBase__CastIterableBase_ListMixin":2,"NativeTypedArray":1,"_SetBase":1,"StylesMixin":1}'));
   var string$ = {
     Error_: "Error handler must accept one Object or one Object and a StackTrace as arguments, and return a value of the returned future's type",
@@ -8488,6 +9290,7 @@
     var findType = A.findType;
     return {
       AsyncError: findType("AsyncError"),
+      Comparable_dynamic: findType("Comparable<@>"),
       Component: findType("Component"),
       DomComponent: findType("DomComponent"),
       EfficientLengthIterable_dynamic: findType("EfficientLengthIterable<@>"),
@@ -8500,6 +9303,7 @@
       JSArray_Component: findType("JSArray<Component>"),
       JSArray_Element: findType("JSArray<Element>"),
       JSArray_JSObject: findType("JSArray<JSObject>"),
+      JSArray_Project: findType("JSArray<Project>"),
       JSArray_String: findType("JSArray<String>"),
       JSArray_dynamic: findType("JSArray<@>"),
       JSArray_of_void_Function: findType("JSArray<~()>"),
@@ -8510,16 +9314,17 @@
       Key: findType("Key"),
       List_Component: findType("List<Component>"),
       List_Element: findType("List<Element>"),
-      List_String: findType("List<String>"),
       List_dynamic: findType("List<@>"),
       MapEntry_String_String: findType("MapEntry<String,String>"),
       Null: findType("Null"),
       Object: findType("Object"),
+      Project: findType("Project"),
       Record: findType("Record"),
       RenderElement: findType("RenderElement"),
       RenderObjectElement: findType("RenderObjectElement"),
       RenderText: findType("RenderText"),
       StackTrace: findType("StackTrace"),
+      StatefulComponent: findType("StatefulComponent"),
       StatelessComponent: findType("StatelessComponent"),
       String: findType("String"),
       Text: findType("Text"),
@@ -8574,130 +9379,132 @@
     B.PlainJavaScriptObject_methods = J.PlainJavaScriptObject.prototype;
     B.UnknownJavaScriptObject_methods = J.UnknownJavaScriptObject.prototype;
     B.C_JS_CONST = function getTagFallback(o) {
-  var s = Object.prototype.toString.call(o);
-  return s.substring(8, s.length - 1);
-};
-    B.C_JS_CONST0 = function() {
-  var toStringFunction = Object.prototype.toString;
-  function getTag(o) {
-    var s = toStringFunction.call(o);
-    return s.substring(8, s.length - 1);
-  }
-  function getUnknownTag(object, tag) {
-    if (/^HTML[A-Z].*Element$/.test(tag)) {
-      var name = toStringFunction.call(object);
-      if (name == "[object Object]") return null;
-      return "HTMLElement";
-    }
-  }
-  function getUnknownTagGenericBrowser(object, tag) {
-    if (object instanceof HTMLElement) return "HTMLElement";
-    return getUnknownTag(object, tag);
-  }
-  function prototypeForTag(tag) {
-    if (typeof window == "undefined") return null;
-    if (typeof window[tag] == "undefined") return null;
-    var constructor = window[tag];
-    if (typeof constructor != "function") return null;
-    return constructor.prototype;
-  }
-  function discriminator(tag) { return null; }
-  var isBrowser = typeof HTMLElement == "function";
-  return {
-    getTag: getTag,
-    getUnknownTag: isBrowser ? getUnknownTagGenericBrowser : getUnknownTag,
-    prototypeForTag: prototypeForTag,
-    discriminator: discriminator };
-};
-    B.C_JS_CONST6 = function(getTagFallback) {
-  return function(hooks) {
-    if (typeof navigator != "object") return hooks;
-    var userAgent = navigator.userAgent;
-    if (typeof userAgent != "string") return hooks;
-    if (userAgent.indexOf("DumpRenderTree") >= 0) return hooks;
-    if (userAgent.indexOf("Chrome") >= 0) {
-      function confirm(p) {
-        return typeof window == "object" && window[p] && window[p].name == p;
+      var s = Object.prototype.toString.call(o);
+      return s.substring(8, s.length - 1);
+    };
+    B.C_JS_CONST0 = function () {
+      var toStringFunction = Object.prototype.toString;
+      function getTag(o) {
+        var s = toStringFunction.call(o);
+        return s.substring(8, s.length - 1);
       }
-      if (confirm("Window") && confirm("HTMLElement")) return hooks;
-    }
-    hooks.getTag = getTagFallback;
-  };
-};
-    B.C_JS_CONST1 = function(hooks) {
-  if (typeof dartExperimentalFixupGetTag != "function") return hooks;
-  hooks.getTag = dartExperimentalFixupGetTag(hooks.getTag);
-};
-    B.C_JS_CONST5 = function(hooks) {
-  if (typeof navigator != "object") return hooks;
-  var userAgent = navigator.userAgent;
-  if (typeof userAgent != "string") return hooks;
-  if (userAgent.indexOf("Firefox") == -1) return hooks;
-  var getTag = hooks.getTag;
-  var quickMap = {
-    "BeforeUnloadEvent": "Event",
-    "DataTransfer": "Clipboard",
-    "GeoGeolocation": "Geolocation",
-    "Location": "!Location",
-    "WorkerMessageEvent": "MessageEvent",
-    "XMLDocument": "!Document"};
-  function getTagFirefox(o) {
-    var tag = getTag(o);
-    return quickMap[tag] || tag;
-  }
-  hooks.getTag = getTagFirefox;
-};
-    B.C_JS_CONST4 = function(hooks) {
-  if (typeof navigator != "object") return hooks;
-  var userAgent = navigator.userAgent;
-  if (typeof userAgent != "string") return hooks;
-  if (userAgent.indexOf("Trident/") == -1) return hooks;
-  var getTag = hooks.getTag;
-  var quickMap = {
-    "BeforeUnloadEvent": "Event",
-    "DataTransfer": "Clipboard",
-    "HTMLDDElement": "HTMLElement",
-    "HTMLDTElement": "HTMLElement",
-    "HTMLPhraseElement": "HTMLElement",
-    "Position": "Geoposition"
-  };
-  function getTagIE(o) {
-    var tag = getTag(o);
-    var newTag = quickMap[tag];
-    if (newTag) return newTag;
-    if (tag == "Object") {
-      if (window.DataView && (o instanceof window.DataView)) return "DataView";
-    }
-    return tag;
-  }
-  function prototypeForTagIE(tag) {
-    var constructor = window[tag];
-    if (constructor == null) return null;
-    return constructor.prototype;
-  }
-  hooks.getTag = getTagIE;
-  hooks.prototypeForTag = prototypeForTagIE;
-};
-    B.C_JS_CONST2 = function(hooks) {
-  var getTag = hooks.getTag;
-  var prototypeForTag = hooks.prototypeForTag;
-  function getTagFixed(o) {
-    var tag = getTag(o);
-    if (tag == "Document") {
-      if (!!o.xmlVersion) return "!Document";
-      return "!HTMLDocument";
-    }
-    return tag;
-  }
-  function prototypeForTagFixed(tag) {
-    if (tag == "Document") return null;
-    return prototypeForTag(tag);
-  }
-  hooks.getTag = getTagFixed;
-  hooks.prototypeForTag = prototypeForTagFixed;
-};
-    B.C_JS_CONST3 = function(hooks) { return hooks; }
-;
+      function getUnknownTag(object, tag) {
+        if (/^HTML[A-Z].*Element$/.test(tag)) {
+          var name = toStringFunction.call(object);
+          if (name == "[object Object]") return null;
+          return "HTMLElement";
+        }
+      }
+      function getUnknownTagGenericBrowser(object, tag) {
+        if (object instanceof HTMLElement) return "HTMLElement";
+        return getUnknownTag(object, tag);
+      }
+      function prototypeForTag(tag) {
+        if (typeof window == "undefined") return null;
+        if (typeof window[tag] == "undefined") return null;
+        var constructor = window[tag];
+        if (typeof constructor != "function") return null;
+        return constructor.prototype;
+      }
+      function discriminator(tag) { return null; }
+      var isBrowser = typeof HTMLElement == "function";
+      return {
+        getTag: getTag,
+        getUnknownTag: isBrowser ? getUnknownTagGenericBrowser : getUnknownTag,
+        prototypeForTag: prototypeForTag,
+        discriminator: discriminator
+      };
+    };
+    B.C_JS_CONST6 = function (getTagFallback) {
+      return function (hooks) {
+        if (typeof navigator != "object") return hooks;
+        var userAgent = navigator.userAgent;
+        if (typeof userAgent != "string") return hooks;
+        if (userAgent.indexOf("DumpRenderTree") >= 0) return hooks;
+        if (userAgent.indexOf("Chrome") >= 0) {
+          function confirm(p) {
+            return typeof window == "object" && window[p] && window[p].name == p;
+          }
+          if (confirm("Window") && confirm("HTMLElement")) return hooks;
+        }
+        hooks.getTag = getTagFallback;
+      };
+    };
+    B.C_JS_CONST1 = function (hooks) {
+      if (typeof dartExperimentalFixupGetTag != "function") return hooks;
+      hooks.getTag = dartExperimentalFixupGetTag(hooks.getTag);
+    };
+    B.C_JS_CONST5 = function (hooks) {
+      if (typeof navigator != "object") return hooks;
+      var userAgent = navigator.userAgent;
+      if (typeof userAgent != "string") return hooks;
+      if (userAgent.indexOf("Firefox") == -1) return hooks;
+      var getTag = hooks.getTag;
+      var quickMap = {
+        "BeforeUnloadEvent": "Event",
+        "DataTransfer": "Clipboard",
+        "GeoGeolocation": "Geolocation",
+        "Location": "!Location",
+        "WorkerMessageEvent": "MessageEvent",
+        "XMLDocument": "!Document"
+      };
+      function getTagFirefox(o) {
+        var tag = getTag(o);
+        return quickMap[tag] || tag;
+      }
+      hooks.getTag = getTagFirefox;
+    };
+    B.C_JS_CONST4 = function (hooks) {
+      if (typeof navigator != "object") return hooks;
+      var userAgent = navigator.userAgent;
+      if (typeof userAgent != "string") return hooks;
+      if (userAgent.indexOf("Trident/") == -1) return hooks;
+      var getTag = hooks.getTag;
+      var quickMap = {
+        "BeforeUnloadEvent": "Event",
+        "DataTransfer": "Clipboard",
+        "HTMLDDElement": "HTMLElement",
+        "HTMLDTElement": "HTMLElement",
+        "HTMLPhraseElement": "HTMLElement",
+        "Position": "Geoposition"
+      };
+      function getTagIE(o) {
+        var tag = getTag(o);
+        var newTag = quickMap[tag];
+        if (newTag) return newTag;
+        if (tag == "Object") {
+          if (window.DataView && (o instanceof window.DataView)) return "DataView";
+        }
+        return tag;
+      }
+      function prototypeForTagIE(tag) {
+        var constructor = window[tag];
+        if (constructor == null) return null;
+        return constructor.prototype;
+      }
+      hooks.getTag = getTagIE;
+      hooks.prototypeForTag = prototypeForTagIE;
+    };
+    B.C_JS_CONST2 = function (hooks) {
+      var getTag = hooks.getTag;
+      var prototypeForTag = hooks.prototypeForTag;
+      function getTagFixed(o) {
+        var tag = getTag(o);
+        if (tag == "Document") {
+          if (!!o.xmlVersion) return "!Document";
+          return "!HTMLDocument";
+        }
+        return tag;
+      }
+      function prototypeForTagFixed(tag) {
+        if (tag == "Document") return null;
+        return prototypeForTag(tag);
+      }
+      hooks.getTag = getTagFixed;
+      hooks.prototypeForTag = prototypeForTagFixed;
+    };
+    B.C_JS_CONST3 = function (hooks) { return hooks; }
+      ;
     B.C_SentinelValue = new A.SentinelValue();
     B._EmUnit_em_2 = new A._EmUnit("em", 2);
     B.C__AllSpacing = new A._AllSpacing();
@@ -8707,9 +9514,11 @@
     B._RemUnit_rem_1 = new A._RemUnit("rem", 1);
     B._Color_red = new A._Color("red");
     B.C__Styles = new A._Styles();
-    B.Object_svg_0_math_1 = {svg: 0, math: 1};
+    B.Object_svg_0_math_1 = { svg: 0, math: 1 };
     B.Map_rvfri = new A.ConstantStringMap(B.Object_svg_0_math_1, ["http://www.w3.org/2000/svg", "http://www.w3.org/1998/Math/MathML"], A.findType("ConstantStringMap<String,String>"));
     B.SchedulerPhase_0 = new A.SchedulerPhase(0, "idle");
+    B.SchedulerPhase_1 = new A.SchedulerPhase(1, "midFrameCallback");
+    B.SchedulerPhase_2 = new A.SchedulerPhase(2, "postFrameCallbacks");
     B.Target_1_blank = new A.Target(1, "blank");
     B.Type_ByteBuffer_rqD = A.typeLiteral("ByteBuffer");
     B.Type_ByteData_9dB = A.typeLiteral("ByteData");
@@ -8728,6 +9537,7 @@
     B._ElementLifecycle_0 = new A._ElementLifecycle(0, "initial");
     B._ElementLifecycle_1 = new A._ElementLifecycle(1, "active");
     B._ElementLifecycle_2 = new A._ElementLifecycle(2, "inactive");
+    B._ElementLifecycle_3 = new A._ElementLifecycle(3, "defunct");
   })();
   (function staticFields() {
     $._JS_INTEROP_INTERCEPTOR_TAG = null;
@@ -8753,17 +9563,18 @@
     _lazyFinal($, "DART_CLOSURE_PROPERTY_NAME", "$get$DART_CLOSURE_PROPERTY_NAME", () => A.getIsolateAffinityTag("_$dart_dartClosure"));
     _lazyFinal($, "_safeToStringHooks", "$get$_safeToStringHooks", () => A._setArrayType([new J.JSArraySafeToStringHook()], A.findType("JSArray<SafeToStringHook>")));
     _lazyFinal($, "TypeErrorDecoder_noSuchMethodPattern", "$get$TypeErrorDecoder_noSuchMethodPattern", () => A.TypeErrorDecoder_extractPattern(A.TypeErrorDecoder_provokeCallErrorOn({
-      toString: function() {
+      toString: function () {
         return "$receiver$";
       }
     })));
-    _lazyFinal($, "TypeErrorDecoder_notClosurePattern", "$get$TypeErrorDecoder_notClosurePattern", () => A.TypeErrorDecoder_extractPattern(A.TypeErrorDecoder_provokeCallErrorOn({$method$: null,
-      toString: function() {
+    _lazyFinal($, "TypeErrorDecoder_notClosurePattern", "$get$TypeErrorDecoder_notClosurePattern", () => A.TypeErrorDecoder_extractPattern(A.TypeErrorDecoder_provokeCallErrorOn({
+      $method$: null,
+      toString: function () {
         return "$receiver$";
       }
     })));
     _lazyFinal($, "TypeErrorDecoder_nullCallPattern", "$get$TypeErrorDecoder_nullCallPattern", () => A.TypeErrorDecoder_extractPattern(A.TypeErrorDecoder_provokeCallErrorOn(null)));
-    _lazyFinal($, "TypeErrorDecoder_nullLiteralCallPattern", "$get$TypeErrorDecoder_nullLiteralCallPattern", () => A.TypeErrorDecoder_extractPattern(function() {
+    _lazyFinal($, "TypeErrorDecoder_nullLiteralCallPattern", "$get$TypeErrorDecoder_nullLiteralCallPattern", () => A.TypeErrorDecoder_extractPattern(function () {
       var $argumentsExpr$ = "$arguments$";
       try {
         null.$method$($argumentsExpr$);
@@ -8772,7 +9583,7 @@
       }
     }()));
     _lazyFinal($, "TypeErrorDecoder_undefinedCallPattern", "$get$TypeErrorDecoder_undefinedCallPattern", () => A.TypeErrorDecoder_extractPattern(A.TypeErrorDecoder_provokeCallErrorOn(void 0)));
-    _lazyFinal($, "TypeErrorDecoder_undefinedLiteralCallPattern", "$get$TypeErrorDecoder_undefinedLiteralCallPattern", () => A.TypeErrorDecoder_extractPattern(function() {
+    _lazyFinal($, "TypeErrorDecoder_undefinedLiteralCallPattern", "$get$TypeErrorDecoder_undefinedLiteralCallPattern", () => A.TypeErrorDecoder_extractPattern(function () {
       var $argumentsExpr$ = "$arguments$";
       try {
         (void 0).$method$($argumentsExpr$);
@@ -8781,7 +9592,7 @@
       }
     }()));
     _lazyFinal($, "TypeErrorDecoder_nullPropertyPattern", "$get$TypeErrorDecoder_nullPropertyPattern", () => A.TypeErrorDecoder_extractPattern(A.TypeErrorDecoder_provokePropertyErrorOn(null)));
-    _lazyFinal($, "TypeErrorDecoder_nullLiteralPropertyPattern", "$get$TypeErrorDecoder_nullLiteralPropertyPattern", () => A.TypeErrorDecoder_extractPattern(function() {
+    _lazyFinal($, "TypeErrorDecoder_nullLiteralPropertyPattern", "$get$TypeErrorDecoder_nullLiteralPropertyPattern", () => A.TypeErrorDecoder_extractPattern(function () {
       try {
         null.$method$;
       } catch (e) {
@@ -8789,7 +9600,7 @@
       }
     }()));
     _lazyFinal($, "TypeErrorDecoder_undefinedPropertyPattern", "$get$TypeErrorDecoder_undefinedPropertyPattern", () => A.TypeErrorDecoder_extractPattern(A.TypeErrorDecoder_provokePropertyErrorOn(void 0)));
-    _lazyFinal($, "TypeErrorDecoder_undefinedLiteralPropertyPattern", "$get$TypeErrorDecoder_undefinedLiteralPropertyPattern", () => A.TypeErrorDecoder_extractPattern(function() {
+    _lazyFinal($, "TypeErrorDecoder_undefinedLiteralPropertyPattern", "$get$TypeErrorDecoder_undefinedLiteralPropertyPattern", () => A.TypeErrorDecoder_extractPattern(function () {
       try {
         (void 0).$method$;
       } catch (e) {
@@ -8804,19 +9615,19 @@
     _lazyFinal($, "_cachedTextConstructor", "$get$_cachedTextConstructor", () => A.getProperty(A.staticInteropGlobalContext(), "Text", type$.JavaScriptFunction));
   })();
   (function nativeSupport() {
-    !function() {
-      var intern = function(s) {
+    !function () {
+      var intern = function (s) {
         var o = {};
         o[s] = 1;
         return Object.keys(hunkHelpers.convertToFastObject(o))[0];
       };
-      init.getIsolateTag = function(name) {
+      init.getIsolateTag = function (name) {
         return intern("___dart_" + name + init.isolateTag);
       };
       var tableProperty = "___dart_isolate_tags_";
       var usedProperties = Object[tableProperty] || (Object[tableProperty] = Object.create(null));
       var rootProperty = "_ZxYxX";
-      for (var i = 0;; i++) {
+      for (var i = 0; ; i++) {
         var property = intern(rootProperty + "_" + i + "_");
         if (!(property in usedProperties)) {
           usedProperties[property] = 1;
@@ -8826,8 +9637,8 @@
       }
       init.dispatchPropertyName = init.getIsolateTag("dispatch_record");
     }();
-    hunkHelpers.setOrUpdateInterceptorsByTag({ArrayBuffer: A.NativeByteBuffer, SharedArrayBuffer: A.NativeByteBuffer, ArrayBufferView: A.NativeTypedData, DataView: A.NativeByteData, Float32Array: A.NativeFloat32List, Float64Array: A.NativeFloat64List, Int16Array: A.NativeInt16List, Int32Array: A.NativeInt32List, Int8Array: A.NativeInt8List, Uint16Array: A.NativeUint16List, Uint32Array: A.NativeUint32List, Uint8ClampedArray: A.NativeUint8ClampedList, CanvasPixelArray: A.NativeUint8ClampedList, Uint8Array: A.NativeUint8List});
-    hunkHelpers.setOrUpdateLeafTags({ArrayBuffer: true, SharedArrayBuffer: true, ArrayBufferView: false, DataView: true, Float32Array: true, Float64Array: true, Int16Array: true, Int32Array: true, Int8Array: true, Uint16Array: true, Uint32Array: true, Uint8ClampedArray: true, CanvasPixelArray: true, Uint8Array: false});
+    hunkHelpers.setOrUpdateInterceptorsByTag({ ArrayBuffer: A.NativeByteBuffer, SharedArrayBuffer: A.NativeByteBuffer, ArrayBufferView: A.NativeTypedData, DataView: A.NativeByteData, Float32Array: A.NativeFloat32List, Float64Array: A.NativeFloat64List, Int16Array: A.NativeInt16List, Int32Array: A.NativeInt32List, Int8Array: A.NativeInt8List, Uint16Array: A.NativeUint16List, Uint32Array: A.NativeUint32List, Uint8ClampedArray: A.NativeUint8ClampedList, CanvasPixelArray: A.NativeUint8ClampedList, Uint8Array: A.NativeUint8List });
+    hunkHelpers.setOrUpdateLeafTags({ ArrayBuffer: true, SharedArrayBuffer: true, ArrayBufferView: false, DataView: true, Float32Array: true, Float64Array: true, Int16Array: true, Int32Array: true, Int8Array: true, Uint16Array: true, Uint32Array: true, Uint8ClampedArray: true, CanvasPixelArray: true, Uint8Array: false });
     A.NativeTypedArray.$nativeSuperclassTag = "ArrayBufferView";
     A._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin.$nativeSuperclassTag = "ArrayBufferView";
     A._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin.$nativeSuperclassTag = "ArrayBufferView";
@@ -8836,27 +9647,27 @@
     A._NativeTypedArrayOfInt_NativeTypedArray_ListMixin_FixedLengthListMixin.$nativeSuperclassTag = "ArrayBufferView";
     A.NativeTypedArrayOfInt.$nativeSuperclassTag = "ArrayBufferView";
   })();
-  Function.prototype.call$0 = function() {
+  Function.prototype.call$0 = function () {
     return this();
   };
-  Function.prototype.call$1 = function(a) {
+  Function.prototype.call$1 = function (a) {
     return this(a);
   };
-  Function.prototype.call$2 = function(a, b) {
+  Function.prototype.call$2 = function (a, b) {
     return this(a, b);
   };
-  Function.prototype.call$3 = function(a, b, c) {
+  Function.prototype.call$3 = function (a, b, c) {
     return this(a, b, c);
   };
-  Function.prototype.call$4 = function(a, b, c, d) {
+  Function.prototype.call$4 = function (a, b, c, d) {
     return this(a, b, c, d);
   };
-  Function.prototype.call$1$0 = function() {
+  Function.prototype.call$1$0 = function () {
     return this();
   };
   convertAllToFastObject(holders);
   convertToFastObject($);
-  (function(callback) {
+  (function (callback) {
     if (typeof document === "undefined") {
       callback(null);
       return;
@@ -8875,7 +9686,7 @@
     for (var i = 0; i < scripts.length; ++i) {
       scripts[i].addEventListener("load", onLoad, false);
     }
-  })(function(currentScript) {
+  })(function (currentScript) {
     init.currentScript = currentScript;
     var callMain = A.main;
     if (typeof dartMainRunner === "function") {

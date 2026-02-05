@@ -282,10 +282,12 @@ file:///F:/Personal/krishnalal_portfolio/lib/components/approach_section.dart
 file:///F:/Personal/krishnalal_portfolio/lib/components/contact_section.dart
 file:///F:/Personal/krishnalal_portfolio/lib/components/hero_section.dart
 file:///F:/Personal/krishnalal_portfolio/lib/components/navigation_bar.dart
+file:///F:/Personal/krishnalal_portfolio/lib/components/project_detail_modal.dart
 file:///F:/Personal/krishnalal_portfolio/lib/components/projects_section.dart
 file:///F:/Personal/krishnalal_portfolio/lib/components/services_section.dart
 file:///F:/Personal/krishnalal_portfolio/lib/components/skills_section.dart
 file:///F:/Personal/krishnalal_portfolio/lib/main.dart
+file:///F:/Personal/krishnalal_portfolio/lib/models/project.dart
 file:///F:/flutter_sdk/flutter/bin/cache/dart-sdk/lib/_internal/dart2js_platform.dill
 file:///F:/flutter_sdk/flutter/bin/cache/dart-sdk/lib/libraries.json
 org-dartlang-sdk:///lib/_http/crypto.dart
