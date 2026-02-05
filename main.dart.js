@@ -3780,6 +3780,9 @@
       object2 = A.SystemHash_finish(A.SystemHash_combine(A.SystemHash_combine($.$get$_hashSeed(), t1), object2));
       return object2;
     },
+    print(object) {
+      A.printString(object);
+    },
     _Enum: function _Enum() {
     },
     Error: function Error() {
@@ -3962,8 +3965,8 @@
     button$(children, attributes, classes, events, id) {
       return new A.button(id, classes, attributes, events, children, null);
     },
-    img$(alt, attributes, classes, src) {
-      return new A.img(alt, src, classes, attributes, null);
+    img$(alt, attributes, classes, events, src) {
+      return new A.img(alt, src, classes, attributes, events, null);
     },
     a$(children, attributes, classes, href, id, target) {
       return new A.a(href, target, id, classes, attributes, children, null);
@@ -4049,13 +4052,14 @@
       _.children = t4;
       _.key = t5;
     },
-    img: function img(t0, t1, t2, t3, t4) {
+    img: function img(t0, t1, t2, t3, t4, t5) {
       var _ = this;
       _.alt = t0;
       _.src = t1;
       _.classes = t2;
       _.attributes = t3;
-      _.key = t4;
+      _.events = t4;
+      _.key = t5;
     },
     a: function a(t0, t1, t2, t3, t4, t5, t6) {
       var _ = this;
@@ -4376,8 +4380,10 @@
       this.key = t2;
     },
     _ProjectDetailModalState: function _ProjectDetailModalState() {
-      this._currentImageIndex = 1;
-      this._framework$_element = this._component = null;
+      var _ = this;
+      _._currentImageIndex = 1;
+      _._imageError = false;
+      _._framework$_element = _._component = null;
     },
     _ProjectDetailModalState_build_closure: function _ProjectDetailModalState_build_closure(t0) {
       this.$this = t0;
@@ -4390,18 +4396,24 @@
     _ProjectDetailModalState_build_closure2: function _ProjectDetailModalState_build_closure2(t0) {
       this.$this = t0;
     },
-    _ProjectDetailModalState_build__closure0: function _ProjectDetailModalState_build__closure0(t0) {
+    _ProjectDetailModalState_build__closure1: function _ProjectDetailModalState_build__closure1(t0) {
       this.$this = t0;
     },
     _ProjectDetailModalState_build_closure3: function _ProjectDetailModalState_build_closure3(t0) {
       this.$this = t0;
     },
+    _ProjectDetailModalState_build__closure0: function _ProjectDetailModalState_build__closure0(t0) {
+      this.$this = t0;
+    },
+    _ProjectDetailModalState_build_closure4: function _ProjectDetailModalState_build_closure4(t0) {
+      this.$this = t0;
+    },
     _ProjectDetailModalState_build__closure: function _ProjectDetailModalState_build__closure(t0) {
       this.$this = t0;
     },
-    _ProjectDetailModalState_build_closure4: function _ProjectDetailModalState_build_closure4() {
-    },
     _ProjectDetailModalState_build_closure5: function _ProjectDetailModalState_build_closure5() {
+    },
+    _ProjectDetailModalState_build_closure6: function _ProjectDetailModalState_build_closure6() {
     },
     ProjectsSection: function ProjectsSection(t0) {
       this.key = t0;
@@ -7654,7 +7666,7 @@
       t1.addAll$1(0, _this.attributes);
       t1.$indexSet(0, "alt", _this.alt);
       t1.$indexSet(0, "src", _this.src);
-      return new A.DomComponent("img", _null, _this.classes, _null, t1, _null, _null, _null);
+      return new A.DomComponent("img", _null, _this.classes, _null, t1, _this.events, _null, _null);
     }
   };
   A.a.prototype = {
@@ -8845,7 +8857,7 @@
         _s18_ = "font-size: 1.5rem;",
         t1 = type$.String,
         t2 = type$.JSArray_Component,
-        t3 = A.div$(A._setArrayType([A.img$("Krishna Lal", A.LinkedHashMap_LinkedHashMap$_literal(["onerror", "this.style.display='none'"], t1, t1), _null, "images/profile.jpg")], t2), _null, "hero-avatar", _null),
+        t3 = A.div$(A._setArrayType([A.img$("Krishna Lal", A.LinkedHashMap_LinkedHashMap$_literal(["onerror", "this.style.display='none'"], t1, t1), _null, _null, "images/profile.jpg")], t2), _null, "hero-avatar", _null),
         t4 = A._setArrayType([new A.Text("I'm ", _null), A.span$(A._setArrayType([new A.Text("Krishnalal A K", _null)], t2), _null, "gradient-text")], t2),
         t5 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "margin: 1.5rem auto;"], t1, t1);
       t5 = A.p$(A._setArrayType([new A.Text("Flutter Developer crafting beautiful, high-performance mobile experiences. Based in India, working globally.", _null)], t2), t5, "lead scroll-hidden delay-200");
@@ -8894,25 +8906,33 @@
         t7 = A.LinkedHashMap_LinkedHashMap$_literal(["click", new A._ProjectDetailModalState_build_closure1(_this)], t1, t2);
       t7 = A.div$(A._setArrayType([t6, A.button$(A._setArrayType([new A.Text("\xd7", _null)], t5), _null, "close-btn", t7, _null)], t5), _null, "modal-header", _null);
       t6 = A.LinkedHashMap_LinkedHashMap$_literal(["click", new A._ProjectDetailModalState_build_closure2(_this)], t1, t2);
-      t6 = A.button$(A._setArrayType([new A.Text("\u276e", _null)], t5), _null, "carousel-btn prev", t6, _null);
-      t8 = _this._component.project;
-      t9 = "" + _this._currentImageIndex;
-      t9 = A.img$(t8.title + " Screenshot " + t9, A.LinkedHashMap_LinkedHashMap$_literal(["style", "object-fit: cover; width: 100%; height: 300px; border-radius: 8px; background-color: #f0f0f0;"], t1, t1), "carousel-image", "assets/projects/" + t8.assetFolder + "/" + t9 + ".jpg");
-      t2 = A.LinkedHashMap_LinkedHashMap$_literal(["click", new A._ProjectDetailModalState_build_closure3(_this)], t1, t2);
-      t2 = A.div$(A._setArrayType([t6, t9, A.button$(A._setArrayType([new A.Text("\u276f", _null)], t5), _null, "carousel-btn next", t2, _null)], t5), _null, "carousel-container", _null);
-      t9 = A.p$(A._setArrayType([new A.Text(_this._component.project.subtitle, _null)], t5), _null, "modal-subtitle");
-      t6 = _this._component.project.techStack;
-      t1 = A._arrayInstanceType(t6);
-      t8 = type$.Component;
-      t1 = A.List_List$_of(new A.MappedListIterable(t6, t1._eval$1("Component(1)")._as(new A._ProjectDetailModalState_build_closure4()), t1._eval$1("MappedListIterable<1,Component>")), t8);
-      t1 = A.div$(t1, _null, "tags-container", _null);
-      t6 = A.h4$(A._setArrayType([new A.Text("About", _null)], t5));
+      t6 = A._setArrayType([A.button$(A._setArrayType([new A.Text("\u276e", _null)], t5), _null, "carousel-btn prev", t6, _null)], t5);
+      if (_this._imageError) {
+        t8 = A.i$(A._setArrayType([], t5), _null, "fas fa-lock");
+        t9 = A.p$(A._setArrayType([new A.Text("Confidential Project", _null)], t5), _null, _null);
+        t10 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.7;"], t1, t1);
+        t6.push(A.div$(A._setArrayType([t8, t9, A.p$(A._setArrayType([new A.Text("Images cannot be displayed publically", _null)], t5), t10, _null)], t5), _null, "confidential-placeholder", _null));
+      } else {
+        t8 = _this._component.project;
+        t9 = "" + _this._currentImageIndex;
+        t6.push(A.img$(t8.title + " Screenshot " + t9, A.LinkedHashMap_LinkedHashMap$_literal(["style", "object-fit: contain; width: 100%; height: 300px; border-radius: 8px; background-color: #000;", "platform", "web"], t1, t1), "carousel-image", A.LinkedHashMap_LinkedHashMap$_literal(["error", new A._ProjectDetailModalState_build_closure3(_this)], t1, t2), "assets/projects/" + t8.assetFolder + "/" + t9 + ".jpg"));
+      }
+      t1 = A.LinkedHashMap_LinkedHashMap$_literal(["click", new A._ProjectDetailModalState_build_closure4(_this)], t1, t2);
+      t6.push(A.button$(A._setArrayType([new A.Text("\u276f", _null)], t5), _null, "carousel-btn next", t1, _null));
+      t6 = A.div$(t6, _null, "carousel-container", _null);
+      t1 = A.p$(A._setArrayType([new A.Text(_this._component.project.subtitle, _null)], t5), _null, "modal-subtitle");
+      t2 = _this._component.project.techStack;
+      t8 = A._arrayInstanceType(t2);
+      t9 = type$.Component;
+      t2 = A.List_List$_of(new A.MappedListIterable(t2, t8._eval$1("Component(1)")._as(new A._ProjectDetailModalState_build_closure5()), t8._eval$1("MappedListIterable<1,Component>")), t9);
+      t2 = A.div$(t2, _null, "tags-container", _null);
+      t8 = A.h4$(A._setArrayType([new A.Text("About", _null)], t5));
       t10 = A.p$(A._setArrayType([new A.Text(_this._component.project.description, _null)], t5), _null, "modal-description");
       t11 = A.h4$(A._setArrayType([new A.Text("Key Features", _null)], t5));
       t12 = _this._component.project.keyFeatures;
       t13 = A._arrayInstanceType(t12);
-      t8 = A.List_List$_of(new A.MappedListIterable(t12, t13._eval$1("Component(1)")._as(new A._ProjectDetailModalState_build_closure5()), t13._eval$1("MappedListIterable<1,Component>")), t8);
-      return A.div$(A._setArrayType([A.div$(A._setArrayType([t7, A.div$(A._setArrayType([t2, A.div$(A._setArrayType([t9, t1, t6, t10, t11, A.ul$(t8, "feature-list")], t5), _null, "modal-info", _null)], t5), _null, "modal-body custom-scrollbar", _null)], t5), _null, "modal-container", t4)], t5), _null, "modal-backdrop", t3);
+      t9 = A.List_List$_of(new A.MappedListIterable(t12, t13._eval$1("Component(1)")._as(new A._ProjectDetailModalState_build_closure6()), t13._eval$1("MappedListIterable<1,Component>")), t9);
+      return A.div$(A._setArrayType([A.div$(A._setArrayType([t7, A.div$(A._setArrayType([t6, A.div$(A._setArrayType([t1, t2, t8, t10, t11, A.ul$(t9, "feature-list")], t5), _null, "modal-info", _null)], t5), _null, "modal-body custom-scrollbar", _null)], t5), _null, "modal-container", t4)], t5), _null, "modal-backdrop", t3);
     }
   };
   A._ProjectDetailModalState_build_closure.prototype = {
@@ -8940,11 +8960,11 @@
       var t1;
       A._asJSObject(e);
       t1 = this.$this;
-      t1.setState$1(new A._ProjectDetailModalState_build__closure0(t1));
+      t1.setState$1(new A._ProjectDetailModalState_build__closure1(t1));
     },
     $signature: 1
   };
-  A._ProjectDetailModalState_build__closure0.prototype = {
+  A._ProjectDetailModalState_build__closure1.prototype = {
     call$0() {
       var t1 = this.$this,
         t2 = t1._currentImageIndex;
@@ -8952,10 +8972,27 @@
         t1._currentImageIndex = t2 - 1;
       else
         t1._currentImageIndex = 3;
+      t1._imageError = false;
     },
     $signature: 0
   };
   A._ProjectDetailModalState_build_closure3.prototype = {
+    call$1(e) {
+      var t1;
+      A._asJSObject(e);
+      A.print("Image load failed");
+      t1 = this.$this;
+      t1.setState$1(new A._ProjectDetailModalState_build__closure0(t1));
+    },
+    $signature: 1
+  };
+  A._ProjectDetailModalState_build__closure0.prototype = {
+    call$0() {
+      this.$this._imageError = true;
+    },
+    $signature: 0
+  };
+  A._ProjectDetailModalState_build_closure4.prototype = {
     call$1(e) {
       var t1;
       A._asJSObject(e);
@@ -8972,16 +9009,17 @@
         t1._currentImageIndex = t2 + 1;
       else
         t1._currentImageIndex = 1;
+      t1._imageError = false;
     },
     $signature: 0
   };
-  A._ProjectDetailModalState_build_closure4.prototype = {
+  A._ProjectDetailModalState_build_closure5.prototype = {
     call$1(tech) {
       return A.span$(A._setArrayType([new A.Text(A._asString(tech), null)], type$.JSArray_Component), null, "tech-tag");
     },
     $signature: 7
   };
-  A._ProjectDetailModalState_build_closure5.prototype = {
+  A._ProjectDetailModalState_build_closure6.prototype = {
     call$1(feature) {
       return A.li$(A._setArrayType([new A.Text(A._asString(feature), null)], type$.JSArray_Component));
     },
@@ -9024,7 +9062,7 @@
         t3 = A.LinkedHashMap_LinkedHashMap$_literal(["style", "cursor: pointer;"], t1, t1),
         t4 = project.title,
         t5 = type$.JSArray_Component;
-      t1 = A.div$(A._setArrayType([A.img$(t4, A.LinkedHashMap_LinkedHashMap$_literal(["loading", "lazy"], t1, t1), _null, "assets/projects/" + project.assetFolder + "/1.jpg")], t5), _null, "project-image", _null);
+      t1 = A.div$(A._setArrayType([A.img$(t4, A.LinkedHashMap_LinkedHashMap$_literal(["loading", "lazy"], t1, t1), _null, _null, "assets/projects/" + project.assetFolder + "/1.jpg")], t5), _null, "project-image", _null);
       t4 = A.h3$(A._setArrayType([new A.Text(t4, _null)], t5), _null, _null);
       t6 = A.p$(A._setArrayType([new A.Text(project.subtitle, _null)], t5), _null, _null);
       t7 = project.techStack;
@@ -9203,7 +9241,7 @@
     _inherit(A.EfficientLengthMappedIterable, A.MappedIterable);
     _inherit(A.ConstantStringMap, A.ConstantMap);
     _inherit(A.NullError, A.TypeError);
-    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._awaitOnObject_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A._RootZone_bindUnaryCallbackGuarded_closure, A.DomRenderElement__createNode_closure, A.DomRenderElement_update_closure, A.DomRenderText__createNode_closure, A.EventBinding_closure, A.Element_updateChildren_replaceWithNullIfForgotten, A.Element_updateSlotForChild_visit, A.Element_updateSlotForChild_visit_closure, A.Element_detachRenderObject_closure, A._InactiveElements__unmount_closure, A._ProjectDetailModalState_build_closure, A._ProjectDetailModalState_build_closure0, A._ProjectDetailModalState_build_closure1, A._ProjectDetailModalState_build_closure2, A._ProjectDetailModalState_build_closure3, A._ProjectDetailModalState_build_closure4, A._ProjectDetailModalState_build_closure5, A._ProjectsSectionState_build_closure, A._ProjectsSectionState__buildProjectCard_closure, A._ProjectsSectionState__buildProjectCard_closure0, A._EventStreamSubscription_closure]);
+    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._awaitOnObject_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A._RootZone_bindUnaryCallbackGuarded_closure, A.DomRenderElement__createNode_closure, A.DomRenderElement_update_closure, A.DomRenderText__createNode_closure, A.EventBinding_closure, A.Element_updateChildren_replaceWithNullIfForgotten, A.Element_updateSlotForChild_visit, A.Element_updateSlotForChild_visit_closure, A.Element_detachRenderObject_closure, A._InactiveElements__unmount_closure, A._ProjectDetailModalState_build_closure, A._ProjectDetailModalState_build_closure0, A._ProjectDetailModalState_build_closure1, A._ProjectDetailModalState_build_closure2, A._ProjectDetailModalState_build_closure3, A._ProjectDetailModalState_build_closure4, A._ProjectDetailModalState_build_closure5, A._ProjectDetailModalState_build_closure6, A._ProjectsSectionState_build_closure, A._ProjectsSectionState__buildProjectCard_closure, A._ProjectsSectionState__buildProjectCard_closure0, A._EventStreamSubscription_closure]);
     _inheritMany(A.TearOffClosure, [A.StaticClosure, A.BoundClosure]);
     _inheritMany(A.MapBase, [A.JsLinkedHashMap, A._HashMap]);
     _inheritMany(A.Closure2Args, [A.JsLinkedHashMap_addAll_closure, A.initHooks_closure0, A._awaitOnObject_closure0, A._wrapJsFunctionForAsync_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure0, A._HashMap_addAll_closure, A.MapBase_mapToString_closure, A.DomRenderElement_update_closure0, A._extension_0__prefixed_closure, A.Element_updateChildren_slotFor]);
@@ -9216,7 +9254,7 @@
     _inheritMany(A.NativeTypedArrayOfDouble, [A.NativeFloat32List, A.NativeFloat64List]);
     _inheritMany(A.NativeTypedArrayOfInt, [A.NativeInt16List, A.NativeInt32List, A.NativeInt8List, A.NativeUint16List, A.NativeUint32List, A.NativeUint8ClampedList, A.NativeUint8List]);
     _inherit(A._TypeError, A._Error);
-    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__chainCoreFuture_closure, A._Future__asyncCompleteWithValue_closure, A._Future__asyncCompleteErrorObject_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A.Stream_length_closure0, A._rootHandleError_closure, A._RootZone_bindCallbackGuarded_closure, A.SchedulerBinding_scheduleBuild_closure, A.BuildOwner_performInitialBuild_closure, A._ProjectDetailModalState_build__closure0, A._ProjectDetailModalState_build__closure, A._ProjectsSectionState__openProject_closure, A._ProjectsSectionState__closeProject_closure]);
+    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__chainCoreFuture_closure, A._Future__asyncCompleteWithValue_closure, A._Future__asyncCompleteErrorObject_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A.Stream_length_closure0, A._rootHandleError_closure, A._RootZone_bindCallbackGuarded_closure, A.SchedulerBinding_scheduleBuild_closure, A.BuildOwner_performInitialBuild_closure, A._ProjectDetailModalState_build__closure1, A._ProjectDetailModalState_build__closure0, A._ProjectDetailModalState_build__closure, A._ProjectsSectionState__openProject_closure, A._ProjectsSectionState__closeProject_closure]);
     _inherit(A._RootZone, A._Zone);
     _inherit(A._SetBase, A.SetBase);
     _inheritMany(A._SetBase, [A._HashSet, A._LinkedHashSet]);
